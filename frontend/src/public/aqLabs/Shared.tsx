@@ -1,9 +1,105 @@
 import { useEffect, useRef, useState } from 'react'
-import { useInView } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import { useToast } from '../../components/Toast'
 import type { AQLabsTeam } from './data'
 
 export const slideSrc = (slug: string, n: number) => `/aq-labs/${slug}/slide-${n}.jpg`
+/** a real photo/screenshot the team actually submitted through the form —
+ *  not their Instagram carousel — staged under /aq-labs-process/<slug>/ */
+export const processSrc = (slug: string, filename: string) => `/aq-labs-process/${slug}/${filename}`
+
+// The four-beat curatorial arc every chapter tells, in the same reading
+// rhythm each time (serif for the felt beats, sans for the grounded ones)
+// even though the surrounding room looks different every chapter.
+export function Narrative({ team, dark }: { team: AQLabsTeam; dark?: boolean }) {
+  const ink = dark ? '#F4EFE0' : 'var(--ink)'
+  const sub = dark ? 'rgba(244,239,224,0.68)' : 'var(--txt-2)'
+  const label = dark ? 'rgba(244,239,224,0.4)' : 'var(--ink-4)'
+  const Beat = ({ tag, text, serif }: { tag: string; text: string; serif?: boolean }) => (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      style={{ marginBottom: 22 }}
+    >
+      <div style={{
+        fontFamily: 'var(--mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em',
+        textTransform: 'uppercase', color: team.mood, marginBottom: 7,
+      }}>
+        {tag}
+      </div>
+      <p style={{
+        fontFamily: serif ? 'var(--serif)' : 'var(--f-body)',
+        fontStyle: serif ? 'italic' : 'normal',
+        fontSize: serif ? 'clamp(17px,2vw,21px)' : 15,
+        lineHeight: serif ? 1.5 : 1.75,
+        color: serif ? ink : sub,
+        margin: 0,
+      }}>
+        {text}
+      </p>
+    </motion.div>
+  )
+  return (
+    <div>
+      <Beat tag="the spark" text={team.spark} serif />
+      <Beat tag="the gap" text={team.tension} />
+      <Beat tag="the making" text={team.craft} />
+      <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: label, marginTop: 6 }} />
+    </div>
+  )
+}
+
+// A single framed photograph with a small museum-wall caption underneath —
+// the unit this whole page is built from. Use real process photos here,
+// not marketing graphics.
+export function Plate({ src, caption, aspect = 'auto', dark, rotate = 0 }: {
+  src: string; caption: string; aspect?: string; dark?: boolean; rotate?: number
+}) {
+  return (
+    <motion.figure
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.55 }}
+      style={{ margin: 0, transform: rotate ? `rotate(${rotate}deg)` : undefined }}
+    >
+      <div style={{
+        borderRadius: 10, overflow: 'hidden',
+        border: `1px solid ${dark ? 'rgba(255,255,255,0.14)' : 'var(--line-2)'}`,
+        boxShadow: dark ? '0 20px 50px rgba(0,0,0,0.4)' : '0 14px 34px rgba(0,0,0,0.10)',
+      }}>
+        <img src={src} alt={caption} loading="lazy" decoding="async"
+          style={{ width: '100%', display: 'block', aspectRatio: aspect === 'auto' ? undefined : aspect, objectFit: 'cover' }} />
+      </div>
+      <figcaption style={{
+        fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 12.5, lineHeight: 1.4,
+        color: dark ? 'rgba(244,239,224,0.5)' : 'var(--txt-3)', marginTop: 8,
+      }}>
+        {caption}
+      </figcaption>
+    </motion.figure>
+  )
+}
+
+// The closing pull-quote every chapter ends on — the "meaning" line, set
+// noticeably larger than the rest of the copy so it reads like a wall text's
+// final sentence, not another paragraph.
+export function MeaningLine({ team, dark }: { team: AQLabsTeam; dark?: boolean }) {
+  return (
+    <motion.p
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6, delay: 0.15 }}
+      style={{
+        fontFamily: 'var(--serif)', fontStyle: 'italic', fontWeight: 400,
+        fontSize: 'clamp(21px,2.8vw,30px)', lineHeight: 1.35,
+        color: dark ? '#F4EFE0' : 'var(--ink)', margin: '0 0 28px',
+      }}
+    >
+      {team.meaning}
+    </motion.p>
+  )
+}
 
 export function ChapterEyebrow({ team, dark }: { team: AQLabsTeam; dark?: boolean }) {
   return (

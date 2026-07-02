@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, CountTo, FilmStrip, LinkRow, MediumBadge, slideSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, CountTo, FilmStrip, LinkRow, MediumBadge, MeaningLine, Narrative, Plate, processSrc } from './Shared'
 
 const STATS: { value: number; decimals?: number; prefix?: string; suffix: string; label: string }[] = [
   { value: 1.5, decimals: 1, suffix: ' Cr', label: 'higher-ed grads, every year' },
@@ -9,17 +9,17 @@ const STATS: { value: number; decimals?: number; prefix?: string; suffix: string
   { value: 25, suffix: ' L', label: 'skilled people emigrate yearly' },
 ]
 
-// Chapter 02 — Merge Conflicts. A dark, data-forward "situation room": the
-// stats count themselves up the moment they enter view.
+// Chapter 02 — Merge Conflicts. The situation room: the paradox stated in
+// numbers first, the real product proven second (their own phone,
+// screenshotting their own live site the night it shipped), narrative third.
 export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) {
   return (
     <section id={team.slug} style={{ background: '#0A0A0A', padding: '110px 24px', position: 'relative', overflow: 'hidden' }}>
-      {/* faint vertical bar-chart texture */}
       <div aria-hidden style={{
         position: 'absolute', inset: 0, opacity: 0.05, pointerEvents: 'none',
         backgroundImage: `repeating-linear-gradient(90deg, ${team.mood} 0 2px, transparent 2px 48px)`,
       }} />
-      <div style={{ maxWidth: 980, margin: '0 auto', position: 'relative' }}>
+      <div style={{ maxWidth: 1080, margin: '0 auto', position: 'relative' }}>
         <ChapterEyebrow team={team} dark />
         <MediumBadge team={team} dark />
         <motion.h2
@@ -35,7 +35,7 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
           {team.tagline}
         </p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginBottom: 40 }} className="aql-stat-grid">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginBottom: 48 }} className="aql-stat-grid">
           {STATS.map((s, i) => (
             <motion.div
               key={s.label}
@@ -55,32 +55,30 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
           ))}
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 32, alignItems: 'start', marginBottom: 26 }} className="aql-cc-grid">
-          <p style={{ fontSize: 15.5, lineHeight: 1.75, color: 'rgba(255,255,255,0.72)' }}>
-            {team.description}
-          </p>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.94 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            style={{ borderRadius: 12, overflow: 'hidden', border: `1.5px solid ${team.mood}44`, boxShadow: `0 20px 50px ${team.mood}22` }}
-          >
-            <img src={slideSrc(team.slug, team.heroSlide)} alt={`${team.projectName} — product screenshot`}
-              loading="lazy" decoding="async" style={{ width: '100%', display: 'block' }} />
-          </motion.div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.15fr 1fr', gap: 40, alignItems: 'start' }} className="aql-cc-grid">
+          <div>
+            <Narrative team={team} dark />
+            <MeaningLine team={team} dark />
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
+              <LinkRow links={team.links} dark mood={team.mood} />
+              <CopyLinkButton slug={team.slug} dark mood={team.mood} />
+            </div>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+            <Plate
+              src={processSrc(team.slug, 'logo.jpg')}
+              caption="The wordmark, cropped straight off their own site."
+              dark
+            />
+            <Plate
+              src={processSrc(team.slug, '01-live-site-11pm.jpg')}
+              caption="11:00 PM, June 15 — checking their own build had actually gone live."
+              aspect="9/19"
+              dark
+            />
+          </div>
         </div>
 
-        <blockquote style={{
-          fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(22px,3vw,32px)',
-          color: '#fff', borderLeft: `3px solid ${team.mood}`, paddingLeft: 18, margin: '0 0 28px', maxWidth: 620,
-        }}>
-          “{team.quote}”
-        </blockquote>
-
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
-          <LinkRow links={team.links} dark mood={team.mood} />
-          <CopyLinkButton slug={team.slug} dark mood={team.mood} />
-        </div>
         <FilmStrip team={team} dark />
       </div>
 
