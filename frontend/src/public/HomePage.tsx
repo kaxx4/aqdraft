@@ -1327,7 +1327,7 @@ export default function HomePage() {
   const memberInitials = getInitials(member?.full_name || 'U')
 
   return (
-    <div className="route-enter" style={{ background: 'red', minHeight: '100dvh' }}>
+    <div className="route-enter">
       <div className="home-shell">
         {/* LEFT RAIL */}
         <LeftRail
