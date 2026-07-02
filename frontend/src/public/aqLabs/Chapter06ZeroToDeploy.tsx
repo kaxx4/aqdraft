@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, LinkRow } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, FilmStrip, LinkRow, MediumBadge } from './Shared'
 
 // Chapter 06 — Zero to Deploy. A quiet editorial room: a single column,
 // a wax-seal "verified" stamp, and a manifesto that wipes into view line
@@ -10,11 +10,11 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
     <section id={team.slug} style={{ background: '#0C1F16', padding: '110px 24px', position: 'relative', overflow: 'hidden' }}>
       <div style={{ maxWidth: 680, margin: '0 auto', position: 'relative' }}>
         <ChapterEyebrow team={team} dark />
+        <MediumBadge team={team} dark />
 
         <motion.div
           initial={{ scale: 1.5, opacity: 0, rotate: -18 }}
-          whileInView={{ scale: 1, opacity: 1, rotate: -10 }}
-          viewport={{ once: true, margin: '-80px' }}
+          animate={{ scale: 1, opacity: 1, rotate: -10 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
           style={{
             position: 'absolute', top: -8, right: 0, width: 92, height: 92, borderRadius: '50%',
@@ -29,8 +29,7 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
 
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(38px,6vw,68px)', color: '#F4EFE0', lineHeight: 1.02, marginBottom: 6 }}
         >
@@ -57,8 +56,7 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
             <motion.li
               key={i}
               initial={{ opacity: 0, clipPath: 'inset(0 0 100% 0)' }}
-              whileInView={{ opacity: 1, clipPath: 'inset(0 0 0% 0)' }}
-              viewport={{ once: true, margin: '-40px' }}
+              animate={{ opacity: 1, clipPath: 'inset(0 0 0% 0)' }}
               transition={{ duration: 0.5, delay: i * 0.12 }}
               style={{ display: 'flex', gap: 12, fontSize: 13, color: 'rgba(244,239,224,0.6)', lineHeight: 1.5 }}
             >
@@ -71,6 +69,7 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
           <LinkRow links={team.links} dark mood={team.mood} />
           <CopyLinkButton slug={team.slug} dark mood={team.mood} />
         </div>
+        <FilmStrip team={team} dark />
       </div>
 
       <style>{`

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, CountTo, LinkRow } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, CountTo, FilmStrip, LinkRow, MediumBadge, slideSrc } from './Shared'
 
 const STATS: { value: number; decimals?: number; prefix?: string; suffix: string; label: string }[] = [
   { value: 1.5, decimals: 1, suffix: ' Cr', label: 'higher-ed grads, every year' },
@@ -21,10 +21,10 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
       }} />
       <div style={{ maxWidth: 980, margin: '0 auto', position: 'relative' }}>
         <ChapterEyebrow team={team} dark />
+        <MediumBadge team={team} dark />
         <motion.h2
           initial={{ opacity: 0, y: 26 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="h-display"
           style={{ fontSize: 'clamp(36px,5.4vw,64px)', color: '#fff' }}
@@ -40,8 +40,7 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
             <motion.div
               key={s.label}
               initial={{ opacity: 0, y: 30, rotate: i % 2 === 0 ? -2 : 2 }}
-              whileInView={{ opacity: 1, y: 0, rotate: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
+              animate={{ opacity: 1, y: 0, rotate: 0 }}
               transition={{ duration: 0.5, delay: i * 0.1, ease: [0.2, 0, 0, 1] }}
               style={{
                 background: 'rgba(255,255,255,0.04)', border: '1.5px solid rgba(255,255,255,0.1)',
@@ -56,9 +55,20 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
           ))}
         </div>
 
-        <p style={{ fontSize: 15.5, lineHeight: 1.75, color: 'rgba(255,255,255,0.72)', maxWidth: 680, marginBottom: 22 }}>
-          {team.description}
-        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 32, alignItems: 'start', marginBottom: 26 }} className="aql-cc-grid">
+          <p style={{ fontSize: 15.5, lineHeight: 1.75, color: 'rgba(255,255,255,0.72)' }}>
+            {team.description}
+          </p>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.94 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            style={{ borderRadius: 12, overflow: 'hidden', border: `1.5px solid ${team.mood}44`, boxShadow: `0 20px 50px ${team.mood}22` }}
+          >
+            <img src={slideSrc(team.slug, team.heroSlide)} alt={`${team.projectName} — product screenshot`}
+              loading="lazy" decoding="async" style={{ width: '100%', display: 'block' }} />
+          </motion.div>
+        </div>
 
         <blockquote style={{
           fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(22px,3vw,32px)',
@@ -71,11 +81,13 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
           <LinkRow links={team.links} dark mood={team.mood} />
           <CopyLinkButton slug={team.slug} dark mood={team.mood} />
         </div>
+        <FilmStrip team={team} dark />
       </div>
 
       <style>{`
         @media (max-width: 720px) {
           .aql-stat-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .aql-cc-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>

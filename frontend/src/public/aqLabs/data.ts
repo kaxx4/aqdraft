@@ -16,6 +16,10 @@ export type AQLabsTeam = {
   links: { website?: string; instagram?: string; youtube?: string }
   mood: string
   slides: number
+  /** what the team actually shipped — shown as a small badge next to the category */
+  medium: string
+  /** which slide (1-indexed) is the cleanest hero visual — a real photo/screenshot, not a title card */
+  heroSlide: number
 }
 
 export const AQ_LABS_TEAMS: AQLabsTeam[] = [
@@ -38,6 +42,8 @@ export const AQ_LABS_TEAMS: AQLabsTeam[] = [
     links: { instagram: 'https://www.instagram.com/karyaarth', youtube: 'https://youtube.com/@karyaarth' },
     mood: '#E8542E',
     slides: 5,
+    medium: 'Documentary series',
+    heroSlide: 1,
   },
   {
     slug: 'merge-conflicts',
@@ -58,6 +64,8 @@ export const AQ_LABS_TEAMS: AQLabsTeam[] = [
     links: { website: 'https://careerrcompassindia.netlify.app/' },
     mood: '#3B6EE0',
     slides: 5,
+    medium: 'Live web product',
+    heroSlide: 4,
   },
   {
     slug: 'execution-pending',
@@ -78,6 +86,8 @@ export const AQ_LABS_TEAMS: AQLabsTeam[] = [
     links: { website: 'https://quirkbyaq.vercel.app' },
     mood: '#FF4F26',
     slides: 5,
+    medium: 'Hardware prototype',
+    heroSlide: 1,
   },
   {
     slug: 'alter-ego',
@@ -98,6 +108,8 @@ export const AQ_LABS_TEAMS: AQLabsTeam[] = [
     links: { website: 'https://dipdagod.github.io/Wisdom-Woods/main.html', instagram: 'https://www.instagram.com/wisdomwoods26' },
     mood: '#1E8449',
     slides: 5,
+    medium: 'Live web game',
+    heroSlide: 1,
   },
   {
     slug: 'idea-architects',
@@ -118,6 +130,8 @@ export const AQ_LABS_TEAMS: AQLabsTeam[] = [
     links: { instagram: 'https://www.instagram.com/p/DZLEszYk031/' },
     mood: '#8B5CF6',
     slides: 5,
+    medium: 'Community platform concept',
+    heroSlide: 4,
   },
   {
     slug: 'zero-to-deploy',
@@ -138,6 +152,8 @@ export const AQ_LABS_TEAMS: AQLabsTeam[] = [
     links: { website: 'https://hunar-one.vercel.app' },
     mood: '#1D8348',
     slides: 5,
+    medium: 'Live web platform',
+    heroSlide: 1,
   },
   {
     slug: 'idea-not-found',
@@ -158,5 +174,7 @@ export const AQ_LABS_TEAMS: AQLabsTeam[] = [
     links: {},
     mood: '#D4AF37',
     slides: 5,
+    medium: 'Hardware prototype (concept)',
+    heroSlide: 3,
   },
 ]
