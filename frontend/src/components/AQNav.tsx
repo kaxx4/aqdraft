@@ -43,6 +43,13 @@ const FlagSVG = () => (
     <line x1="4" y1="22" x2="4" y2="15"/>
   </svg>
 )
+const FlaskSVG = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+    <path d="M9 2v6.5L4 18a2 2 0 001.8 3h12.4a2 2 0 001.8-3l-5-9.5V2"/>
+    <line x1="7" y1="2" x2="17" y2="2"/>
+    <line x1="7.5" y1="13" x2="16.5" y2="13"/>
+  </svg>
+)
 const PenSVG = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
     <path d="M12 19l7-7 3 3-7 7H12v-3z"/>
@@ -109,6 +116,7 @@ export default function AQNav({ onCompose }: AQNavProps) {
     { href: '/', label: 'Home', icon: <WaveSVG /> },
     { href: '/projects', label: 'Projects', icon: <BoltSVG /> },
     { href: '/teams', label: 'Teams', icon: <FlagSVG /> },
+    { href: '/aq-labs', label: 'AQ Labs', icon: <FlaskSVG /> },
     // Blog hidden for directors — they have the director desk for moderation
     ...(!isAuthenticated || !isDirector ? [{ href: '/blog', label: 'Blog', icon: <PenSVG /> }] : []),
     { href: '/about', label: 'About', icon: <GlobeSVG /> },
@@ -118,6 +126,7 @@ export default function AQNav({ onCompose }: AQNavProps) {
   // Mobile hamburger sheet — secondary/discovery pages (primary nav is in the bottom bar)
   const mobileSheetLinks = [
     { href: '/projects',        label: 'Projects',       icon: <BoltSVG /> },
+    { href: '/aq-labs',         label: 'AQ Labs',        icon: <FlaskSVG /> },
     { href: '/blog',            label: 'Blog',           icon: <PenSVG /> },
     { href: '/opportunities',   label: 'Openings',       icon: <SparklesSVG /> },
     { href: '/contact',         label: 'Contact',        icon: <GlobeSVG /> },
