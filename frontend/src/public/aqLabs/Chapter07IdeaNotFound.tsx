@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, LinkRow, slideSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, FilmStrip, LinkRow, MediumBadge, slideSrc } from './Shared'
 
 const SPECS = ['heart rate', 'SpO2', 'sleep', 'activity', 'stress']
 
@@ -17,25 +17,29 @@ export default function Chapter07IdeaNotFound({ team }: { team: AQLabsTeam }) {
       }} />
       <div style={{ maxWidth: 720, margin: '0 auto', position: 'relative', textAlign: 'center' }}>
         <ChapterEyebrow team={team} dark />
+        <MediumBadge team={team} dark />
         <p style={{ fontFamily: 'var(--mono)', fontSize: 11.5, letterSpacing: '0.16em', textTransform: 'uppercase', color: team.mood, marginBottom: 18 }}>
           {team.tagline}
         </p>
 
         <motion.div
           initial={{ clipPath: 'circle(0% at 50% 50%)', opacity: 0.4 }}
-          whileInView={{ clipPath: 'circle(75% at 50% 50%)', opacity: 1 }}
-          viewport={{ once: true, margin: '-100px' }}
+          animate={{ clipPath: 'circle(75% at 50% 50%)', opacity: 1 }}
           transition={{ duration: 0.9, ease: [0.2, 0, 0, 1] }}
-          style={{ width: 240, margin: '0 auto 30px', borderRadius: '50%', overflow: 'hidden', boxShadow: `0 0 70px ${team.mood}44` }}
+          style={{
+            width: 240, height: 240, margin: '0 auto 30px', borderRadius: '50%', overflow: 'hidden',
+            boxShadow: `0 0 70px ${team.mood}44`, border: `2px solid ${team.mood}66`,
+          }}
         >
-          <img src={slideSrc(team.slug, 1)} alt={team.projectName} loading="lazy" decoding="async"
-            style={{ width: '100%', aspectRatio: '1/1', objectFit: 'cover', display: 'block' }} />
+          {/* the team's real prototype photo — not a text-heavy title
+              card — so the circular crop doesn't cut through a logo/wordmark */}
+          <img src={slideSrc(team.slug, team.heroSlide)} alt={`${team.projectName} — prototype`} loading="lazy" decoding="async"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 35%', display: 'block' }} />
         </motion.div>
 
         <motion.h2
           initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15 }}
           style={{ fontFamily: 'var(--serif)', fontWeight: 400, fontSize: 'clamp(40px,7vw,76px)', color: '#F4EFE0', letterSpacing: '0.02em', marginBottom: 20 }}
         >
@@ -65,6 +69,9 @@ export default function Chapter07IdeaNotFound({ team }: { team: AQLabsTeam }) {
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center', justifyContent: 'center' }}>
           <LinkRow links={team.links} dark mood={team.mood} />
           <CopyLinkButton slug={team.slug} dark mood={team.mood} />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <FilmStrip team={team} dark />
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, LinkRow, slideSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, FilmStrip, LinkRow, MediumBadge, slideSrc } from './Shared'
 
 const spring = { type: 'spring' as const, stiffness: 260, damping: 20 }
 
@@ -12,13 +12,13 @@ export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
       <div aria-hidden style={{ position: 'absolute', top: -60, right: -60, width: 260, height: 260, borderRadius: '50%', background: `${team.mood}14` }} />
       <div style={{ maxWidth: 1080, margin: '0 auto', position: 'relative' }}>
         <ChapterEyebrow team={team} />
+        <MediumBadge team={team} />
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 260px', gap: 40, alignItems: 'start', marginBottom: 20 }} className="aql-forest-head">
           <div>
             <motion.h2
               initial={{ opacity: 0, scale: 0.9, y: 16 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={spring}
               className="h-display"
               style={{ fontSize: 'clamp(36px,5.4vw,60px)', color: team.mood }}
@@ -32,12 +32,11 @@ export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
           </div>
           <motion.div
             initial={{ opacity: 0, scale: 0.7, rotate: -8 }}
-            whileInView={{ opacity: 1, scale: 1, rotate: -4 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, scale: 1, rotate: -4 }}
             transition={{ ...spring, delay: 0.15 }}
             style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 14px 32px rgba(0,0,0,0.14)', border: '6px solid #fff' }}
           >
-            <img src={slideSrc(team.slug, 1)} alt={team.projectName} loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '4/5', objectFit: 'cover' }} />
+            <img src={slideSrc(team.slug, team.heroSlide)} alt={team.projectName} loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '4/5', objectFit: 'cover' }} />
           </motion.div>
         </div>
 
@@ -47,7 +46,7 @@ export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
             <motion.path
               d="M20,45 C 160,-10 240,100 400,45 C 560,-10 640,100 780,45"
               fill="none" stroke={team.mood} strokeWidth="3" strokeDasharray="2 14" strokeLinecap="round"
-              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1.1 }}
+              initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.1 }}
             />
           </svg>
           <div style={{ display: 'grid', gridTemplateColumns: `repeat(${team.storyBeats.length}, 1fr)`, gap: 14, marginTop: -10 }} className="aql-level-grid">
@@ -55,8 +54,7 @@ export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
               <motion.div
                 key={i}
                 initial={{ opacity: 0, scale: 0.4, y: 24 }}
-                whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ ...spring, delay: i * 0.14 }}
                 style={{
                   background: '#fff', borderRadius: 16, padding: '14px 14px', textAlign: 'center',
@@ -75,8 +73,7 @@ export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
 
         <motion.div
           initial={{ opacity: 0, scale: 0.85 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={spring}
           style={{
             display: 'inline-block', background: team.mood, color: '#fff', borderRadius: 16,
@@ -91,6 +88,7 @@ export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
           <LinkRow links={team.links} mood={team.mood} />
           <CopyLinkButton slug={team.slug} mood={team.mood} />
         </div>
+        <FilmStrip team={team} />
       </div>
 
       <style>{`
