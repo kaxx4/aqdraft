@@ -100,9 +100,10 @@ function Manifesto() {
         </p>
         <p style={{ fontSize: 14.5, color: 'var(--txt-3)', lineHeight: 1.7, maxWidth: 560, margin: '0 auto' }}>
           AQ Labs is AquaTerra's innovation track: real teams, real budgets, real deadlines,
-          and a stage at the end of it. No professor grading a submission — an audience, a
-          published page, and a link members can put on their own CV. Scroll through what
-          seven teams shipped this cycle, chapter by chapter.
+          and a stage at the end of it. Every photograph on this page is theirs — a breadboard
+          on a kitchen counter at 1AM, a phone screenshot of a site the moment it went live,
+          a market stall lit by one bulb. No professor grading a submission — an audience, a
+          published page, and a link members can put on their own CV.
         </p>
       </div>
 

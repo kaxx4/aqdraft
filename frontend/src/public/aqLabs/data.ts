@@ -1,6 +1,11 @@
 // AQ Labs '26 — the exhibit's raw material.
-// Sourced from each team's official submission + their own Instagram
-// carousels. Copy is theirs wherever possible; only lightly cleaned up.
+//
+// Two kinds of copy live here: the team's own words (tagline, quote,
+// storyBeats, links — pulled from their Instagram carousels and CSV
+// submission), and curatorial narrative (spark / tension / craft / meaning)
+// written for this page, the way a gallery placard talks about a piece —
+// not a spec sheet. The goal isn't to describe what each thing does; it's
+// to say why someone spent six weeks of their life making it.
 
 export type AQLabsTeam = {
   slug: string
@@ -20,6 +25,16 @@ export type AQLabsTeam = {
   medium: string
   /** which slide (1-indexed) is the cleanest hero visual — a real photo/screenshot, not a title card */
   heroSlide: number
+
+  // ── Curatorial narrative ──────────────────────────────────────────────
+  /** the moment/observation that started it — why THIS, why THEM */
+  spark: string
+  /** the gap or wrong in the world that made the idea necessary */
+  tension: string
+  /** how it actually got made — grounded in the real, unglamorous process photos */
+  craft: string
+  /** the closing line — what the finished thing is really saying */
+  meaning: string
 }
 
 export const AQ_LABS_TEAMS: AQLabsTeam[] = [
@@ -40,10 +55,14 @@ export const AQ_LABS_TEAMS: AQLabsTeam[] = [
     ],
     quote: 'We are about people. We are Karyaarth.',
     links: { instagram: 'https://www.instagram.com/karyaarth', youtube: 'https://youtube.com/@karyaarth' },
-    mood: '#E8542E',
+    mood: '#A6321F',
     slides: 5,
     medium: 'Documentary series',
     heroSlide: 1,
+    spark: 'It started with a question none of them could answer: how many times had they walked past the same tea stall, the same ice-cream cart, without once learning the name of the person running it?',
+    tension: 'Kolkata\'s streets run on thousands of small, relentless acts of labour — carts pulled before sunrise, the same corner held for twenty years — and almost none of it is ever filmed on its own terms. It shows up as background noise in somebody else\'s video, or it doesn\'t show up at all.',
+    craft: 'So they went out after dark with a camera and no script. No actors, no studio light — just the vendor, their spot, and whatever bulb was already hanging there. The team\'s own footage shows exactly that: two of them standing in a market lane lit by a single string of bulbs, holding up a phone, waiting for someone to finish serving a customer before they\'d even ask for the interview.',
+    meaning: 'A camera doesn\'t usually turn this way. Karyaarth just decided it should.',
   },
   {
     slug: 'merge-conflicts',
@@ -66,6 +85,10 @@ export const AQ_LABS_TEAMS: AQLabsTeam[] = [
     slides: 5,
     medium: 'Live web product',
     heroSlide: 4,
+    spark: 'They kept hearing the same paradox at every family dinner and career fair, from two different directions at once: "companies can\'t find skilled people" sitting right next to "graduates can\'t find jobs." Same country. Same year. Both true.',
+    tension: 'A seventeen-year-old picks a stream, a twenty-year-old picks a major, and both decisions get made mostly on vibes, hearsay and a career pamphlet that hasn\'t been updated since before they were born — while the labour market has already quietly moved somewhere else.',
+    craft: 'So they went and found the real numbers — AISHE enrolment data, Mercer|Mettl employability studies, NASSCOM\'s skill-gap reports — and built a dashboard that reads all of it against itself, sector by sector. The proof that it\'s real and not a mockup is almost embarrassingly plain: a phone screenshot of their own live site, checked on someone\'s own browser at eleven at night, the night it finally worked.',
+    meaning: 'A compass doesn\'t choose your direction for you. It just refuses to let you walk confidently the wrong way.',
   },
   {
     slug: 'execution-pending',
@@ -88,6 +111,10 @@ export const AQ_LABS_TEAMS: AQLabsTeam[] = [
     slides: 5,
     medium: 'Hardware prototype',
     heroSlide: 1,
+    spark: 'It began the way most good, slightly ridiculous ideas do — a few of them, bored on a Sunday, decided that the fidget toys and phone games sold to restless brains just weren\'t built for a brain like theirs.',
+    tension: 'A fidget toy is over in ten seconds; a phone is a rabbit hole that swallows an hour. Nothing sits in the middle — a hit of focus, short enough to not become a distraction, satisfying enough to actually want.',
+    craft: 'Their own photo says more than any pitch deck could: one ESP32, one OLED screen, one pressure-pad module, hand-wired on a breadboard on a kitchen counter, timestamped 1:02 in the morning. The plastic enclosure still doesn\'t exist. They shipped the five games anyway — because the games were always the actual point, and a breadboard held together with jumper wires is a completely honest place to prove that.',
+    meaning: 'You press a pad. You earn a score. You put it down. That\'s the whole design philosophy, and it fits in one sentence on purpose.',
   },
   {
     slug: 'alter-ego',
@@ -97,7 +124,7 @@ export const AQ_LABS_TEAMS: AQLabsTeam[] = [
     category: 'EdTech',
     tagline: 'a video game that tricks you into studying.',
     oneLiner: 'An educational game for classes 3–7 that turns vocabulary, logic and GK into an explorable forest.',
-    description: 'Kids pick a character, walk into a forest, and play short level-based rounds across three tracks — Words, Logic and The World. Age sets the challenge, so a class 3 kid and a class 7 kid get the same forest, tuned to their own level, unlocking harder woods and customizable avatars as they go.',
+    description: 'Kids pick a character, walk into a forest, and play short level-based rounds across three tracks — Words, Logic and The World. Age sets the challenge, so a class 3 kid and a class 7 kid get the same forest tuned to their own level, unlocking harder woods and customizable avatars as they go.',
     storyBeats: [
       'Pick a character, walk into a forest, play short rounds, earn points, unlock more woods',
       'Three tracks: Words (vocab in disguise), Logic (little puzzles, big brain), The World (GK that sticks)',
@@ -110,6 +137,10 @@ export const AQ_LABS_TEAMS: AQLabsTeam[] = [
     slides: 5,
     medium: 'Live web game',
     heroSlide: 1,
+    spark: 'They kept coming back to their own homework — not the subjects, but the feeling of it. Vocabulary and GK weren\'t things you got to explore, they were things done to you, on a worksheet, with a due date.',
+    tension: 'Nothing about the shape of homework has changed since they were eight years old. It\'s still a sheet of questions, not a place. A class 3 kid and a class 7 kid are handed the exact same flat page and expected to feel the same about it.',
+    craft: 'So they built a forest instead of a form — a small illustrated world, drawn with the same warmth as their own logo (a tree, its birds, its flowers, hand-lettered), where age quietly sets the difficulty and the "lesson" is disguised as a level. They filmed the build working, start to finish, before they ever wrote a line of marketing copy.',
+    meaning: 'A video game that tricks you into studying isn\'t a trick on the kid. It\'s a trick on the worksheet.',
   },
   {
     slug: 'idea-architects',
@@ -128,10 +159,14 @@ export const AQ_LABS_TEAMS: AQLabsTeam[] = [
     ],
     quote: 'Borrow more, buy less.',
     links: { instagram: 'https://www.instagram.com/p/DZLEszYk031/' },
-    mood: '#8B5CF6',
+    mood: '#6B8E4E',
     slides: 5,
     medium: 'Community platform concept',
     heroSlide: 4,
+    spark: 'Someone did the mental math on a lab coat worn twice a year, a calculator borrowed from three different friends over three different terms, and a badminton racket that\'s been in a cupboard since April — and realised the absurdity repeats itself on every street, in every house, at the same time.',
+    tension: 'The default is always to buy — new, boxed, yours alone — even for things used twice and then forgotten, while somebody two lanes over is buying the exact same thing this week.',
+    craft: 'Instead of a slide, they made a real explainer — a careful, hand-illustrated one-pager, icon by icon: books, calculators, lab coats, art supplies, sports gear, project material, all drawn in the same soft green as the rest of their brand, because the idea itself is meant to feel like something grown, not manufactured. The network runs on location-based WhatsApp groups — infrastructure that already exists in every neighbourhood, repurposed instead of rebuilt.',
+    meaning: 'Borrow more, buy less isn\'t a slogan about frugality. It\'s a redesign of what "owning" a thing is even for.',
   },
   {
     slug: 'zero-to-deploy',
@@ -150,10 +185,14 @@ export const AQ_LABS_TEAMS: AQLabsTeam[] = [
     ],
     quote: 'Trained. Certified. Still invisible.',
     links: { website: 'https://hunar-one.vercel.app' },
-    mood: '#1D8348',
+    mood: '#B8862E',
     slides: 5,
     medium: 'Live web platform',
     heroSlide: 1,
+    spark: 'Somebody on the team knew an electrician, a tailor, a mechanic — trained properly, certified on paper — who still couldn\'t get hired, because no employer two neighbourhoods away had any reason to trust a stranger\'s certificate.',
+    tension: 'India\'s vocational-training system graduates people by the millions and then hands them almost nothing that helps a stranger believe they\'re good at the job. The gap was never at the top of the funnel. It\'s the silence right after.',
+    craft: 'The name itself is the first decision worth noticing — हुनर, Devanagari for "skill," chosen over an English placeholder. Then the harder decision: a trust model that ranks proof by how hard it is to fake. Institutional verification weighs highest because it can\'t be self-granted; a self-declared claim of skill weighs nothing, because anyone can type anything. That\'s not a UI choice. That\'s an argument about what trust is actually made of.',
+    meaning: 'Trained. Certified. Still invisible. Hunar\'s whole purpose is making something already real finally show up on someone else\'s screen.',
   },
   {
     slug: 'idea-not-found',
@@ -162,19 +201,23 @@ export const AQ_LABS_TEAMS: AQLabsTeam[] = [
     projectName: 'Photon',
     category: 'Wearable Tech',
     tagline: 'no screen. no noise.',
-    oneLiner: 'A screen-free smart bracelet that reads your health through light — built to look like jewellery, not a gadget.',
+    oneLiner: 'A screen-free smart bracelet that reads your health through light — engineered like an instrument, not a gadget.',
     description: 'PHOTON blends fashion, comfort and health tech into a single wearable. Instead of a glowing display and constant pings, it uses light-based sensors and motion tracking to quietly monitor heart rate, SpO2, sleep, activity and stress — in a sleek, modular band designed to actually be worn, not just charged.',
     storyBeats: [
       'All the data. None of the noise.',
       'Most fitness wearables look like gadgets. This one is designed to look like jewellery.',
-      'Two concept builds — a metal link bracelet and a filigree bracelet — sensor, band and connectors made to come apart',
+      'A modular sensor module + interchangeable engraved links, made to be 3D-printed and customised',
       'Heart rate · SpO2 · sleep · activity · stress — IP67 water resistant, 7–10 day battery',
     ],
     quote: 'All the data. None of the noise.',
     links: {},
-    mood: '#D4AF37',
+    mood: '#8FA0B3',
     slides: 5,
     medium: 'Hardware prototype (concept)',
     heroSlide: 3,
+    spark: 'Every fitness wearable on the market has converged on the same black rectangle. Somebody on the team, with what looks like a musician\'s eye, asked why a health sensor had to look like a gadget at all.',
+    tension: 'A tool designed to be worn every hour of every day should be something you actually want on your wrist — not a screen you\'re quietly tired of glancing at, buzzing with notifications nobody asked for.',
+    craft: 'What started as a pitch called Photon became, on their own worktable, something with its own name: Modus Band. Their real design sheet reads less like a slide and more like a jeweller\'s blueprint — a 42mm sensor module, 20mm standard links, a snap-lock mechanism specified down to a 1.2mm nub and a 1.4mm lock hole, links engraved with musical notation and 3D-printable in your own choice of symbol: a treble clef, a heartbeat line, a mountain, a leaf. "Inspired by the timeless beauty of musical notation," the sheet says, and means it literally — the band is built the way sheet music is built, in interchangeable, re-orderable measures.',
+    meaning: 'All the data, none of the noise — but the deeper claim is treating a health tool as an instrument worth noticing, not a monitor worth hiding.',
   },
 ]

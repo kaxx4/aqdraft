@@ -1,92 +1,86 @@
 import { motion } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, FilmStrip, LinkRow, MediumBadge, slideSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, FilmStrip, LinkRow, MediumBadge, MeaningLine, Narrative, Plate, processSrc } from './Shared'
 
-// Chapter 01 — Karyaarth. A photo-documentary spread: headline copy on the
-// left, five "scattered polaroids" on the right that straighten and lift
-// on hover — the room feels like a wall of street photography.
+const WALL = [
+  { file: '01-bts-filming-market-night.jpg', caption: 'The crew, filming after dark — a single string of market bulbs for light.' },
+  { file: '09-interview-icecream-vendor.jpg', caption: 'No boom mic. A phone, held steady, and a question worth waiting for.' },
+  { file: '05-momo-vendor-closeup.jpg', caption: 'Steam off the momo baskets — the kind of detail a script would never think to ask for.' },
+  { file: '07-corn-roaster-daytime.jpg', caption: 'Daylight, for once — a bhutta seller over open coals.' },
+]
+
+// Chapter 01 — Karyaarth. A gallery wall: one large graded portrait as the
+// hero, a small contact-sheet of the real behind-the-scenes photography
+// underneath, each with its own museum caption. The Instagram carousel is
+// kept, but tucked away as a secondary, clearly-labelled artifact.
 export default function Chapter01Karyaarth({ team }: { team: AQLabsTeam }) {
-  const rotations = [-6, 4, -3, 7, -8]
   return (
-    <section id={team.slug} style={{ background: 'var(--bg)', padding: '110px 24px', overflow: 'hidden' }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1.05fr)', gap: 56, alignItems: 'center' }}
-        className="aql-two-col">
-        <div>
-          <ChapterEyebrow team={team} />
-          <MediumBadge team={team} />
-          <motion.h2
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.2, 0, 0, 1] }}
-            className="h-display"
-            style={{ fontSize: 'clamp(38px, 5.4vw, 68px)', color: 'var(--ink)' }}
-          >
-            {team.teamName}<span style={{ color: team.mood }}>.</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(18px,2.2vw,24px)', color: team.mood, margin: '10px 0 22px' }}
-          >
-            {team.tagline}
-          </motion.p>
-          <p style={{ fontSize: 15.5, lineHeight: 1.7, color: 'var(--txt-2)', maxWidth: 480, marginBottom: 20 }}>{team.description}</p>
-          <ul style={{ display: 'flex', flexDirection: 'column', gap: 9, marginBottom: 26, padding: 0, listStyle: 'none' }}>
-            {team.storyBeats.map((b, i) => (
-              <motion.li
-                key={i}
-                initial={{ opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: 0.15 + i * 0.08 }}
-                style={{ display: 'flex', gap: 10, fontSize: 13.5, color: 'var(--txt-3)', lineHeight: 1.5 }}
-              >
-                <span style={{ color: team.mood, flexShrink: 0 }}>—</span>{b}
-              </motion.li>
-            ))}
-          </ul>
-          <blockquote style={{
-            fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(20px,2.6vw,28px)',
-            color: 'var(--ink)', borderLeft: `3px solid ${team.mood}`, paddingLeft: 18, margin: '0 0 26px',
-          }}>
-            “{team.quote}”
-          </blockquote>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
-            <LinkRow links={team.links} mood={team.mood} />
-            <CopyLinkButton slug={team.slug} mood={team.mood} />
+    <section id={team.slug} style={{ background: '#F3EDE1', padding: '110px 24px', overflow: 'hidden' }}>
+      <div style={{ maxWidth: 1180, margin: '0 auto' }}>
+        <ChapterEyebrow team={team} />
+        <MediumBadge team={team} />
+        <motion.h2
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.2, 0, 0, 1] }}
+          className="h-display"
+          style={{ fontSize: 'clamp(38px, 5.4vw, 68px)', color: 'var(--ink)' }}
+        >
+          {team.teamName}<span style={{ color: team.mood }}>.</span>
+        </motion.h2>
+        <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(18px,2.2vw,24px)', color: team.mood, margin: '10px 0 40px' }}>
+          {team.tagline}
+        </p>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1.1fr)', gap: 56 }} className="aql-two-col">
+          <div>
+            <Narrative team={team} />
+            <MeaningLine team={team} />
+            <blockquote style={{
+              fontFamily: 'var(--mono)', fontSize: 12.5, color: 'var(--txt-3)',
+              borderLeft: `2px solid ${team.mood}`, paddingLeft: 14, margin: '0 0 26px',
+            }}>
+              “{team.quote}”
+            </blockquote>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
+              <LinkRow links={team.links} mood={team.mood} />
+              <CopyLinkButton slug={team.slug} mood={team.mood} />
+            </div>
           </div>
-          <FilmStrip team={team} />
+
+          <div>
+            <Plate
+              src={processSrc(team.slug, '08-graded-icecream-vendor-portrait.jpg')}
+              caption="An ice-cream vendor, Kolkata — the first frame anyone actually kept."
+              aspect="4/3"
+            />
+          </div>
         </div>
 
-        <div style={{ position: 'relative', height: 480 }} className="aql-polaroid-stage">
-          {[1, 2, 3, 4, 5].map((n, i) => (
-            <motion.div
-              key={n}
-              initial={{ opacity: 0, y: 40, rotate: rotations[i] }}
-              animate={{ opacity: 1, y: 0, rotate: rotations[i] }}
-              whileHover={{ rotate: 0, scale: 1.07, zIndex: 10, boxShadow: '0 24px 60px rgba(0,0,0,0.28)' }}
-              transition={{ duration: 0.55, delay: i * 0.09, ease: [0.2, 0, 0, 1] }}
-              style={{
-                position: 'absolute',
-                width: '46%',
-                left: `${(i % 3) * 22 + (i >= 3 ? 14 : 0)}%`,
-                top: `${Math.floor(i / 3) * 46 + (i % 3) * 6}%`,
-                background: '#fff', padding: 8, borderRadius: 10,
-                boxShadow: '0 10px 30px rgba(0,0,0,0.16)', cursor: 'pointer',
-                zIndex: i,
-              }}
-            >
-              <img src={slideSrc(team.slug, n)} alt={`${team.teamName} — slide ${n}`} loading="lazy" decoding="async"
-                style={{ width: '100%', aspectRatio: '4/5', objectFit: 'cover', borderRadius: 4, display: 'block' }} />
-            </motion.div>
-          ))}
+        {/* the wall — contact-sheet of the real BTS shots */}
+        <div style={{ marginTop: 56 }}>
+          <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-4)', marginBottom: 16 }}>
+            from the shoot
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }} className="aql-wall-grid">
+            {WALL.map(w => (
+              <Plate key={w.file} src={processSrc(team.slug, w.file)} caption={w.caption} aspect="4/3" />
+            ))}
+          </div>
+        </div>
+
+        <div style={{ marginTop: 12 }}>
+          <div style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-4)', margin: '32px 0 4px' }}>
+            the Instagram cut
+          </div>
+          <FilmStrip team={team} />
         </div>
       </div>
 
       <style>{`
         @media (max-width: 880px) {
           .aql-two-col { grid-template-columns: 1fr !important; }
-          .aql-polaroid-stage { height: 340px !important; margin-top: 20px; }
+          .aql-wall-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
       `}</style>
     </section>
