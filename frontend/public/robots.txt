@@ -1,0 +1,35 @@
+User-agent: *
+
+# Everything public is crawlable by default; we only fence off member,
+# auth, and internal areas below. (The previous file listed mis-spelled
+# Allow paths — /project, /about-aquaterra, /everythingwedo — that don't
+# match the real routes, and both Allowed and Disallowed /teams.)
+Allow: /
+
+# ── Community platform — members only ────────────────────────────────────────
+Disallow: /feed
+Disallow: /profile
+Disallow: /notifications
+Disallow: /saved
+Disallow: /my-posts
+Disallow: /settings
+Disallow: /search
+Disallow: /director
+
+# ── Auth & flow pages — no indexing needed ───────────────────────────────────
+Disallow: /login
+Disallow: /_login
+Disallow: /register
+Disallow: /pending
+Disallow: /rejected
+Disallow: /welcome
+Disallow: /brand
+
+# ── Paradox member/admin ─────────────────────────────────────────────────────
+Disallow: /paradox/register
+Disallow: /paradox/admin
+Disallow: /paradox/scores
+Disallow: /paradox/updates
+Disallow: /paradox/winners
+
+Sitemap: https://www.ngoaquaterra.com/sitemap.xml

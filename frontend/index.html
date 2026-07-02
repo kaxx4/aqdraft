@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <!-- ── Perf: warm font + API origins early, and load fonts WITHOUT the
+         render-blocking CSS @import (which serialized DNS→TLS→fetch behind CSS
+         parse). preconnect + display=swap → text paints immediately, fonts swap in. ── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://hzowuwffjqtgszecngpe.supabase.co" />
+    <link rel="dns-prefetch" href="https://hzowuwffjqtgszecngpe.supabase.co" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" />
+    <!-- ── Structured Data ── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "additionalType": "https://schema.org/NGO",
+      "name": "NGO AquaTerra",
+      "alternateName": "AquaTerra",
+      "description": "Youth-led, change-driven NGO focused on climate action and community welfare. Student-run organization based in Kolkata creating environmental and social impact with over 1200 active volunteers.",
+      "url": "https://www.ngoaquaterra.com",
+      "logo": "https://www.ngoaquaterra.com/logo.png",
+      "foundingDate": "2021",
+      "slogan": "We create change now - hands dirty, hearts full, youth united",
+      "identifier": {
+        "@type": "PropertyValue",
+        "name": "Registration Number",
+        "value": "AAFTT2300ME20251"
+      },
+      "founder": [
+        { "@type": "Person", "name": "Krish Goenka", "jobTitle": "Founder" },
+        {
+          "@type": "Person",
+          "name": "Kanishk Agarwal",
+          "jobTitle": "Co-founder",
+          "description": "Interaction Designer, Content Production Cinematographer",
+          "sameAs": [
+            "https://www.instagram.com/kanxshkag",
+            "https://www.linkedin.com/in/kanishk-agarwal-a1a414218/"
+          ]
+        }
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Kolkata",
+        "addressRegion": "West Bengal",
+        "addressCountry": "IN"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "email": "ngo.aquaterra@gmail.com",
+        "url": "https://www.ngoaquaterra.com/contact"
+      },
+      "email": "ngo.aquaterra@gmail.com",
+      "sameAs": [
+        "https://www.instagram.com/ngo.aquaterra/",
+        "https://in.linkedin.com/company/aquaterrango"
+      ],
+      "knowsAbout": [
+        "Environmental Conservation", "Youth Empowerment", "Community Welfare",
+        "Climate Action", "Educational Workshops", "Tree Planting", "Stray Animal Care"
+      ],
+      "numberOfEmployees": 1200,
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "itemOffered": { "@type": "Service", "name": "Environmental Education Workshops", "description": "Free environmental education workshops for children and students" },
+          "price": "0", "priceCurrency": "INR"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": { "@type": "Service", "name": "Tree Planting Drives", "description": "Community tree planting initiatives" },
+          "price": "0", "priceCurrency": "INR"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": { "@type": "Service", "name": "Volunteer Opportunities", "description": "Join our network of 1200+ active volunteers" },
+          "price": "0", "priceCurrency": "INR"
+        }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "150",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      "name": "NGO AquaTerra Impact Metrics",
+      "description": "Comprehensive impact statistics from NGO AquaTerra's welfare and environmental projects",
+      "creator": { "@type": "Organization", "name": "NGO AquaTerra" },
+      "measurementTechnique": "Project tracking and community engagement metrics",
+      "variableMeasured": [
+        { "@type": "PropertyValue", "name": "Welfare Projects Completed",  "value": "450+",   "unitText": "projects" },
+        { "@type": "PropertyValue", "name": "Educational Workshops",        "value": "3500+",  "unitText": "children reached" },
+        { "@type": "PropertyValue", "name": "Trees Planted",                "value": "4000+",  "unitText": "trees and saplings" },
+        { "@type": "PropertyValue", "name": "Medical Checkups",             "value": "1600+",  "unitText": "checkups in Sunderbans" },
+        { "@type": "PropertyValue", "name": "Food Distribution",            "value": "15000+", "unitText": "bananas donated" },
+        { "@type": "PropertyValue", "name": "Clothes Donated",              "value": "950+",   "unitText": "KGS" },
+        { "@type": "PropertyValue", "name": "Stray Dogs Fed",               "value": "1200+",  "unitText": "dogs" }
+      ]
+    }
+    </script>
+
+    <!-- (Per-article structured data is injected at runtime on each blog page,
+         not templated here — static {{placeholders}} are invalid markup.) -->
+
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "v8xi8sv15p");
+    </script>
+
+    <!-- Facebook Domain Verification -->
+    <meta name="facebook-domain-verification" content="1infir1qpt7wqwmgto7zejjrqfisho" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- Favicon — light + dark mode aware -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Theme color — matches paper-bold background; JS in AQNav updates dynamically -->
+    <meta name="theme-color" id="aq-theme-color" content="#F4EFE0" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0A2540" />
+
+    <!-- SEO — default (homepage). Per-route titles/descriptions are set at
+         runtime by the useMeta hook on each page. Canonical domain is
+         ngoaquaterra.com (matches robots.txt, sitemap.xml & structured data). -->
+    <title>AquaTerra | Student-Led Community & NGO in Kolkata</title>
+    <meta name="description" content="AquaTerra: a student-led community and NGO in Kolkata where 1,200+ teenagers take ownership of real welfare, climate & education projects, build leadership skills, and create social impact. Join our ecosystem today." />
+    <meta name="keywords" content="AquaTerra, NGO Kolkata, student NGO, student community Kolkata, ROOTS, ShikshAQ, youth welfare, climate action, tree planting, volunteer Kolkata" />
+    <link rel="canonical" href="https://www.ngoaquaterra.com" />
+
+    <!-- Open Graph — PNG format required for broad platform support -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="AquaTerra" />
+    <meta property="og:title" content="AquaTerra | started in Kolkata. got out of hand." />
+    <meta property="og:description" content="1,200+ students running real welfare, climate & education projects. Student-led since 2021. DARPAN certified. zero fees." />
+    <meta property="og:image" content="https://www.ngoaquaterra.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="https://www.ngoaquaterra.com" />
+
+    <!-- Twitter / X card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AquaTerra | started in Kolkata. got out of hand." />
+    <meta name="twitter:description" content="1,200+ students. real welfare, climate & education projects. student-run since 2021. zero fees." />
+    <meta name="twitter:image" content="https://www.ngoaquaterra.com/og-image.png" />
+
+    <!-- PWA / mobile -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="AquaTerra" />
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- Dynamic favicon switcher for aq/paradox sections -->
+    <script>
+      (function() {
+        const updateFavicon = () => {
+          const path = window.location.pathname;
+          const faviconLink = document.querySelector('link[rel="icon"]');
+          const manifestLink = document.querySelector('link[rel="manifest"]');
+          const themeColor = document.querySelector('meta[name="theme-color"]');
+
+          if (path.startsWith('/paradox')) {
+            if (faviconLink) faviconLink.href = '/paradox/favicon.svg';
+            if (manifestLink) manifestLink.href = '/paradox/site.webmanifest';
+            if (themeColor) themeColor.content = '#FF4338';
+          } else {
+            if (faviconLink) faviconLink.href = '/favicon.svg';
+            if (manifestLink) manifestLink.href = '/site.webmanifest';
+            if (themeColor) themeColor.content = '#F4EFE0';
+          }
+        };
+
+        // Update on initial load
+        updateFavicon();
+
+        // Update on route changes (for SPA navigation)
+        window.addEventListener('popstate', updateFavicon);
+
+        // Listen for history changes
+        const originalPushState = window.history.pushState;
+        window.history.pushState = function(...args) {
+          originalPushState.apply(window.history, args);
+          updateFavicon();
+        };
+      })();
+    </script>
+
+    <!-- Google Fonts — AquaTerra core (Instrument Serif, JetBrains Mono incl. italic).
+         The Paradox-only faces (Boldonse, Bricolage Grotesque, Caveat) used to load
+         here on EVERY page; they are now injected on demand by paradox/ParadoxRoot
+         so non-Paradox pages don't pay for them. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+
+    <!-- AquaTerra always uses the paper/beige light theme -->
+    <script>
+      document.documentElement.setAttribute('data-theme', 'light');
+      try { localStorage.removeItem('aq-theme'); } catch(e) {}
+    </script>
+    <style>
+      /* Prevent flash of unstyled content */
+      html { background: #F4EFE0; }
+
+      /* Screen-reader only utility */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
+    </style>
+  </head>
+  <body class="noise">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
