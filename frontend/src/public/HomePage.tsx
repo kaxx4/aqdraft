@@ -18,6 +18,8 @@ import { hasLeaderAccess } from '../lib/roles'
 import { jobOpenings, CAT_COLORS as JOB_CAT_COLORS } from '../lib/jobOpenings'
 import { getCached, setCached } from '../lib/swrCache'
 import { sized } from '../lib/imageUrl'
+import { AQ_LABS_TEAMS } from './aqLabs/data'
+import { slideSrc } from './aqLabs/Shared'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -697,6 +699,30 @@ function LeftRail({ member, filter, setFilter, postCount, userPostCount }: {
         </div>
       </div>
 
+      {/* ── AQ LABS teaser ── */}
+      <Link to="/aq-labs" className="rail-card" style={{
+        display: 'block', textDecoration: 'none', padding: 0, overflow: 'hidden',
+        background: '#0A0A0A', border: '2px solid #0A0A0A',
+      }}>
+        <div style={{ display: 'flex', gap: 2, height: 64 }}>
+          {AQ_LABS_TEAMS.slice(0, 4).map(t => (
+            <div key={t.slug} style={{ flex: 1, overflow: 'hidden' }}>
+              <img src={slideSrc(t.slug, 1)} alt="" loading="lazy" decoding="async"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: 0.85 }} />
+            </div>
+          ))}
+        </div>
+        <div style={{ padding: '12px 14px 14px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 4 }}>
+            <span className="h-display" style={{ fontSize: 16, color: '#fff' }}>AQ Labs</span>
+            <span className="sticker sticker-mint" style={{ fontSize: 9, padding: '2px 7px' }}>7 teams</span>
+          </div>
+          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', lineHeight: 1.4, margin: 0 }}>
+            what members build when we hand them the resources. see the gallery →
+          </p>
+        </div>
+      </Link>
+
       {member && (
         <button
           className="rail-logout-btn"
@@ -1017,6 +1043,35 @@ function RightRail({ isDirector = false }: { isDirector?: boolean }) {
 
   return (
     <aside className="home-right">
+
+      {/* ── AQ LABS spotlight ── */}
+      <div className="rail-card" style={{ padding: '16px 16px 14px' }}>
+        <div className="rail-h" style={{ marginBottom: 12 }}>
+          <span style={{ fontFamily: 'var(--display)', fontWeight: 800, fontSize: 13 }}>aq labs spotlight</span>
+          <Link to="/aq-labs" style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--mint)', textDecoration: 'none' }}>gallery →</Link>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {AQ_LABS_TEAMS.slice(0, 3).map(t => (
+            <Link
+              key={t.slug}
+              to={`/aq-labs#${t.slug}`}
+              style={{ textDecoration: 'none', display: 'flex', gap: 10, alignItems: 'center', borderRadius: 12, overflow: 'hidden', border: '1.5px solid var(--line)', padding: 6, transition: 'border-color 0.14s' }}
+              onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = t.mood}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = 'var(--line)'}
+            >
+              <div style={{ width: 34, height: 34, borderRadius: 8, overflow: 'hidden', flexShrink: 0 }}>
+                <img src={slideSrc(t.slug, 1)} alt="" loading="lazy" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+              <div style={{ minWidth: 0 }}>
+                <div style={{ fontFamily: 'var(--display)', fontWeight: 700, fontSize: 12.5, color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {t.projectName}
+                </div>
+                <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: t.mood, fontWeight: 700 }}>{t.category}</div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
 
       {/* ── NOTICE BOARD ── */}
       <div className="rail-card" style={{ padding: '16px 16px 14px' }}>

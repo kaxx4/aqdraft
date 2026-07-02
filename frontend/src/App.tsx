@@ -88,6 +88,7 @@ const PendingApprovalPage    = lazy(() => import('./auth/PendingApprovalPage'))
 const RejectedPage           = lazy(() => import('./auth/RejectedPage'))
 const EverythingWeDoPage     = lazy(() => import('./public/EverythingWeDoPage'))
 const PublicProjectsPage     = lazy(() => import('./public/PublicProjectsPage'))
+const AQLabsPage              = lazy(() => import('./public/AQLabsPage'))
 const PublicProjectDetailPage = lazy(() => import('./public/PublicProjectDetailPage'))
 const BlogListPage           = lazy(() => import('./public/BlogListPage'))
 const BlogPostPage           = lazy(() => import('./public/BlogPostPage'))
@@ -162,6 +163,7 @@ function App() {
               <Route path="/everything-we-do" element={<EverythingWeDoPage />} />
               <Route path="/projects" element={<PublicProjectsPage />} />
               <Route path="/projects/:slug" element={<PublicProjectDetailPage />} />
+              <Route path="/aq-labs" element={<AQLabsPage />} />
               <Route path="/blog" element={<BlogListPage />} />
               <Route path="/blog/:slug" element={<BlogPostPage />} />
               <Route path="/support" element={<SupportPage />} />

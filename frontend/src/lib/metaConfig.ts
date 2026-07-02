@@ -31,6 +31,12 @@ export const pageMetadata: Record<string, MetaConfig> = {
     image: '',
     path: '/projects',
   },
+  aqLabs: {
+    title: 'AQ Labs | Student-Built Innovation, AquaTerra',
+    description: "AQ Labs is AquaTerra's innovation showcase: real products, apps and hardware built by student teams — CareerCompass, Wisdom Woods, Hunar, QUIRK, Photon, Cirqle Rentals and Karyaarth. See what recognition and resources can build.",
+    image: '',
+    path: '/aq-labs',
+  },
   projectDetail: {
     title: '{projectName} | Student-Led Project',
     description: '{projectName}: A student-led project by AquaTerra bringing real impact to Kolkata. {projectDescription}. Led by young people taking ownership of community work.',
