@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
 import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, processSrc } from './Shared'
 
@@ -9,44 +10,50 @@ const ASSEMBLY = [
   { file: '03-wrist-mockup-render.jpeg', caption: 'Worn, not charged — the design brief, resolved.' },
 ]
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay }}>
-      {children}
-    </motion.div>
-  )
-}
-
-// Chapter 07 — 404-Idea Not Found. The atelier: the pitch was "Photon,"
-// but the real story is an assembly line — concept, blueprint, mechanism,
-// object — each of their four real images placed in the order the thing
-// was actually invented, not the order that photographs best.
+// Chapter 07 — 404-Idea Not Found. The atelier: a full-bleed photographic
+// cold open on the wrist itself — the object before the name — with the
+// pitch name ("Photon") burning off into the real one ("Modus Band") as
+// you scroll, before the assembly line of all four real images: concept,
+// blueprint, mechanism, object, in invention order.
 export default function Chapter07IdeaNotFound({ team }: { team: AQLabsTeam }) {
+  const heroRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.15])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
+  const pitchOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0])
+  const realOpacity = useTransform(scrollYProgress, [0.15, 0.4], [0, 1])
+
   return (
-    <section id={team.slug} style={{ background: '#0B0C0E', padding: '110px 24px 120px', position: 'relative' }}>
-      <div style={{ maxWidth: 720, margin: '0 auto 60px' }}>
-        <ChapterEyebrow team={team} dark />
-        <MediumBadge team={team} dark />
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4 }}
-          style={{ fontFamily: 'var(--mono)', fontSize: 11.5, letterSpacing: '0.16em', textTransform: 'uppercase', color: team.mood, marginBottom: 10 }}
-        >
-          pitched as {team.projectName} · built as —
-        </motion.p>
-        <motion.h2
-          initial={{ opacity: 0, filter: 'blur(10px)' }}
-          animate={{ opacity: 1, filter: 'blur(0px)' }}
-          transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          style={{ fontFamily: 'var(--serif)', fontWeight: 400, fontSize: 'clamp(42px,7vw,80px)', color: '#F4EFE0', letterSpacing: '0.01em' }}
-        >
-          Modus Band
-        </motion.h2>
+    <section id={team.slug} style={{ background: '#0B0C0E' }}>
+      {/* ── cold open ── */}
+      <div ref={heroRef} style={{ position: 'relative', minHeight: '90vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <motion.div style={{ position: 'absolute', inset: 0, scale: heroScale, opacity: heroOpacity }}>
+          <img
+            src={processSrc(team.slug, '03-wrist-mockup-render.jpeg')}
+            alt="Worn, not charged"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.4)' }}
+          />
+        </motion.div>
+
+        <motion.div style={{ position: 'relative', textAlign: 'center', padding: '0 24px', opacity: heroOpacity }}>
+          <ChapterEyebrow team={team} dark />
+          <div style={{ display: 'flex', justifyContent: 'center' }}><MediumBadge team={team} dark /></div>
+          <div style={{ position: 'relative', height: '1.3em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <motion.h2 style={{ opacity: pitchOpacity, position: 'absolute', fontFamily: 'var(--mono)', fontSize: 'clamp(20px,3vw,30px)', color: 'rgba(244,239,224,0.5)', letterSpacing: '0.1em' }}>
+              pitched as "{team.projectName}"
+            </motion.h2>
+            <motion.h2 style={{ opacity: realOpacity, position: 'absolute', fontFamily: 'var(--serif)', fontWeight: 400, fontSize: 'clamp(42px,7.5vw,90px)', color: '#F4EFE0' }}>
+              Modus Band
+            </motion.h2>
+          </div>
+        </motion.div>
       </div>
 
-      {/* the assembly line */}
-      <div style={{ maxWidth: 1080, margin: '0 auto 60px' }}>
+      {/* ── the assembly line ── */}
+      <div style={{ maxWidth: 1080, margin: '0 auto', padding: '80px 24px 60px' }}>
+        <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(244,239,224,0.4)', marginBottom: 20 }}>
+          the order it was actually invented in
+        </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }} className="aql-assembly-grid">
           {ASSEMBLY.map((a, i) => (
             <motion.figure
@@ -74,25 +81,21 @@ export default function Chapter07IdeaNotFound({ team }: { team: AQLabsTeam }) {
         </div>
       </div>
 
-      <div style={{ maxWidth: 720, margin: '0 auto' }}>
-        <Reveal>
-          <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(19px,2.3vw,24px)', lineHeight: 1.5, color: '#F4EFE0', marginBottom: 20 }}>
-            {team.spark}
-          </p>
-          <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(244,239,224,0.65)', marginBottom: 20 }}>
-            {team.tension}
-          </p>
-          <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(244,239,224,0.65)', marginBottom: 32 }}>
-            {team.craft}
-          </p>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <MeaningLine team={team} dark />
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
-            <LinkRow links={team.links} dark mood={team.mood} />
-            <CopyLinkButton slug={team.slug} dark mood={team.mood} />
-          </div>
-        </Reveal>
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '20px 24px 110px' }}>
+        <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(19px,2.3vw,24px)', lineHeight: 1.5, color: '#F4EFE0', marginBottom: 20 }}>
+          {team.spark}
+        </p>
+        <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(244,239,224,0.65)', marginBottom: 20 }}>
+          {team.tension}
+        </p>
+        <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(244,239,224,0.65)', marginBottom: 32 }}>
+          {team.craft}
+        </p>
+        <MeaningLine team={team} dark />
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
+          <LinkRow links={team.links} dark mood={team.mood} />
+          <CopyLinkButton slug={team.slug} dark mood={team.mood} />
+        </div>
       </div>
 
       <style>{`

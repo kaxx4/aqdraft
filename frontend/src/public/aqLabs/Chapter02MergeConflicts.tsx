@@ -12,19 +12,10 @@ const STATS: { value: number; decimals?: number; prefix?: string; suffix: string
 
 const slam = { type: 'spring' as const, stiffness: 340, damping: 16 }
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay }}>
-      {children}
-    </motion.div>
-  )
-}
-
-// Chapter 02 — Merge Conflicts. Opens like a breaking-news broadcast: the
-// paradox scrolls across a ticker before anything else loads, the numbers
-// slam in like a headline hitting a screen, and the story closes on two
-// real screenshots of their own site — checked on someone's own phone,
-// the night it actually shipped.
+// Chapter 02 — Merge Conflicts. A breaking-news cold open: a real ticker
+// runs the paradox on loop under a giant blinking headline that fills the
+// screen, before the numbers slam onto the record and the story settles
+// into the two real screenshots that prove it shipped.
 export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) {
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
@@ -32,39 +23,50 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
 
   return (
     <section id={team.slug} ref={ref} style={{ background: '#0A0A0A', position: 'relative', overflow: 'hidden' }}>
-      {/* breaking-news ticker */}
-      <div style={{ background: team.mood, padding: '7px 0', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-        <motion.div
-          animate={{ x: ['0%', '-50%'] }}
-          transition={{ duration: 22, repeat: Infinity, ease: 'linear' }}
-          style={{ display: 'inline-block', fontFamily: 'var(--mono)', fontSize: 12, fontWeight: 700, color: '#0A0A0A' }}
-        >
-          {Array.from({ length: 6 }).map((_, i) => (
-            <span key={i} style={{ marginRight: 40 }}>JOBS EMPTY. GRADS JOBLESS. · SAME COUNTRY. SAME YEAR. BOTH TRUE. · </span>
-          ))}
-        </motion.div>
+      {/* ── cold open — breaking news ── */}
+      <div style={{ minHeight: '86vh', display: 'flex', flexDirection: 'column', paddingTop: 'calc(var(--nav-h, 70px) + 20px)' }}>
+        <div style={{ background: team.mood, padding: '7px 0', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+          <motion.div
+            animate={{ x: ['0%', '-50%'] }}
+            transition={{ duration: 22, repeat: Infinity, ease: 'linear' }}
+            style={{ display: 'inline-block', fontFamily: 'var(--mono)', fontSize: 12, fontWeight: 700, color: '#0A0A0A' }}
+          >
+            {Array.from({ length: 6 }).map((_, i) => (
+              <span key={i} style={{ marginRight: 40 }}>JOBS EMPTY. GRADS JOBLESS. · SAME COUNTRY. SAME YEAR. BOTH TRUE. · </span>
+            ))}
+          </motion.div>
+        </div>
+
+        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}>
+          <div style={{ maxWidth: 900, textAlign: 'center' }}>
+            <ChapterEyebrow team={team} dark />
+            <div style={{ display: 'flex', justifyContent: 'center' }}><MediumBadge team={team} dark /></div>
+            <motion.h2
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              className="h-display"
+              style={{ fontSize: 'clamp(40px,7.5vw,96px)', color: '#fff', lineHeight: 0.98 }}
+            >
+              {team.projectName}<span style={{ color: team.mood }}>.</span>
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(18px,2.4vw,26px)', color: team.mood, marginTop: 12 }}
+            >
+              {team.tagline}
+            </motion.p>
+          </div>
+        </div>
       </div>
 
       <div aria-hidden style={{
         position: 'absolute', inset: 0, opacity: 0.05, pointerEvents: 'none',
         backgroundImage: `repeating-linear-gradient(90deg, ${team.mood} 0 2px, transparent 2px 48px)`,
       }} />
-      <div style={{ maxWidth: 1080, margin: '0 auto', position: 'relative', padding: '90px 24px 110px' }}>
-        <ChapterEyebrow team={team} dark />
-        <MediumBadge team={team} dark />
-        <motion.h2
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="h-display"
-          style={{ fontSize: 'clamp(36px,5.4vw,64px)', color: '#fff' }}
-        >
-          {team.projectName}<span style={{ color: team.mood }}>.</span>
-        </motion.h2>
-        <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(18px,2.2vw,24px)', color: team.mood, margin: '10px 0 34px' }}>
-          {team.tagline}
-        </p>
-
+      <div style={{ maxWidth: 1080, margin: '0 auto', position: 'relative', padding: '20px 24px 110px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginBottom: 48 }} className="aql-stat-grid">
           {STATS.map((s, i) => (
             <motion.div
@@ -87,22 +89,18 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
           ))}
         </div>
 
-        <Reveal>
-          <p style={{ fontSize: 15.5, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)', maxWidth: 640, marginBottom: 20 }}>
-            {team.spark}
-          </p>
-          <p style={{ fontSize: 15.5, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)', maxWidth: 640, marginBottom: 44 }}>
-            {team.tension}
-          </p>
-        </Reveal>
+        <p style={{ fontSize: 15.5, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)', maxWidth: 640, marginBottom: 20 }}>
+          {team.spark}
+        </p>
+        <p style={{ fontSize: 15.5, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)', maxWidth: 640, marginBottom: 44 }}>
+          {team.tension}
+        </p>
 
-        <Reveal delay={0.05}>
-          <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 16 }}>
-            proof, not a mockup
-          </div>
-        </Reveal>
+        <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 16 }}>
+          proof, not a mockup
+        </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20, marginBottom: 48 }} className="aql-cc-shots">
-          <Reveal delay={0.1}>
+          <div>
             <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)', position: 'relative' }}>
               <img src={processSrc(team.slug, '01-live-site-11pm.jpg')} alt="Their own site, checked at 11PM the night it shipped"
                 loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '9/19', objectFit: 'cover' }} />
@@ -118,8 +116,8 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
                 11:00 PM, June 15 — checking their own build had actually gone live.
               </figcaption>
             </figure>
-          </Reveal>
-          <Reveal delay={0.18}>
+          </div>
+          <div>
             <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)' }}>
               <img src={processSrc(team.slug, '02-live-site-landing.jpg')} alt="The full landing page, live"
                 loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '9/19', objectFit: 'cover', objectPosition: 'top' }} />
@@ -127,16 +125,14 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
             <figcaption style={{ display: 'block', fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 12.5, color: 'rgba(255,255,255,0.5)', marginTop: 8 }}>
               The full dashboard — sectors, stats, and a "View Opportunities" button that actually works.
             </figcaption>
-          </Reveal>
+          </div>
         </div>
 
-        <Reveal>
-          <MeaningLine team={team} dark />
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
-            <LinkRow links={team.links} dark mood={team.mood} />
-            <CopyLinkButton slug={team.slug} dark mood={team.mood} />
-          </div>
-        </Reveal>
+        <MeaningLine team={team} dark />
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
+          <LinkRow links={team.links} dark mood={team.mood} />
+          <CopyLinkButton slug={team.slug} dark mood={team.mood} />
+        </div>
       </div>
 
       <style>{`
