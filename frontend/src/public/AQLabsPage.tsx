@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useMeta } from '../hooks/useMeta'
 import { pageMetadata } from '../lib/metaConfig'
-import { AQ_LABS_TEAMS } from './aqLabs/data'
+import { AQ_LABS_TEAMS, type AQLabsTeam } from './aqLabs/data'
 import Chapter01Karyaarth from './aqLabs/Chapter01Karyaarth'
 import Chapter02MergeConflicts from './aqLabs/Chapter02MergeConflicts'
 import Chapter03ExecutionPending from './aqLabs/Chapter03ExecutionPending'
@@ -188,6 +188,26 @@ function GalleryIndex() {
   )
 }
 
+// A hard cut between rooms — a beat of pure colour and a number, nothing
+// else. Every chapter otherwise runs straight into the next section's
+// content; this forces a full stop so consecutive chapters read as two
+// different rooms instead of one continuous scroll.
+function ChapterSeam({ team }: { team: AQLabsTeam }) {
+  return (
+    <div aria-hidden style={{
+      background: team.mood, height: 64, display: 'flex', alignItems: 'center',
+      justifyContent: 'flex-end', padding: '0 28px',
+    }}>
+      <span style={{
+        fontFamily: 'var(--mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.15em',
+        textTransform: 'uppercase', color: 'rgba(0,0,0,0.55)',
+      }}>
+        end of chapter {team.chapter}
+      </span>
+    </div>
+  )
+}
+
 function Finale() {
   return (
     <section style={{ background: 'var(--ink)', color: '#fff', padding: '110px 24px', textAlign: 'center' }}>
@@ -233,7 +253,12 @@ export default function AQLabsPage() {
       <GalleryIndex />
       {AQ_LABS_TEAMS.map((team, i) => {
         const ChapterComponent = CHAPTERS[i]
-        return <ChapterComponent key={team.slug} team={team} />
+        return (
+          <div key={team.slug}>
+            <ChapterComponent team={team} />
+            <ChapterSeam team={team} />
+          </div>
+        )
       })}
       <Finale />
 
