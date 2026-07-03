@@ -36,7 +36,9 @@ export default function Chapter03ExecutionPending({ team }: { team: AQLabsTeam }
   const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '26%'])
 
   return (
-    <section id={team.slug} style={{ background: '#000' }}>
+    <section id={team.slug} style={{
+      background: 'repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 40px), repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 40px), #000',
+    }}>
       {/* ── movement 1 — 3AM cold open ── */}
       <div ref={heroRef} style={{ position: 'relative', minHeight: '92vh', display: 'flex', alignItems: 'flex-end', overflow: 'hidden' }}>
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: [0, 1, 0.4, 1] }} transition={{ duration: 0.7, times: [0, 0.4, 0.55, 1] }}

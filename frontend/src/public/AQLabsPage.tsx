@@ -193,10 +193,12 @@ function GalleryIndex() {
 // content; this forces a full stop so consecutive chapters read as two
 // different rooms instead of one continuous scroll.
 function ChapterSeam({ team }: { team: AQLabsTeam }) {
+  const flip = Number(team.chapter) % 2 === 0
   return (
     <div aria-hidden style={{
-      background: team.mood, height: 64, display: 'flex', alignItems: 'center',
-      justifyContent: 'flex-end', padding: '0 28px',
+      background: team.mood, height: 72, display: 'flex', alignItems: 'center',
+      justifyContent: flip ? 'flex-start' : 'flex-end', padding: '0 28px',
+      clipPath: flip ? 'polygon(0 0,100% 0,100% 100%,0 60%)' : 'polygon(0 0,100% 0,100% 60%,0 100%)',
     }}>
       <span style={{
         fontFamily: 'var(--mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.15em',
