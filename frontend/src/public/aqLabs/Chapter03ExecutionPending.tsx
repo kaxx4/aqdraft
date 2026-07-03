@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { motion, useMotionTemplate, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, CountTo, LinkRow, MediumBadge, MeaningLine, ScrollBuild, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, CountTo, LinkRow, MediumBadge, MeaningLine, PhotoPop, ScrollBuild, processSrc } from './Shared'
 
 const STATS = [
   { value: 366, suffix: 'M', label: 'adults live with ADHD — more common than bipolar, OCD and PTSD combined' },
@@ -154,6 +154,44 @@ export default function Chapter03ExecutionPending({ team }: { team: AQLabsTeam }
             ))}
           </div>
         </Reveal>
+      </div>
+
+      {/* ── movement 3.5 — the hardware becomes a live site ── */}
+      <div style={{ maxWidth: 1080, margin: '0 auto', padding: '20px 24px 60px' }}>
+        <ScrollBuild scale={0.92} y={40}>
+          <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 16 }}>
+            the breadboard grew a website
+          </div>
+          <div style={{
+            borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)',
+            boxShadow: `0 30px 80px rgba(0,0,0,0.55), 0 0 0 1px ${team.mood}22`, marginBottom: 20,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 14px', background: '#111', borderBottom: `1px solid ${team.mood}33` }}>
+              <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#E8615A' }} />
+              <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#E8C15A' }} />
+              <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#5AC177' }} />
+              <span style={{ marginLeft: 10, fontFamily: 'var(--mono)', fontSize: 10.5, color: 'rgba(255,255,255,0.4)' }}>quirk — the answer</span>
+            </div>
+            <img src={processSrc(team.slug, '02-meet-quirk-live-site.png')} alt="QUIRK's real product page, live" loading="lazy" decoding="async" style={{ width: '100%', display: 'block' }} />
+          </div>
+        </ScrollBuild>
+        <PhotoPop fromLeft={false} distance={60}>
+          <div style={{
+            borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)',
+            boxShadow: `0 30px 80px rgba(0,0,0,0.55), 0 0 0 1px ${team.mood}22`,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 14px', background: '#111', borderBottom: `1px solid ${team.mood}33` }}>
+              <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#E8615A' }} />
+              <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#E8C15A' }} />
+              <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#5AC177' }} />
+              <span style={{ marginLeft: 10, fontFamily: 'var(--mono)', fontSize: 10.5, color: 'rgba(255,255,255,0.4)' }}>quirk — play free, no hardware required</span>
+            </div>
+            <img src={processSrc(team.slug, '03-games-library-live-site.png')} alt="All five games, playable in-browser, no hardware needed" loading="lazy" decoding="async" style={{ width: '100%', display: 'block' }} />
+          </div>
+          <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 13, lineHeight: 1.5, color: 'rgba(255,255,255,0.5)', marginTop: 10 }}>
+            Every game ships free, in-browser, before the hardware does — the pressure pad is an upgrade, not a paywall.
+          </p>
+        </PhotoPop>
       </div>
 
       {/* ── movement 4 — the honest SWOT ── */}

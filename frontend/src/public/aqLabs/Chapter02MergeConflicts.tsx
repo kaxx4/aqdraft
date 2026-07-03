@@ -96,7 +96,7 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
         <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 16 }}>
           proof, not a mockup
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20, marginBottom: 48 }} className="aql-cc-shots">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20, marginBottom: 24 }} className="aql-cc-shots">
           <PhotoPop fromLeft>
             <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)', position: 'relative' }}>
               <img src={processSrc(team.slug, '01-live-site-11pm.jpg')} alt="Their own site, checked at 11PM the night it shipped"
@@ -125,6 +125,28 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
           </PhotoPop>
         </div>
 
+        <ScrollBuild scale={0.94} y={30}>
+          <div style={{
+            display: 'grid', gridTemplateColumns: '1fr 1.15fr', gap: 28, alignItems: 'center',
+            background: 'rgba(255,255,255,0.03)', border: '1.5px solid rgba(255,255,255,0.1)',
+            borderRadius: 18, padding: 24, marginBottom: 48,
+          }} className="aql-cc-quiz">
+            <div>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: team.mood, marginBottom: 10 }}>
+                and it doesn't stop at stats
+              </div>
+              <p style={{ fontSize: 15.5, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)', margin: 0 }}>
+                Five questions in, it stops describing the skill economy and starts pointing at your place in it —
+                a real recommendation engine, not another dashboard to read past.
+              </p>
+            </div>
+            <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)', boxShadow: '0 20px 50px rgba(0,0,0,0.35)' }}>
+              <img src={processSrc(team.slug, '03-career-path-intake-form.png')} alt="The 5-question career-path recommendation form, live"
+                loading="lazy" decoding="async" style={{ width: '100%', display: 'block' }} />
+            </figure>
+          </div>
+        </ScrollBuild>
+
         <ScrollBuild>
           <MeaningLine team={team} dark />
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
@@ -138,6 +160,7 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
         @media (max-width: 720px) {
           .aql-stat-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .aql-cc-shots { grid-template-columns: 1fr !important; }
+          .aql-cc-quiz { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>
