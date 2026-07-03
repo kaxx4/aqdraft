@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useMeta } from '../hooks/useMeta'
 import { pageMetadata } from '../lib/metaConfig'
 import { AQ_LABS_TEAMS, type AQLabsTeam } from './aqLabs/data'
+import { processSrc } from './aqLabs/Shared'
 import Chapter01Karyaarth from './aqLabs/Chapter01Karyaarth'
 import Chapter02MergeConflicts from './aqLabs/Chapter02MergeConflicts'
 import Chapter03ExecutionPending from './aqLabs/Chapter03ExecutionPending'
@@ -33,10 +34,22 @@ function useHashScrollOnMount() {
   }, [])
 }
 
+// A scattered wall of real photographs — actual screens and shots pulled
+// from all seven teams — so the very first thing a visitor sees is proof,
+// not a promise. Each card links straight down to its chapter.
+const HERO_WALL: { slug: string; file: string; alt: string; rotate: number; top: string; side: 'left' | 'right'; offset: string; size: number }[] = [
+  { slug: 'karyaarth', file: '08-graded-icecream-vendor-portrait.jpg', alt: 'Karyaarth', rotate: -6, top: '6%', side: 'left', offset: '2%', size: 152 },
+  { slug: 'merge-conflicts', file: '02-live-site-landing.jpg', alt: 'Merge Conflicts', rotate: 4, top: '46%', side: 'left', offset: '8%', size: 138 },
+  { slug: 'execution-pending', file: '02-meet-quirk-live-site.png', alt: 'Execution Pending', rotate: -3, top: '76%', side: 'left', offset: '1%', size: 168 },
+  { slug: 'alter-ego', file: '03-world-explorer-quiz.png', alt: 'Alter Ego', rotate: 7, top: '10%', side: 'right', offset: '3%', size: 158 },
+  { slug: 'idea-architects', file: '02-cirqle-categories-infographic.jpg', alt: 'Idea Architects', rotate: -5, top: '48%', side: 'right', offset: '10%', size: 140 },
+  { slug: 'zero-to-deploy', file: '02-hunar-live-homepage.png', alt: 'Zero to Deploy', rotate: 5, top: '78%', side: 'right', offset: '0%', size: 170 },
+]
+
 function Hero() {
   return (
     <section style={{
-      background: '#0A0A0A', color: '#fff', padding: '120px 24px 90px',
+      background: '#0A0A0A', color: '#fff', padding: '110px 24px 80px',
       position: 'relative', overflow: 'hidden',
     }}>
       <div aria-hidden style={{
@@ -44,7 +57,31 @@ function Hero() {
         backgroundImage: 'linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)',
         backgroundSize: '54px 54px',
       }} />
-      <div style={{ maxWidth: 900, margin: '0 auto', position: 'relative', textAlign: 'center' }}>
+
+      <div aria-hidden className="aql-hero-wall" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+        {HERO_WALL.map((p, i) => (
+          <motion.a
+            key={p.slug}
+            href={`#${p.slug}`}
+            aria-hidden
+            tabIndex={-1}
+            initial={{ opacity: 0, scale: 0.8, rotate: p.rotate * 2 }}
+            animate={{ opacity: 1, scale: 1, rotate: p.rotate }}
+            transition={{ duration: 0.6, delay: 0.15 + i * 0.06, ease: [0.2, 0, 0, 1] }}
+            style={{
+              position: 'absolute', top: p.top, [p.side]: p.offset,
+              width: p.size, pointerEvents: 'auto', display: 'block',
+              borderRadius: 8, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)',
+              boxShadow: '0 16px 40px rgba(0,0,0,0.5)',
+            }}
+          >
+            <img src={processSrc(p.slug, p.file)} alt={p.alt} loading="eager" decoding="async"
+              style={{ width: '100%', display: 'block', aspectRatio: '4/3', objectFit: 'cover', filter: 'brightness(0.8)' }} />
+          </motion.a>
+        ))}
+      </div>
+
+      <div style={{ maxWidth: 640, margin: '0 auto', position: 'relative', textAlign: 'center' }}>
         <motion.div
           initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
           style={{
@@ -65,45 +102,39 @@ function Hero() {
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }}
-          style={{ fontSize: 'clamp(15px,2vw,19px)', color: 'rgba(255,255,255,0.68)', maxWidth: 620, margin: '22px auto 0', lineHeight: 1.6 }}
+          style={{ fontSize: 'clamp(15px,2vw,19px)', color: 'rgba(255,255,255,0.68)', maxWidth: 480, margin: '22px auto 0', lineHeight: 1.6 }}
         >
-          Seven teams. Seven ideas that didn't exist six weeks ago. This is the room where
-          AquaTerra hands its members the trust, the time and the resources to go build
-          something real — and this is where that work finally gets seen.
+          Seven teams. Seven things that didn't exist six weeks ago — and now do.
         </motion.p>
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.45 }}
-          style={{ display: 'flex', gap: 28, justifyContent: 'center', marginTop: 42, flexWrap: 'wrap' }}
+          style={{ display: 'flex', gap: 10, justifyContent: 'center', marginTop: 34, flexWrap: 'wrap' }}
         >
-          {[['7', 'teams shipped'], ['35', 'slides of process'], ['1', 'gallery, all yours']].map(([n, l]) => (
-            <div key={l as string}>
-              <div className="h-display" style={{ fontSize: 30, color: 'var(--mint)' }}>{n}</div>
-              <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{l}</div>
-            </div>
-          ))}
+          <a href="#aq-labs-index" className="btn btn-primary" style={{ background: 'var(--mint)', color: '#0A0A0A' }}>
+            Walk the gallery ↓
+          </a>
         </motion.div>
       </div>
+
+      <style>{`
+        .aql-hero-wall a { transition: transform 0.2s ease; }
+        .aql-hero-wall a:hover { transform: scale(1.06) !important; z-index: 2; }
+        @media (max-width: 900px) { .aql-hero-wall { display: none; } }
+      `}</style>
     </section>
   )
 }
 
 function Manifesto() {
   return (
-    <section style={{ background: 'var(--bg)', padding: '86px 24px 20px' }}>
-      <div style={{ maxWidth: 720, margin: '0 auto', textAlign: 'center' }}>
+    <section style={{ background: 'var(--bg)', padding: '48px 24px 12px' }}>
+      <div style={{ maxWidth: 640, margin: '0 auto', textAlign: 'center' }}>
         <p style={{
-          fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(22px,3.4vw,32px)',
-          color: 'var(--ink)', lineHeight: 1.35, marginBottom: 20,
+          fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(19px,2.8vw,26px)',
+          color: 'var(--ink)', lineHeight: 1.35, margin: 0,
         }}>
-          This isn't a project directory. It's a gallery — and every room in it was built
-          by someone who, six weeks ago, had nothing but an idea and a Sunday afternoon.
-        </p>
-        <p style={{ fontSize: 14.5, color: 'var(--txt-3)', lineHeight: 1.7, maxWidth: 560, margin: '0 auto' }}>
-          AQ Labs is AquaTerra's innovation track: real teams, real budgets, real deadlines,
-          and a stage at the end of it. Every photograph on this page is theirs — a breadboard
-          on a kitchen counter at 1AM, a phone screenshot of a site the moment it went live,
-          a market stall lit by one bulb. No professor grading a submission — an audience, a
-          published page, and a link members can put on their own CV.
+          Not a project directory — a gallery. Every room was built by someone who,
+          six weeks ago, had nothing but an idea.
         </p>
       </div>
     </section>

@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, PhotoPop, ScrollBuild, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, MediumBadge, MeaningLine, PhotoPop, ScrollBuild, processSrc } from './Shared'
 
 const LADDER = [
   { tier: 'Institute', weight: 'highest', width: '100%' },
@@ -68,41 +68,52 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
       </div>
 
       <div style={{ maxWidth: 1040, margin: '0 auto', padding: '30px 24px 110px', position: 'relative' }}>
-        <ScrollBuild>
-          <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(20px,2.6vw,28px)', lineHeight: 1.4, color: '#F4EFE0', maxWidth: 680, marginBottom: 22 }}>
-            {team.spark}
-          </p>
-          <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(244,239,224,0.65)', maxWidth: 680, marginBottom: 48 }}>
-            {team.tension}
-          </p>
-        </ScrollBuild>
-
-        <ScrollBuild scale={0.9} y={40}>
-          <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(244,239,224,0.4)', marginBottom: 14 }}>
-            this isn't a mockup — it's live
-          </div>
+        {/* ── the payoff, first: it's live, go look ── */}
+        <ScrollBuild scale={0.92} y={40}>
           <div style={{
             borderRadius: 12, overflow: 'hidden', border: `1px solid ${team.mood}44`,
-            boxShadow: `0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px ${team.mood}22`, marginBottom: 56,
+            boxShadow: `0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px ${team.mood}22`, marginBottom: 16,
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 14px', background: '#1c1a16', borderBottom: `1px solid ${team.mood}33` }}>
+            <a
+              href={team.links.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 14px', background: '#1c1a16', borderBottom: `1px solid ${team.mood}33` }}
+            >
               <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#E8615A' }} />
               <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#E8C15A' }} />
               <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#5AC177' }} />
               <span style={{
-                marginLeft: 10, fontFamily: 'var(--mono)', fontSize: 10.5, color: 'rgba(244,239,224,0.45)',
+                marginLeft: 10, fontFamily: 'var(--mono)', fontSize: 10.5, color: 'rgba(244,239,224,0.55)',
                 background: 'rgba(255,255,255,0.05)', borderRadius: 999, padding: '2px 10px',
               }}>
-                hunar — skill, made legible
+                {team.links.website?.replace('https://', '')}
               </span>
-            </div>
-            <img
-              src={processSrc(team.slug, '02-hunar-live-homepage.png')}
-              alt="Hunar's real, live homepage"
-              loading="lazy" decoding="async"
-              style={{ width: '100%', display: 'block' }}
-            />
+              <span style={{ marginLeft: 'auto', fontFamily: 'var(--mono)', fontSize: 11, fontWeight: 700, color: team.mood }}>
+                visit ↗
+              </span>
+            </a>
+            <a href={team.links.website} target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
+              <img
+                src={processSrc(team.slug, '02-hunar-live-homepage.png')}
+                alt="Hunar's real, live homepage"
+                loading="lazy" decoding="async"
+                style={{ width: '100%', display: 'block' }}
+              />
+            </a>
           </div>
+          <div style={{ textAlign: 'center', marginBottom: 56 }}>
+            <a href={team.links.website} target="_blank" rel="noopener noreferrer" className="btn"
+              style={{ background: team.mood, color: '#141210', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              Open Hunar, live ↗
+            </a>
+          </div>
+        </ScrollBuild>
+
+        <ScrollBuild>
+          <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(19px,2.4vw,26px)', lineHeight: 1.4, color: '#F4EFE0', maxWidth: 680, marginBottom: 44 }}>
+            {team.craft}
+          </p>
         </ScrollBuild>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 44, alignItems: 'start' }} className="aql-hunar-grid">
@@ -115,11 +126,6 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
                 <LadderRow key={l.tier} tier={l.tier} weight={l.weight} width={l.width} color={team.mood} />
               ))}
             </div>
-            <ScrollBuild>
-              <p style={{ fontSize: 13.5, lineHeight: 1.7, color: 'rgba(244,239,224,0.5)', marginTop: 18 }}>
-                {team.craft}
-              </p>
-            </ScrollBuild>
           </div>
 
           <PhotoPop fromLeft={false}>
@@ -140,10 +146,7 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
         <ScrollBuild>
           <div style={{ marginTop: 48 }}>
             <MeaningLine team={team} dark />
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
-              <LinkRow links={team.links} dark mood={team.mood} />
-              <CopyLinkButton slug={team.slug} dark mood={team.mood} />
-            </div>
+            <CopyLinkButton slug={team.slug} dark mood={team.mood} />
           </div>
         </ScrollBuild>
       </div>
