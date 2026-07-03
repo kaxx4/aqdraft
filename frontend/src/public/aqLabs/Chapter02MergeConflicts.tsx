@@ -100,7 +100,7 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
           <PhotoPop fromLeft>
             <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)', position: 'relative' }}>
               <img src={processSrc(team.slug, '01-live-site-11pm.jpg')} alt="Their own site, checked at 11PM the night it shipped"
-                loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '9/19', objectFit: 'cover' }} />
+                loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '9/16', objectFit: 'cover', objectPosition: 'top' }} />
               <motion.div aria-hidden style={{
                 position: 'absolute', left: 0, right: 0, top: scanY, height: '18%',
                 background: `linear-gradient(to bottom, transparent, ${team.mood}33, transparent)`, pointerEvents: 'none',
@@ -116,11 +116,11 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
           </PhotoPop>
           <PhotoPop fromLeft={false}>
             <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)' }}>
-              <img src={processSrc(team.slug, '02-live-site-landing.jpg')} alt="The full landing page, live"
-                loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '9/19', objectFit: 'cover', objectPosition: 'top' }} />
+              <img src={processSrc(team.slug, '02-live-site-landing.jpg')} alt="The stat grid and CTAs on the same live page, zoomed in"
+                loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '9/16', objectFit: 'cover', objectPosition: 'bottom' }} />
             </figure>
             <figcaption style={{ display: 'block', fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 12.5, color: 'rgba(255,255,255,0.5)', marginTop: 8 }}>
-              The full dashboard — sectors, stats, and a "View Opportunities" button that actually works.
+              The same page, zoomed to the numbers — the real stat grid and a "View Opportunities" button that actually works.
             </figcaption>
           </PhotoPop>
         </div>
