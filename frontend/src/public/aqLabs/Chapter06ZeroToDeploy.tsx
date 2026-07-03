@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, ScrollBuild, processSrc } from './Shared'
 
 const LADDER = [
   { tier: 'Institute', weight: 'highest', width: '100%' },
@@ -60,12 +61,14 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
       </div>
 
       <div style={{ maxWidth: 1040, margin: '0 auto', padding: '30px 24px 110px', position: 'relative' }}>
-        <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(20px,2.6vw,28px)', lineHeight: 1.4, color: '#F4EFE0', maxWidth: 680, marginBottom: 22 }}>
-          {team.spark}
-        </p>
-        <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(244,239,224,0.65)', maxWidth: 680, marginBottom: 48 }}>
-          {team.tension}
-        </p>
+        <ScrollBuild>
+          <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(20px,2.6vw,28px)', lineHeight: 1.4, color: '#F4EFE0', maxWidth: 680, marginBottom: 22 }}>
+            {team.spark}
+          </p>
+          <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(244,239,224,0.65)', maxWidth: 680, marginBottom: 48 }}>
+            {team.tension}
+          </p>
+        </ScrollBuild>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 44, alignItems: 'start' }} className="aql-hunar-grid">
           <div>
@@ -73,29 +76,18 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
               their argument, watched happening
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {LADDER.map((l, i) => (
-                <div key={l.tier}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'rgba(244,239,224,0.7)', marginBottom: 4 }}>
-                    <span>{l.tier}</span>
-                    <span style={{ fontFamily: 'var(--mono)', color: team.mood }}>{l.weight}</span>
-                  </div>
-                  <div style={{ height: 8, background: 'rgba(255,255,255,0.06)', borderRadius: 999, overflow: 'hidden' }}>
-                    <motion.div
-                      initial={{ width: '0%' }}
-                      animate={{ width: l.width }}
-                      transition={{ duration: 0.7, delay: 0.1 + i * 0.1, ease: [0.2, 0, 0, 1] }}
-                      style={{ height: '100%', background: team.mood, borderRadius: 999 }}
-                    />
-                  </div>
-                </div>
+              {LADDER.map((l) => (
+                <LadderRow key={l.tier} tier={l.tier} weight={l.weight} width={l.width} color={team.mood} />
               ))}
             </div>
-            <p style={{ fontSize: 13.5, lineHeight: 1.7, color: 'rgba(244,239,224,0.5)', marginTop: 18 }}>
-              {team.craft}
-            </p>
+            <ScrollBuild>
+              <p style={{ fontSize: 13.5, lineHeight: 1.7, color: 'rgba(244,239,224,0.5)', marginTop: 18 }}>
+                {team.craft}
+              </p>
+            </ScrollBuild>
           </div>
 
-          <div>
+          <ScrollBuild y={30}>
             <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)', boxShadow: '0 20px 50px rgba(0,0,0,0.4)' }}>
               <img
                 src={processSrc(team.slug, '01-trust-sources-donut-chart.jpeg')}
@@ -107,16 +99,18 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
             <figcaption style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 12.5, lineHeight: 1.4, color: 'rgba(244,239,224,0.5)', marginTop: 8 }}>
               Their own slide — the same ranking, in their own words.
             </figcaption>
-          </div>
+          </ScrollBuild>
         </div>
 
-        <div style={{ marginTop: 48 }}>
-          <MeaningLine team={team} dark />
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
-            <LinkRow links={team.links} dark mood={team.mood} />
-            <CopyLinkButton slug={team.slug} dark mood={team.mood} />
+        <ScrollBuild>
+          <div style={{ marginTop: 48 }}>
+            <MeaningLine team={team} dark />
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
+              <LinkRow links={team.links} dark mood={team.mood} />
+              <CopyLinkButton slug={team.slug} dark mood={team.mood} />
+            </div>
           </div>
-        </div>
+        </ScrollBuild>
       </div>
 
       <style>{`
@@ -125,5 +119,23 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
         }
       `}</style>
     </section>
+  )
+}
+
+function LadderRow({ tier, weight, width, color }: { tier: string; weight: string; width: string; color: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.95', 'start 0.6'] })
+  const barWidth = useTransform(scrollYProgress, [0, 1], ['0%', width])
+  const labelOpacity = useTransform(scrollYProgress, [0, 1], [0.2, 1])
+  return (
+    <div ref={ref}>
+      <motion.div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'rgba(244,239,224,0.7)', marginBottom: 4, opacity: labelOpacity }}>
+        <span>{tier}</span>
+        <span style={{ fontFamily: 'var(--mono)', color }}>{weight}</span>
+      </motion.div>
+      <div style={{ height: 8, background: 'rgba(255,255,255,0.06)', borderRadius: 999, overflow: 'hidden' }}>
+        <motion.div style={{ height: '100%', background: color, borderRadius: 999, width: barWidth }} />
+      </div>
+    </div>
   )
 }

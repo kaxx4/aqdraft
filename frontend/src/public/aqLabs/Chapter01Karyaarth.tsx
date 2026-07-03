@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, ScrollBuild, processSrc } from './Shared'
 
 const GALLERY = [
   { file: '03-vendor-handoff.jpg', caption: 'The reach across a vegetable stall — the actual moment the interview started.' },
@@ -13,16 +13,8 @@ const GALLERY = [
   { file: '09-interview-icecream-vendor.jpg', caption: 'No boom mic. A phone, held steady, and a question worth waiting for.' },
 ]
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.55, delay }}
-    >
-      {children}
-    </motion.div>
-  )
+function Reveal({ children }: { children: React.ReactNode; delay?: number }) {
+  return <ScrollBuild>{children}</ScrollBuild>
 }
 
 // Chapter 01 — Karyaarth. A documentary trailer, not a case study: a
@@ -137,20 +129,23 @@ export default function Chapter01Karyaarth({ team }: { team: AQLabsTeam }) {
 
 function CascadePhoto({ team, file, caption, index }: { team: AQLabsTeam; file: string; caption: string; index: number }) {
   const flip = index % 2 === 1
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.95', 'start 0.55'] })
+  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1])
+  const x = useTransform(scrollYProgress, [0, 1], [flip ? 70 : -70, 0])
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1.12, 1])
   return (
     <motion.div
-      initial={{ opacity: 0, x: flip ? 40 : -40 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.6, ease: [0.2, 0, 0, 1] }}
+      ref={ref}
       style={{
         display: 'flex', flexDirection: flip ? 'row-reverse' : 'row', alignItems: 'center', gap: 32,
-        padding: '26px 0', borderBottom: '1px solid rgba(255,255,255,0.08)',
+        padding: '26px 0', borderBottom: '1px solid rgba(255,255,255,0.08)', opacity, x,
       }}
       className="aql-cascade-row"
     >
       <div style={{ flex: '0 0 56%', borderRadius: 10, overflow: 'hidden' }}>
-        <img src={processSrc(team.slug, file)} alt={caption} loading="lazy" decoding="async"
-          style={{ width: '100%', display: 'block', aspectRatio: '16/10', objectFit: 'cover' }} />
+        <motion.img src={processSrc(team.slug, file)} alt={caption} loading="lazy" decoding="async"
+          style={{ width: '100%', display: 'block', aspectRatio: '16/10', objectFit: 'cover', scale: imgScale }} />
       </div>
       <p style={{
         flex: 1, fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(16px,2vw,20px)',

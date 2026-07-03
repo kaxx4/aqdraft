@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, CountTo, LinkRow, MediumBadge, MeaningLine, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, CountTo, LinkRow, MediumBadge, MeaningLine, ScrollBuild, processSrc } from './Shared'
 
 const STATS: { value: number; decimals?: number; prefix?: string; suffix: string; label: string }[] = [
   { value: 1.5, decimals: 1, suffix: ' Cr', label: 'higher-ed grads, every year' },
@@ -9,8 +9,6 @@ const STATS: { value: number; decimals?: number; prefix?: string; suffix: string
   { value: 25, suffix: '%', label: 'digital talent gap' },
   { value: 25, suffix: ' L', label: 'skilled people emigrate yearly' },
 ]
-
-const slam = { type: 'spring' as const, stiffness: 340, damping: 16 }
 
 // Chapter 02 — Merge Conflicts. A breaking-news cold open: a real ticker
 // runs the paradox on loop under a giant blinking headline that fills the
@@ -68,39 +66,35 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
       }} />
       <div style={{ maxWidth: 1080, margin: '0 auto', position: 'relative', padding: '20px 24px 110px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginBottom: 48 }} className="aql-stat-grid">
-          {STATS.map((s, i) => (
-            <motion.div
-              key={s.label}
-              initial={{ opacity: 0, scale: 1.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ ...slam, delay: i * 0.12 }}
-              style={{
+          {STATS.map((s) => (
+            <ScrollBuild key={s.label} scale={0.82} y={16}>
+              <div style={{
                 background: 'rgba(255,255,255,0.04)', border: '1.5px solid rgba(255,255,255,0.1)',
                 borderRadius: 16, padding: '20px 16px', position: 'relative', overflow: 'hidden',
-              }}
-            >
-              <motion.div aria-hidden initial={{ opacity: 0.5 }} animate={{ opacity: 0 }} transition={{ duration: 0.5, delay: i * 0.12 + 0.05 }}
-                style={{ position: 'absolute', inset: 0, background: team.mood }} />
-              <div className="h-display" style={{ fontSize: 'clamp(26px,3.2vw,36px)', color: team.mood, position: 'relative' }}>
-                <CountTo value={s.value} decimals={s.decimals} suffix={s.suffix} />
+              }}>
+                <div className="h-display" style={{ fontSize: 'clamp(26px,3.2vw,36px)', color: team.mood, position: 'relative' }}>
+                  <CountTo value={s.value} decimals={s.decimals} suffix={s.suffix} />
+                </div>
+                <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.55)', marginTop: 6, lineHeight: 1.4, position: 'relative' }}>{s.label}</div>
               </div>
-              <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.55)', marginTop: 6, lineHeight: 1.4, position: 'relative' }}>{s.label}</div>
-            </motion.div>
+            </ScrollBuild>
           ))}
         </div>
 
-        <p style={{ fontSize: 15.5, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)', maxWidth: 640, marginBottom: 20 }}>
-          {team.spark}
-        </p>
-        <p style={{ fontSize: 15.5, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)', maxWidth: 640, marginBottom: 44 }}>
-          {team.tension}
-        </p>
+        <ScrollBuild>
+          <p style={{ fontSize: 15.5, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)', maxWidth: 640, marginBottom: 20 }}>
+            {team.spark}
+          </p>
+          <p style={{ fontSize: 15.5, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)', maxWidth: 640, marginBottom: 44 }}>
+            {team.tension}
+          </p>
+        </ScrollBuild>
 
         <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 16 }}>
           proof, not a mockup
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20, marginBottom: 48 }} className="aql-cc-shots">
-          <div>
+          <ScrollBuild y={30}>
             <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)', position: 'relative' }}>
               <img src={processSrc(team.slug, '01-live-site-11pm.jpg')} alt="Their own site, checked at 11PM the night it shipped"
                 loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '9/19', objectFit: 'cover' }} />
@@ -116,8 +110,8 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
                 11:00 PM, June 15 — checking their own build had actually gone live.
               </figcaption>
             </figure>
-          </div>
-          <div>
+          </ScrollBuild>
+          <ScrollBuild y={30}>
             <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)' }}>
               <img src={processSrc(team.slug, '02-live-site-landing.jpg')} alt="The full landing page, live"
                 loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '9/19', objectFit: 'cover', objectPosition: 'top' }} />
@@ -125,14 +119,16 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
             <figcaption style={{ display: 'block', fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 12.5, color: 'rgba(255,255,255,0.5)', marginTop: 8 }}>
               The full dashboard — sectors, stats, and a "View Opportunities" button that actually works.
             </figcaption>
-          </div>
+          </ScrollBuild>
         </div>
 
-        <MeaningLine team={team} dark />
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
-          <LinkRow links={team.links} dark mood={team.mood} />
-          <CopyLinkButton slug={team.slug} dark mood={team.mood} />
-        </div>
+        <ScrollBuild>
+          <MeaningLine team={team} dark />
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
+            <LinkRow links={team.links} dark mood={team.mood} />
+            <CopyLinkButton slug={team.slug} dark mood={team.mood} />
+          </div>
+        </ScrollBuild>
       </div>
 
       <style>{`

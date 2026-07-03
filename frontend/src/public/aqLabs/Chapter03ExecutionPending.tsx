@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, CountTo, LinkRow, MediumBadge, MeaningLine, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, CountTo, LinkRow, MediumBadge, MeaningLine, ScrollBuild, processSrc } from './Shared'
 
 const STATS = [
   { value: 366, suffix: 'M', label: 'adults live with ADHD — more common than bipolar, OCD and PTSD combined' },
@@ -22,16 +22,8 @@ const SWOT: { tag: string; items: string[] }[] = [
   { tag: 'threat', items: ['a bigger brand could enter', 'component supply chain', 'FSR input still unfamiliar to most'] },
 ]
 
-function Reveal({ children, delay = 0, y = 22 }: { children: React.ReactNode; delay?: number; y?: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay }}
-    >
-      {children}
-    </motion.div>
-  )
+function Reveal({ children, y = 22 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  return <ScrollBuild y={y}>{children}</ScrollBuild>
 }
 
 // Chapter 03 — Execution Pending. Told the way their own pitch deck tells

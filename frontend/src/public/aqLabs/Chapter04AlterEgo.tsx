@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, ScrollBuild, processSrc } from './Shared'
 
 const sprout = { type: 'spring' as const, stiffness: 220, damping: 14 }
 
@@ -65,25 +65,21 @@ export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
         style={{ transformOrigin: 'top center', background: '#EAF4EA', borderRadius: '28px 28px 0 0', padding: '64px 24px 90px' }}
       >
         <div style={{ maxWidth: 940, margin: '0 auto' }}>
-          <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(19px,2.3vw,24px)', lineHeight: 1.5, color: 'var(--ink)', marginBottom: 20 }}>
-            {team.spark}
-          </p>
-          <p style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--txt-2)', marginBottom: 44, maxWidth: 620 }}>
-            {team.tension}
-          </p>
+          <ScrollBuild>
+            <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(19px,2.3vw,24px)', lineHeight: 1.5, color: 'var(--ink)', marginBottom: 20 }}>
+              {team.spark}
+            </p>
+            <p style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--txt-2)', marginBottom: 44, maxWidth: 620 }}>
+              {team.tension}
+            </p>
+          </ScrollBuild>
 
           <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-4)', marginBottom: 14 }}>
             three tracks, one forest
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 40, perspective: 1200 }} className="aql-tracks-grid">
-            {TRACKS.map((t, i) => (
-              <motion.div
-                key={t.name}
-                initial={{ opacity: 0, rotateY: -90 }}
-                animate={{ opacity: 1, rotateY: 0 }}
-                transition={{ duration: 0.65, delay: 0.3 + i * 0.18, ease: [0.2, 0, 0, 1] }}
-                style={{ transformOrigin: 'left center', transformStyle: 'preserve-3d' }}
-              >
+            {TRACKS.map((t) => (
+              <ScrollBuild key={t.name} scale={0.9}>
                 <div style={{
                   background: '#fff', borderRadius: 16, padding: '22px 18px', height: '100%',
                   boxShadow: '0 8px 22px rgba(0,0,0,0.08)', borderTop: `4px solid ${t.color}`,
@@ -91,20 +87,22 @@ export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
                   <div className="h-display" style={{ fontSize: 22, color: t.color, marginBottom: 6 }}>{t.name}</div>
                   <div style={{ fontSize: 13, color: 'var(--txt-2)', lineHeight: 1.5 }}>{t.desc}</div>
                 </div>
-              </motion.div>
+              </ScrollBuild>
             ))}
           </div>
 
-          <p style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--txt-2)', marginBottom: 20, maxWidth: 620 }}>
-            {team.craft}
-          </p>
+          <ScrollBuild>
+            <p style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--txt-2)', marginBottom: 20, maxWidth: 620 }}>
+              {team.craft}
+            </p>
 
-          <MeaningLine team={team} />
+            <MeaningLine team={team} />
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
-            <LinkRow links={team.links} mood={team.mood} />
-            <CopyLinkButton slug={team.slug} mood={team.mood} />
-          </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
+              <LinkRow links={team.links} mood={team.mood} />
+              <CopyLinkButton slug={team.slug} mood={team.mood} />
+            </div>
+          </ScrollBuild>
         </div>
       </motion.div>
 

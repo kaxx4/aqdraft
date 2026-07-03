@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import { useToast } from '../../components/Toast'
 import type { AQLabsTeam } from './data'
 
@@ -7,6 +7,28 @@ export const slideSrc = (slug: string, n: number) => `/aq-labs/${slug}/slide-${n
 /** a real photo/screenshot the team actually submitted through the form —
  *  not their Instagram carousel — staged under /aq-labs-process/<slug>/ */
 export const processSrc = (slug: string, filename: string) => `/aq-labs-process/${slug}/${filename}`
+
+// A continuous, scroll-scrubbed reveal — the replacement for one-shot
+// mount-triggered fades. Each instance tracks its OWN element's position
+// against the viewport (not a shared timeline), so it's a pure function of
+// scroll offset: it can never get stuck "not yet revealed" the way
+// whileInView could, and it visibly builds — opacity, lift and a touch of
+// scale all animate continuously as the element crosses the lower third of
+// the screen — instead of just switching on once.
+export function ScrollBuild({ children, y = 46, scale = 0.96, start = 0.92, end = 0.55 }: {
+  children: React.ReactNode; y?: number; scale?: number; start?: number; end?: number
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: [`start ${start}`, `start ${end}`] })
+  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1])
+  const yT = useTransform(scrollYProgress, [0, 1], [y, 0])
+  const scaleT = useTransform(scrollYProgress, [0, 1], [scale, 1])
+  return (
+    <motion.div ref={ref} style={{ opacity, y: yT, scale: scaleT }}>
+      {children}
+    </motion.div>
+  )
+}
 
 // The four-beat curatorial arc every chapter tells, in the same reading
 // rhythm each time (serif for the felt beats, sans for the grounded ones)
