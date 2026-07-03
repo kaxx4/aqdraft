@@ -125,6 +125,106 @@ function Hero() {
   )
 }
 
+// A navigation system that belongs to this page only — an archive rail
+// of overlapping chapter tabs, sticky under the global nav. Each tab is
+// a small filed folder; the one you're reading pulls forward, straightens
+// and goes solid, the way you'd pull a folder out of a stack to read it.
+function ChapterRail() {
+  const [active, setActive] = useState<string | null>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const sections = AQ_LABS_TEAMS
+      .map(t => document.getElementById(t.slug))
+      .filter((el): el is HTMLElement => !!el)
+
+    const observer = new IntersectionObserver(
+      entries => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(entry.target.id)
+        }
+      },
+      { rootMargin: '-45% 0px -50% 0px', threshold: 0 }
+    )
+    sections.forEach(el => observer.observe(el))
+
+    const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.6)
+    window.addEventListener('scroll', onScroll, { passive: true })
+
+    return () => { observer.disconnect(); window.removeEventListener('scroll', onScroll) }
+  }, [])
+
+  return (
+    <div
+      className="aql-rail-wrap"
+      style={{
+        position: 'sticky', top: 'var(--nav-h)', zIndex: 30,
+        opacity: visible ? 1 : 0, pointerEvents: visible ? 'auto' : 'none',
+        transition: 'opacity 0.2s ease',
+      }}
+    >
+      <div className="aql-rail" role="navigation" aria-label="AQ Labs chapters">
+        {AQ_LABS_TEAMS.map((t, i) => (
+          <a
+            key={t.slug}
+            href={`#${t.slug}`}
+            className={'aql-rail-tab' + (active === t.slug ? ' is-active' : '')}
+            data-idx={t.chapter}
+            style={{ ['--tab-mood' as string]: t.mood, zIndex: i + 1 }}
+          >
+            {t.projectName}
+          </a>
+        ))}
+      </div>
+
+      <style>{`
+        .aql-rail {
+          display: flex; align-items: flex-end; justify-content: center;
+          padding: 10px 16px 0; overflow-x: auto; scrollbar-width: none;
+          background: linear-gradient(to bottom, var(--bg) 60%, transparent);
+        }
+        .aql-rail::-webkit-scrollbar { display: none; }
+        .aql-rail-tab {
+          display: inline-block; flex-shrink: 0;
+          font-family: var(--mono); font-weight: 700; font-size: 10.5px;
+          letter-spacing: 0.05em; text-transform: uppercase;
+          color: var(--ink-3); text-decoration: none;
+          padding: 8px 14px 7px; margin-left: -9px;
+          background: var(--bg-3, #fff);
+          border: 1px solid var(--line-2);
+          border-bottom: none;
+          border-radius: 8px 8px 2px 2px;
+          position: relative;
+          transition: transform 0.16s cubic-bezier(0.2,0,0,1), background 0.16s, color 0.16s, box-shadow 0.16s;
+        }
+        .aql-rail-tab:nth-child(odd) { transform: rotate(-1.2deg); }
+        .aql-rail-tab:nth-child(even) { transform: rotate(1deg); }
+        .aql-rail-tab::before {
+          content: attr(data-idx);
+          position: absolute; top: 2px; left: 6px;
+          font-size: 7.5px; color: var(--ink-4);
+        }
+        .aql-rail-tab:hover {
+          transform: rotate(0deg) translateY(-4px);
+          color: var(--ink); z-index: 20 !important;
+          box-shadow: 0 6px 16px -4px rgba(0,0,0,0.18);
+        }
+        .aql-rail-tab.is-active {
+          transform: rotate(0deg) translateY(-5px);
+          background: var(--tab-mood); color: #fff;
+          border-color: var(--tab-mood);
+          box-shadow: 0 6px 18px -4px rgba(0,0,0,0.22);
+          z-index: 25 !important;
+        }
+        .aql-rail-tab.is-active::before { color: rgba(255,255,255,0.75); }
+        @media (max-width: 760px) {
+          .aql-rail-tab { font-size: 9.5px; padding: 7px 11px 6px; }
+        }
+      `}</style>
+    </div>
+  )
+}
+
 function Manifesto() {
   return (
     <section style={{ background: 'var(--bg)', padding: '48px 24px 12px' }}>
@@ -282,6 +382,7 @@ export default function AQLabsPage() {
   return (
     <div>
       <Hero />
+      <ChapterRail />
       <Manifesto />
       <GalleryIndex />
       {AQ_LABS_TEAMS.map((team, i) => {
