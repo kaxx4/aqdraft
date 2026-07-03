@@ -15,19 +15,30 @@ export const processSrc = (slug: string, filename: string) => `/aq-labs-process/
 // whileInView could, and it visibly builds — opacity, lift and a touch of
 // scale all animate continuously as the element crosses the lower third of
 // the screen — instead of just switching on once.
-export function ScrollBuild({ children, y = 46, scale = 0.96, start = 0.92, end = 0.55 }: {
-  children: React.ReactNode; y?: number; scale?: number; start?: number; end?: number
+export function ScrollBuild({ children, y = 46, x = 0, scale = 0.96, start = 0.92, end = 0.55 }: {
+  children: React.ReactNode; y?: number; x?: number; scale?: number; start?: number; end?: number
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: [`start ${start}`, `start ${end}`] })
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1])
   const yT = useTransform(scrollYProgress, [0, 1], [y, 0])
+  const xT = useTransform(scrollYProgress, [0, 1], [x, 0])
   const scaleT = useTransform(scrollYProgress, [0, 1], [scale, 1])
   return (
-    <motion.div ref={ref} style={{ opacity, y: yT, scale: scaleT }}>
+    <motion.div ref={ref} style={{ opacity, y: yT, x: xT, scale: scaleT }}>
       {children}
     </motion.div>
   )
+}
+
+// Same idea, tuned for photographs specifically: it pops in from
+// whichever side it's given (alternate left/right across a sequence, the
+// way Karyaarth's cascade does) rather than just lifting from below —
+// the "image slides in from the side" beat used across every chapter.
+export function PhotoPop({ children, fromLeft = true, distance = 90 }: {
+  children: React.ReactNode; fromLeft?: boolean; distance?: number
+}) {
+  return <ScrollBuild x={fromLeft ? -distance : distance} y={0} scale={0.98}>{children}</ScrollBuild>
 }
 
 // The four-beat curatorial arc every chapter tells, in the same reading

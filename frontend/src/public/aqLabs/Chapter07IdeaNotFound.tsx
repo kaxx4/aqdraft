@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, ScrollBuild, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, PhotoPop, ScrollBuild, processSrc } from './Shared'
 
 const ASSEMBLY = [
   { file: '01-modus-band-concept-render.jpeg', caption: 'The concept — musical notation, engraved before anything was built.' },
@@ -67,7 +67,7 @@ export default function Chapter07IdeaNotFound({ team }: { team: AQLabsTeam }) {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }} className="aql-assembly-grid">
           {ASSEMBLY.map((a, i) => (
-            <ScrollBuild key={a.file} y={34}>
+            <PhotoPop key={a.file} fromLeft={i % 2 === 0} distance={60}>
               <figure style={{ margin: 0 }}>
                 <div style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)' }}>
                   <div style={{
@@ -83,7 +83,7 @@ export default function Chapter07IdeaNotFound({ team }: { team: AQLabsTeam }) {
                   {a.caption}
                 </figcaption>
               </figure>
-            </ScrollBuild>
+            </PhotoPop>
           ))}
         </div>
       </div>

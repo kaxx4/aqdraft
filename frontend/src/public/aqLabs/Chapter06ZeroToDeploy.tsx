@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, ScrollBuild, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, PhotoPop, ScrollBuild, processSrc } from './Shared'
 
 const LADDER = [
   { tier: 'Institute', weight: 'highest', width: '100%' },
@@ -90,7 +90,7 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
             </ScrollBuild>
           </div>
 
-          <ScrollBuild y={30}>
+          <PhotoPop fromLeft={false}>
             <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)', boxShadow: '0 20px 50px rgba(0,0,0,0.4)' }}>
               <img
                 src={processSrc(team.slug, '01-trust-sources-donut-chart.jpeg')}
@@ -102,7 +102,7 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
             <figcaption style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 12.5, lineHeight: 1.4, color: 'rgba(244,239,224,0.5)', marginTop: 8 }}>
               Their own slide — the same ranking, in their own words.
             </figcaption>
-          </ScrollBuild>
+          </PhotoPop>
         </div>
 
         <ScrollBuild>

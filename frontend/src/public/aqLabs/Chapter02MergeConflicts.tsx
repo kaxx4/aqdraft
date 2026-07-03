@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, CountTo, LinkRow, MediumBadge, MeaningLine, ScrollBuild, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, CountTo, LinkRow, MediumBadge, MeaningLine, PhotoPop, ScrollBuild, processSrc } from './Shared'
 
 const STATS: { value: number; decimals?: number; prefix?: string; suffix: string; label: string }[] = [
   { value: 1.5, decimals: 1, suffix: ' Cr', label: 'higher-ed grads, every year' },
@@ -97,7 +97,7 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
           proof, not a mockup
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20, marginBottom: 48 }} className="aql-cc-shots">
-          <ScrollBuild y={30}>
+          <PhotoPop fromLeft>
             <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)', position: 'relative' }}>
               <img src={processSrc(team.slug, '01-live-site-11pm.jpg')} alt="Their own site, checked at 11PM the night it shipped"
                 loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '9/19', objectFit: 'cover' }} />
@@ -113,8 +113,8 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
                 11:00 PM, June 15 — checking their own build had actually gone live.
               </figcaption>
             </figure>
-          </ScrollBuild>
-          <ScrollBuild y={30}>
+          </PhotoPop>
+          <PhotoPop fromLeft={false}>
             <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)' }}>
               <img src={processSrc(team.slug, '02-live-site-landing.jpg')} alt="The full landing page, live"
                 loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '9/19', objectFit: 'cover', objectPosition: 'top' }} />
@@ -122,20 +122,8 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
             <figcaption style={{ display: 'block', fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 12.5, color: 'rgba(255,255,255,0.5)', marginTop: 8 }}>
               The full dashboard — sectors, stats, and a "View Opportunities" button that actually works.
             </figcaption>
-          </ScrollBuild>
+          </PhotoPop>
         </div>
-
-        <ScrollBuild y={30}>
-          <figure style={{ margin: '0 0 48px', maxWidth: 360 }}>
-            <div style={{ borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)' }}>
-              <img src={processSrc(team.slug, '03-daily-limit-screenshot.jpg')} alt="Even the AI they were building with hit its own daily limit"
-                loading="lazy" decoding="async" style={{ width: '100%', display: 'block' }} />
-            </div>
-            <figcaption style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 12.5, lineHeight: 1.4, color: 'rgba(255,255,255,0.5)', marginTop: 8 }}>
-              11:04 PM — the tool they were building it with hit its own limit before the site did.
-            </figcaption>
-          </figure>
-        </ScrollBuild>
 
         <ScrollBuild>
           <MeaningLine team={team} dark />
