@@ -48,7 +48,11 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(38px,6.5vw,68px)', color: '#F4EFE0' }}
+          className="h-display"
+          style={{
+            fontSize: 'clamp(48px,8.5vw,92px)', fontWeight: 900, color: '#F4EFE0',
+            letterSpacing: '-0.02em', lineHeight: 0.98,
+          }}
         >
           {team.projectName}
         </motion.h2>
@@ -56,7 +60,7 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.45 }}
-          style={{ fontFamily: 'var(--mono)', fontSize: 12, color: team.mood, letterSpacing: '0.06em', textTransform: 'uppercase', marginTop: 8 }}
+          style={{ fontFamily: 'var(--mono)', fontSize: 12, fontWeight: 700, color: team.mood, letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: 10 }}
         >
           {team.tagline}
         </motion.p>
