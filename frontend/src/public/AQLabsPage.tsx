@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useMeta } from '../hooks/useMeta'
@@ -125,100 +125,140 @@ function Hero() {
   )
 }
 
-// A navigation system that belongs to this page only — an archive rail
-// of overlapping chapter tabs, sticky under the global nav. Each tab is
-// a small filed folder; the one you're reading pulls forward, straightens
-// and goes solid, the way you'd pull a folder out of a stack to read it.
-function ChapterRail() {
-  const [active, setActive] = useState<string | null>(null)
+// A navigation system that belongs to this page only — a 3D cylindrical
+// carousel of the seven chapters, sticky under the global nav. Drag (or
+// use the arrows) to spin the ring; whichever card faces front is "next
+// up" — click it to jump straight to that chapter.
+function ChapterCylinder() {
+  const n = AQ_LABS_TEAMS.length
+  const step = 360 / n
+  const [rotation, setRotation] = useState(0)
   const [visible, setVisible] = useState(false)
+  const dragState = useRef<{ startX: number; startRotation: number } | null>(null)
+  const [dragging, setDragging] = useState(false)
 
   useEffect(() => {
-    const sections = AQ_LABS_TEAMS
-      .map(t => document.getElementById(t.slug))
-      .filter((el): el is HTMLElement => !!el)
-
-    const observer = new IntersectionObserver(
-      entries => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) setActive(entry.target.id)
-        }
-      },
-      { rootMargin: '-45% 0px -50% 0px', threshold: 0 }
-    )
-    sections.forEach(el => observer.observe(el))
-
     const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.6)
     window.addEventListener('scroll', onScroll, { passive: true })
-
-    return () => { observer.disconnect(); window.removeEventListener('scroll', onScroll) }
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  const spin = (dir: number) => setRotation(r => r + dir * step)
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    dragState.current = { startX: e.clientX, startRotation: rotation }
+    setDragging(true)
+    ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
+  }
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!dragState.current) return
+    const dx = e.clientX - dragState.current.startX
+    setRotation(dragState.current.startRotation + dx * 0.4)
+  }
+  const onPointerUp = () => { dragState.current = null; setDragging(false) }
+
+  // Which card is closest to facing the viewer right now (front = 0deg).
+  const frontIndex = (() => {
+    const norm = ((-rotation % 360) + 360) % 360
+    return Math.round(norm / step) % n
+  })()
+
+  const radius = 190
 
   return (
     <div
-      className="aql-rail-wrap"
+      className="aql-cyl-wrap"
       style={{
         position: 'sticky', top: 'var(--nav-h)', zIndex: 30,
         opacity: visible ? 1 : 0, pointerEvents: visible ? 'auto' : 'none',
         transition: 'opacity 0.2s ease',
+        background: 'linear-gradient(to bottom, var(--bg) 55%, transparent)',
+        padding: '14px 0 26px',
       }}
     >
-      <div className="aql-rail" role="navigation" aria-label="AQ Labs chapters">
-        {AQ_LABS_TEAMS.map((t, i) => (
-          <a
-            key={t.slug}
-            href={`#${t.slug}`}
-            className={'aql-rail-tab' + (active === t.slug ? ' is-active' : '')}
-            data-idx={t.chapter}
-            style={{ ['--tab-mood' as string]: t.mood, zIndex: i + 1 }}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14 }}>
+        <button className="aql-cyl-arrow" onClick={() => spin(-1)} aria-label="Spin left">‹</button>
+
+        <div
+          className="aql-cyl-stage"
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerUp}
+          style={{ cursor: dragging ? 'grabbing' : 'grab', touchAction: 'pan-y' }}
+        >
+          <div
+            className="aql-cyl-ring"
+            style={{ transform: `rotateY(${rotation}deg)`, transition: dragging ? 'none' : 'transform 0.4s cubic-bezier(0.2,0,0,1)' }}
           >
-            {t.projectName}
-          </a>
-        ))}
+            {AQ_LABS_TEAMS.map((t, i) => (
+              <a
+                key={t.slug}
+                href={`#${t.slug}`}
+                onClick={e => { if (dragging) e.preventDefault() }}
+                className={'aql-cyl-card' + (i === frontIndex ? ' is-front' : '')}
+                style={{
+                  transform: `rotateY(${i * step}deg) translateZ(${radius}px)`,
+                  ['--card-mood' as string]: t.mood,
+                }}
+              >
+                <span className="aql-cyl-idx">{t.chapter}</span>
+                <span className="aql-cyl-name">{t.projectName}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <button className="aql-cyl-arrow" onClick={() => spin(1)} aria-label="Spin right">›</button>
       </div>
 
       <style>{`
-        .aql-rail {
-          display: flex; align-items: flex-end; justify-content: center;
-          padding: 10px 16px 0; overflow-x: auto; scrollbar-width: none;
-          background: linear-gradient(to bottom, var(--bg) 60%, transparent);
+        .aql-cyl-stage {
+          width: 220px; height: 92px;
+          perspective: 900px;
+          display: flex; align-items: center; justify-content: center;
+          user-select: none;
         }
-        .aql-rail::-webkit-scrollbar { display: none; }
-        .aql-rail-tab {
-          display: inline-block; flex-shrink: 0;
-          font-family: var(--mono); font-weight: 700; font-size: 10.5px;
-          letter-spacing: 0.05em; text-transform: uppercase;
-          color: var(--ink-3); text-decoration: none;
-          padding: 8px 14px 7px; margin-left: -9px;
+        .aql-cyl-ring {
+          position: relative; width: 148px; height: 68px;
+          transform-style: preserve-3d;
+        }
+        .aql-cyl-card {
+          position: absolute; inset: 0;
+          display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+          border-radius: 10px;
           background: var(--bg-3, #fff);
           border: 1px solid var(--line-2);
-          border-bottom: none;
-          border-radius: 8px 8px 2px 2px;
-          position: relative;
-          transition: transform 0.16s cubic-bezier(0.2,0,0,1), background 0.16s, color 0.16s, box-shadow 0.16s;
+          text-decoration: none;
+          backface-visibility: hidden;
+          opacity: 0.55;
+          transition: opacity 0.25s, background 0.25s, border-color 0.25s, box-shadow 0.25s;
         }
-        .aql-rail-tab:nth-child(odd) { transform: rotate(-1.2deg); }
-        .aql-rail-tab:nth-child(even) { transform: rotate(1deg); }
-        .aql-rail-tab::before {
-          content: attr(data-idx);
-          position: absolute; top: 2px; left: 6px;
-          font-size: 7.5px; color: var(--ink-4);
+        .aql-cyl-idx {
+          font-family: var(--mono); font-size: 9px; font-weight: 700; color: var(--ink-4);
         }
-        .aql-rail-tab:hover {
-          transform: rotate(0deg) translateY(-4px);
-          color: var(--ink); z-index: 20 !important;
-          box-shadow: 0 6px 16px -4px rgba(0,0,0,0.18);
+        .aql-cyl-name {
+          font-family: var(--mono); font-size: 10.5px; font-weight: 700;
+          letter-spacing: 0.03em; text-transform: uppercase; color: var(--ink-2);
         }
-        .aql-rail-tab.is-active {
-          transform: rotate(0deg) translateY(-5px);
-          background: var(--tab-mood); color: #fff;
-          border-color: var(--tab-mood);
-          box-shadow: 0 6px 18px -4px rgba(0,0,0,0.22);
-          z-index: 25 !important;
+        .aql-cyl-card.is-front {
+          opacity: 1;
+          background: var(--card-mood);
+          border-color: var(--card-mood);
+          box-shadow: 0 10px 26px -8px rgba(0,0,0,0.35);
         }
-        .aql-rail-tab.is-active::before { color: rgba(255,255,255,0.75); }
-        @media (max-width: 760px) {
-          .aql-rail-tab { font-size: 9.5px; padding: 7px 11px 6px; }
+        .aql-cyl-card.is-front .aql-cyl-idx { color: rgba(255,255,255,0.75); }
+        .aql-cyl-card.is-front .aql-cyl-name { color: #fff; }
+        .aql-cyl-arrow {
+          width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+          border: 1px solid var(--line-2); background: var(--bg-3, #fff); color: var(--ink-3);
+          font-size: 16px; line-height: 1; cursor: pointer;
+          display: flex; align-items: center; justify-content: center;
+          transition: background 0.15s, color 0.15s;
+        }
+        .aql-cyl-arrow:hover { background: var(--ink); color: var(--bg); }
+        @media (max-width: 640px) {
+          .aql-cyl-stage { width: 180px; }
         }
       `}</style>
     </div>
@@ -382,7 +422,7 @@ export default function AQLabsPage() {
   return (
     <div>
       <Hero />
-      <ChapterRail />
+      <ChapterCylinder />
       <Manifesto />
       <GalleryIndex />
       {AQ_LABS_TEAMS.map((team, i) => {
