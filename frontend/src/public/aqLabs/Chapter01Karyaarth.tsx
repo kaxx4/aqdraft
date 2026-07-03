@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, FilmStrip, LinkRow, MediumBadge, MeaningLine, Narrative, Plate, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, Narrative, Plate, processSrc } from './Shared'
 
 const WALL = [
   { file: '01-bts-filming-market-night.jpg', caption: 'The crew, filming after dark — a single string of market bulbs for light.' },
@@ -9,14 +10,33 @@ const WALL = [
   { file: '07-corn-roaster-daytime.jpg', caption: 'Daylight, for once — a bhutta seller over open coals.' },
 ]
 
-// Chapter 01 — Karyaarth. A gallery wall: one large graded portrait as the
-// hero, a small contact-sheet of the real behind-the-scenes photography
-// underneath, each with its own museum caption. The Instagram carousel is
-// kept, but tucked away as a secondary, clearly-labelled artifact.
+// Chapter 01 — Karyaarth. A gallery wall, shot like a documentary trailer:
+// the hero portrait holds a slow Ken-Burns push the whole way through the
+// chapter, and the contact-sheet below drifts up at staggered speeds as
+// you scroll past it — like someone laying prints out on a table one at
+// a time, faster than you can look away.
 export default function Chapter01Karyaarth({ team }: { team: AQLabsTeam }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.16])
+  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '-6%'])
+  const numeralY = useTransform(scrollYProgress, [0, 0.5], ['0%', '-40%'])
+  const numeralOpacity = useTransform(scrollYProgress, [0, 0.3], [0.14, 0.04])
+
   return (
-    <section id={team.slug} style={{ background: '#F3EDE1', padding: '110px 24px', overflow: 'hidden' }}>
-      <div style={{ maxWidth: 1180, margin: '0 auto' }}>
+    <section id={team.slug} ref={ref} style={{ background: '#F3EDE1', padding: '110px 24px', overflow: 'hidden', position: 'relative' }}>
+      <motion.div
+        aria-hidden
+        style={{
+          position: 'absolute', top: -40, left: 24, y: numeralY, opacity: numeralOpacity,
+          fontFamily: 'var(--display)', fontWeight: 800, fontSize: 'min(46vw,420px)', lineHeight: 1,
+          color: team.mood, pointerEvents: 'none', userSelect: 'none',
+        }}
+      >
+        01
+      </motion.div>
+
+      <div style={{ maxWidth: 1180, margin: '0 auto', position: 'relative' }}>
         <ChapterEyebrow team={team} />
         <MediumBadge team={team} />
         <motion.h2
@@ -48,32 +68,30 @@ export default function Chapter01Karyaarth({ team }: { team: AQLabsTeam }) {
             </div>
           </div>
 
-          <div>
-            <Plate
-              src={processSrc(team.slug, '08-graded-icecream-vendor-portrait.jpg')}
-              caption="An ice-cream vendor, Kolkata — the first frame anyone actually kept."
-              aspect="4/3"
-            />
+          <div style={{ overflow: 'hidden', borderRadius: 10 }}>
+            <motion.div style={{ scale: heroScale, y: heroY }}>
+              <img
+                src={processSrc(team.slug, '08-graded-icecream-vendor-portrait.jpg')}
+                alt="An ice-cream vendor, Kolkata"
+                style={{ width: '100%', display: 'block', aspectRatio: '4/3', objectFit: 'cover' }}
+              />
+            </motion.div>
+            <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 12.5, color: 'var(--txt-3)', marginTop: 8 }}>
+              An ice-cream vendor, Kolkata — the first frame anyone actually kept.
+            </p>
           </div>
         </div>
 
-        {/* the wall — contact-sheet of the real BTS shots */}
+        {/* the wall — staggered parallax drift, like prints being laid out */}
         <div style={{ marginTop: 56 }}>
           <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-4)', marginBottom: 16 }}>
             from the shoot
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }} className="aql-wall-grid">
-            {WALL.map(w => (
-              <Plate key={w.file} src={processSrc(team.slug, w.file)} caption={w.caption} aspect="4/3" />
+            {WALL.map((w, i) => (
+              <WallPlate key={w.file} team={team} file={w.file} caption={w.caption} index={i} scrollYProgress={scrollYProgress} />
             ))}
           </div>
-        </div>
-
-        <div style={{ marginTop: 12 }}>
-          <div style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-4)', margin: '32px 0 4px' }}>
-            the Instagram cut
-          </div>
-          <FilmStrip team={team} />
         </div>
       </div>
 
@@ -84,5 +102,23 @@ export default function Chapter01Karyaarth({ team }: { team: AQLabsTeam }) {
         }
       `}</style>
     </section>
+  )
+}
+
+function WallPlate({ team, file, caption, index, scrollYProgress }: {
+  team: AQLabsTeam; file: string; caption: string; index: number
+  scrollYProgress: ReturnType<typeof useScroll>['scrollYProgress']
+}) {
+  const drift = useTransform(scrollYProgress, [0.35, 1], ['0%', `${-(6 + index * 4)}%`])
+  return (
+    <motion.div style={{ y: drift }}>
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: index * 0.08 }}
+      >
+        <Plate src={processSrc(team.slug, file)} caption={caption} aspect="4/3" />
+      </motion.div>
+    </motion.div>
   )
 }

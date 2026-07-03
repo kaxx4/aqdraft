@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, FilmStrip, LinkRow, MediumBadge, MeaningLine, Narrative, Plate, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, Narrative, processSrc } from './Shared'
 
-// Chapter 05 — Idea Architects. The commons: their own hand-illustrated
-// explainer poster, framed like a print on a gallery wall, carries the
-// chapter — real material instead of an invented diagram.
+// Chapter 05 — Idea Architects. The commons: their own poster doesn't
+// fade in, it unrolls — scaling up from a flat strip anchored at the top,
+// like a print being unrolled onto a table — and settles into a gentle,
+// perpetual sway once it's up, like it's still catching a breeze.
 export default function Chapter05IdeaArchitects({ team }: { team: AQLabsTeam }) {
   return (
     <section id={team.slug} style={{ background: '#F1F3EA', padding: '110px 24px' }}>
@@ -34,20 +35,18 @@ export default function Chapter05IdeaArchitects({ team }: { team: AQLabsTeam }) 
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
-            <Plate
+            <UnrollPlate
               src={processSrc(team.slug, '01-what-is-cirqle-infographic.jpg')}
               caption="Their own icon for the idea itself — hand-drawn, not a stock graphic."
-              aspect="1/1"
+              delay={0}
             />
-            <Plate
+            <UnrollPlate
               src={processSrc(team.slug, '02-cirqle-categories-infographic.jpg')}
               caption="The full explainer poster, hand-illustrated — what actually moves through the network."
-              aspect="1/1"
+              delay={0.18}
             />
           </div>
         </div>
-
-        <FilmStrip team={team} />
       </div>
 
       <style>{`
@@ -56,5 +55,30 @@ export default function Chapter05IdeaArchitects({ team }: { team: AQLabsTeam }) 
         }
       `}</style>
     </section>
+  )
+}
+
+function UnrollPlate({ src, caption, delay }: { src: string; caption: string; delay: number }) {
+  return (
+    <motion.figure
+      initial={{ opacity: 0, scaleY: 0.08 }}
+      animate={{ opacity: 1, scaleY: 1 }}
+      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+      style={{ margin: 0, transformOrigin: 'top center' }}
+    >
+      <motion.div
+        animate={{ rotate: [-0.6, 0.6, -0.6] }}
+        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: delay + 0.7 }}
+        style={{
+          borderRadius: 10, overflow: 'hidden', border: '1px solid var(--line-2)',
+          boxShadow: '0 14px 34px rgba(0,0,0,0.10)',
+        }}
+      >
+        <img src={src} alt={caption} loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '1/1', objectFit: 'cover' }} />
+      </motion.div>
+      <figcaption style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 12.5, lineHeight: 1.4, color: 'var(--txt-3)', marginTop: 8 }}>
+        {caption}
+      </figcaption>
+    </motion.figure>
   )
 }
