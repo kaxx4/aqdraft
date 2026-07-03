@@ -86,8 +86,32 @@ export default function Chapter03ExecutionPending({ team }: { team: AQLabsTeam }
         </div>
       </div>
 
+      {/* ── movement 1.5 — why, and how it's actually built ── */}
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '70px 24px 0' }}>
+        <Reveal>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 }} className="aql-quirk-why-how">
+            <div style={{ borderLeft: `2px solid ${team.mood}`, paddingLeft: 16 }}>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: team.mood, marginBottom: 8 }}>
+                why
+              </div>
+              <p style={{ fontSize: 14.5, lineHeight: 1.7, color: 'rgba(255,255,255,0.7)', margin: 0 }}>
+                Four of them, all ADHD, tired of fidget toys and app subscriptions built by people who'd never needed either.
+              </p>
+            </div>
+            <div style={{ borderLeft: '2px solid rgba(255,255,255,0.2)', paddingLeft: 16 }}>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 8 }}>
+                how
+              </div>
+              <p style={{ fontSize: 14.5, lineHeight: 1.7, color: 'rgba(255,255,255,0.7)', margin: 0 }}>
+                One ESP32, one OLED screen, one pressure sensor — wired by hand on a breadboard, open-sourced under MIT the moment it worked.
+              </p>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+
       {/* ── movement 2 — the epidemic, in numbers ── */}
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: '100px 24px 60px' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '56px 24px 60px' }}>
         <Reveal>
           <h3 style={{
             fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(24px,3.6vw,38px)',
@@ -242,6 +266,7 @@ export default function Chapter03ExecutionPending({ team }: { team: AQLabsTeam }
 
       <style>{`
         @media (max-width: 640px) {
+          .aql-quirk-why-how { grid-template-columns: 1fr !important; }
           .aql-quirk-stats { grid-template-columns: 1fr !important; }
           .aql-quirk-tiers { grid-template-columns: 1fr !important; }
           .aql-swot-grid { grid-template-columns: repeat(2, 1fr) !important; }

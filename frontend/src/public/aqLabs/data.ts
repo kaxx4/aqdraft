@@ -217,7 +217,7 @@ export const AQ_LABS_TEAMS: AQLabsTeam[] = [
     heroSlide: 3,
     spark: 'Every fitness wearable on the market has converged on the same black rectangle. Somebody on the team, with what looks like a musician\'s eye, asked why a health sensor had to look like a gadget at all.',
     tension: 'A tool designed to be worn every hour of every day should be something you actually want on your wrist — not a screen you\'re quietly tired of glancing at, buzzing with notifications nobody asked for.',
-    craft: 'What started as a pitch called Photon became, on their own worktable, something with its own name: Modus Band. Their real design sheet reads less like a slide and more like a jeweller\'s blueprint — a 42mm sensor module, 20mm standard links, a snap-lock mechanism specified down to a 1.2mm nub and a 1.4mm lock hole, links engraved with musical notation and 3D-printable in your own choice of symbol: a treble clef, a heartbeat line, a mountain, a leaf. "Inspired by the timeless beauty of musical notation," the sheet says, and means it literally — the band is built the way sheet music is built, in interchangeable, re-orderable measures.',
+    craft: 'Their design sheet reads like a jeweller\'s blueprint, not a slide: a 42mm sensor module, 20mm links, a snap-lock toleranced to the millimetre — each link engraved with musical notation and 3D-printable in your own symbol. Built the way sheet music is built: interchangeable, re-orderable measures.',
     meaning: 'All the data, none of the noise — but the deeper claim is treating a health tool as an instrument worth noticing, not a monitor worth hiding.',
   },
 ]

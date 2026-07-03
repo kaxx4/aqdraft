@@ -1,7 +1,7 @@
-import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { useRef, useState } from 'react'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, CountTo, LinkRow, MediumBadge, MeaningLine, PhotoPop, ScrollBuild, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, CountTo, LinkRow, MediumBadge, MeaningLine, ScrollBuild, processSrc } from './Shared'
 
 const STATS: { value: number; decimals?: number; prefix?: string; suffix: string; label: string }[] = [
   { value: 1.5, decimals: 1, suffix: ' Cr', label: 'higher-ed grads, every year' },
@@ -101,58 +101,8 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
           </p>
         </ScrollBuild>
 
-        <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 16 }}>
-          proof, not a mockup
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20, marginBottom: 24 }} className="aql-cc-shots">
-          <PhotoPop fromLeft>
-            <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)', position: 'relative' }}>
-              <img src={processSrc(team.slug, '01-live-site-11pm.jpg')} alt="Their own site, checked at 11PM the night it shipped"
-                loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '9/16', objectFit: 'cover', objectPosition: 'top' }} />
-              <motion.div aria-hidden style={{
-                position: 'absolute', left: 0, right: 0, top: scanY, height: '18%',
-                background: `linear-gradient(to bottom, transparent, ${team.mood}33, transparent)`, pointerEvents: 'none',
-              }} />
-              <figcaption style={{
-                position: 'absolute', bottom: 0, left: 0, right: 0, padding: '10px 12px',
-                fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 11.5, color: '#fff',
-                background: 'linear-gradient(to top, rgba(0,0,0,0.75), transparent)',
-              }}>
-                11:00 PM, June 15 — checking their own build had actually gone live.
-              </figcaption>
-            </figure>
-          </PhotoPop>
-          <PhotoPop fromLeft={false}>
-            <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)' }}>
-              <img src={processSrc(team.slug, '02-live-site-landing.jpg')} alt="The stat grid and CTAs on the same live page, zoomed in"
-                loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '9/16', objectFit: 'cover', objectPosition: 'bottom' }} />
-            </figure>
-            <figcaption style={{ display: 'block', fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 12.5, color: 'rgba(255,255,255,0.5)', marginTop: 8 }}>
-              The same page, zoomed to the numbers — the real stat grid and a "View Opportunities" button that actually works.
-            </figcaption>
-          </PhotoPop>
-        </div>
-
-        <ScrollBuild scale={0.94} y={30}>
-          <div style={{
-            display: 'grid', gridTemplateColumns: '1fr 1.15fr', gap: 28, alignItems: 'center',
-            background: 'rgba(255,255,255,0.03)', border: '1.5px solid rgba(255,255,255,0.1)',
-            borderRadius: 18, padding: 24, marginBottom: 48,
-          }} className="aql-cc-quiz">
-            <div>
-              <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: team.mood, marginBottom: 10 }}>
-                and it doesn't stop at stats
-              </div>
-              <p style={{ fontSize: 15.5, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)', margin: 0 }}>
-                Five questions in, it stops describing the skill economy and starts pointing at your place in it —
-                a real recommendation engine, not another dashboard to read past.
-              </p>
-            </div>
-            <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)', boxShadow: '0 20px 50px rgba(0,0,0,0.35)' }}>
-              <img src={processSrc(team.slug, '03-career-path-intake-form.png')} alt="The 5-question career-path recommendation form, live"
-                loading="lazy" decoding="async" style={{ width: '100%', display: 'block' }} />
-            </figure>
-          </div>
+        <ScrollBuild>
+          <DeviceToggle team={team} scanY={scanY} />
         </ScrollBuild>
 
         <ScrollBuild>
@@ -167,10 +117,76 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
       <style>{`
         @media (max-width: 720px) {
           .aql-stat-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .aql-cc-shots { grid-template-columns: 1fr !important; }
-          .aql-cc-quiz { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>
+  )
+}
+
+type ScanY = ReturnType<typeof useTransform<number, string>>
+
+// Same product, two screens — a tab, not a scroll, so the comparison is
+// instant: the phone build people actually opened at 11PM, and the
+// desktop build that does the real work (the 5-question recommender).
+function DeviceToggle({ team, scanY }: { team: AQLabsTeam; scanY: ScanY }) {
+  const [tab, setTab] = useState<'mobile' | 'desktop'>('mobile')
+  return (
+    <div style={{ marginBottom: 48 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
+        <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)' }}>
+          proof, not a mockup
+        </div>
+        <div style={{ display: 'inline-flex', border: '1.5px solid rgba(255,255,255,0.16)', borderRadius: 999, padding: 3 }}>
+          {(['mobile', 'desktop'] as const).map(t => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              style={{
+                padding: '6px 16px', borderRadius: 999, border: 'none', cursor: 'pointer',
+                fontFamily: 'var(--mono)', fontSize: 11.5, fontWeight: 700, textTransform: 'capitalize',
+                background: tab === t ? team.mood : 'transparent',
+                color: tab === t ? '#0A0A0A' : 'rgba(255,255,255,0.6)',
+                transition: 'background 0.15s, color 0.15s',
+              }}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ position: 'relative', minHeight: 320 }}>
+        <AnimatePresence mode="wait">
+          {tab === 'mobile' ? (
+            <motion.div key="mobile" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}
+              style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20, maxWidth: 480 }}>
+              <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)', position: 'relative' }}>
+                <img src={processSrc(team.slug, '01-live-site-11pm.jpg')} alt="CareerCompass on a phone, checked at 11PM the night it shipped"
+                  loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '9/16', objectFit: 'cover', objectPosition: 'top' }} />
+                <motion.div aria-hidden style={{
+                  position: 'absolute', left: 0, right: 0, top: scanY, height: '18%',
+                  background: `linear-gradient(to bottom, transparent, ${team.mood}33, transparent)`, pointerEvents: 'none',
+                }} />
+              </figure>
+              <figure style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)' }}>
+                <img src={processSrc(team.slug, '02-live-site-landing.jpg')} alt="The stat grid on the same phone build, zoomed in"
+                  loading="lazy" decoding="async" style={{ width: '100%', display: 'block', aspectRatio: '9/16', objectFit: 'cover', objectPosition: 'bottom' }} />
+              </figure>
+            </motion.div>
+          ) : (
+            <motion.figure key="desktop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}
+              style={{ margin: 0, borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)', boxShadow: '0 20px 50px rgba(0,0,0,0.35)' }}>
+              <img src={processSrc(team.slug, '03-career-path-intake-form.png')} alt="The desktop build — the 5-question career-path recommendation form, live"
+                loading="lazy" decoding="async" style={{ width: '100%', display: 'block' }} />
+            </motion.figure>
+          )}
+        </AnimatePresence>
+      </div>
+      <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 12.5, lineHeight: 1.4, color: 'rgba(255,255,255,0.5)', marginTop: 10 }}>
+        {tab === 'mobile'
+          ? 'Checked from a phone at 11PM, the night it went live.'
+          : 'The desktop build does the real work — five questions in, it stops describing the skill economy and starts pointing at your place in it.'}
+      </p>
+    </div>
   )
 }

@@ -64,97 +64,79 @@ export default function Chapter01Karyaarth({ team }: { team: AQLabsTeam }) {
           >
             {team.tagline}
           </motion.p>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.35 }} style={{ marginTop: 16 }}>
+            <LinkRow links={team.links} dark mood={team.mood} />
+          </motion.div>
         </motion.div>
       </div>
 
-      {/* ── narration over dark ── */}
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: '90px 24px 70px' }}>
+      {/* ── narration over dark — kept tight, one screenful ── */}
+      <div style={{ maxWidth: 680, margin: '0 auto', padding: '56px 24px 44px' }}>
         <Reveal>
-          <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: team.mood, marginBottom: 10 }}>
-            the spark
-          </div>
-          <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(20px,2.6vw,28px)', lineHeight: 1.45, color: '#F4EFE0', marginBottom: 38 }}>
+          <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(18px,2.2vw,23px)', lineHeight: 1.4, color: '#F4EFE0', marginBottom: 18 }}>
             {team.spark}
           </p>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: team.mood, marginBottom: 10 }}>
-            the gap
-          </div>
-          <p style={{ fontSize: 15.5, lineHeight: 1.8, color: 'rgba(244,239,224,0.68)', marginBottom: 38 }}>
+          <p style={{ fontSize: 14.5, lineHeight: 1.7, color: 'rgba(244,239,224,0.62)', marginBottom: 8 }}>
             {team.tension}
           </p>
-        </Reveal>
-        <Reveal delay={0.15}>
-          <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: team.mood, marginBottom: 10 }}>
-            the making
-          </div>
-          <p style={{ fontSize: 15.5, lineHeight: 1.8, color: 'rgba(244,239,224,0.68)' }}>
+          <p style={{ fontSize: 14.5, lineHeight: 1.7, color: 'rgba(244,239,224,0.62)' }}>
             {team.craft}
           </p>
         </Reveal>
       </div>
 
-      {/* ── the cascade — every real photo from the shoot ── */}
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px 40px' }}>
-        {GALLERY.map((g, i) => (
-          <CascadePhoto key={g.file} team={team} file={g.file} caption={g.caption} index={i} />
-        ))}
+      {/* ── the cascade — every real photo from the shoot, as a compact contact sheet ── */}
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px 50px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }} className="aql-contact-sheet">
+          {GALLERY.map((g, i) => (
+            <ContactPhoto key={g.file} team={team} file={g.file} caption={g.caption} index={i} />
+          ))}
+        </div>
       </div>
 
       {/* ── close ── */}
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: '20px 24px 110px' }}>
+      <div style={{ maxWidth: 680, margin: '0 auto', padding: '10px 24px 100px' }}>
         <Reveal>
           <MeaningLine team={team} dark />
           <blockquote style={{
             fontFamily: 'var(--mono)', fontSize: 12.5, color: 'rgba(244,239,224,0.5)',
-            borderLeft: `2px solid ${team.mood}`, paddingLeft: 14, margin: '0 0 26px',
+            borderLeft: `2px solid ${team.mood}`, paddingLeft: 14, margin: '0 0 22px',
           }}>
             “{team.quote}”
           </blockquote>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
-            <LinkRow links={team.links} dark mood={team.mood} />
-            <CopyLinkButton slug={team.slug} dark mood={team.mood} />
-          </div>
+          <CopyLinkButton slug={team.slug} dark mood={team.mood} />
         </Reveal>
       </div>
 
       <style>{`
-        @media (max-width: 720px) {
-          .aql-cascade-row { flex-direction: column !important; }
-          .aql-cascade-row p { text-align: left !important; }
+        @media (max-width: 640px) {
+          .aql-contact-sheet { grid-template-columns: repeat(2, 1fr) !important; }
         }
       `}</style>
     </section>
   )
 }
 
-function CascadePhoto({ team, file, caption, index }: { team: AQLabsTeam; file: string; caption: string; index: number }) {
-  const flip = index % 2 === 1
+function ContactPhoto({ team, file, caption, index }: { team: AQLabsTeam; file: string; caption: string; index: number }) {
   const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.95', 'start 0.55'] })
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.95', 'start 0.65'] })
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1])
-  const x = useTransform(scrollYProgress, [0, 1], [flip ? 70 : -70, 0])
-  const imgScale = useTransform(scrollYProgress, [0, 1], [1.12, 1])
+  const scale = useTransform(scrollYProgress, [0, 1], [0.9, 1])
   return (
-    <motion.div
+    <motion.figure
       ref={ref}
-      style={{
-        display: 'flex', flexDirection: flip ? 'row-reverse' : 'row', alignItems: 'center', gap: 32,
-        padding: '26px 0', borderBottom: '1px solid rgba(255,255,255,0.08)', opacity, x,
-      }}
-      className="aql-cascade-row"
+      style={{ margin: 0, opacity, scale, transitionDelay: `${(index % 4) * 0.03}s` }}
     >
-      <div style={{ flex: '0 0 56%', borderRadius: 10, overflow: 'hidden' }}>
-        <motion.img src={processSrc(team.slug, file)} alt={caption} loading="lazy" decoding="async"
-          style={{ width: '100%', display: 'block', aspectRatio: '16/10', objectFit: 'cover', scale: imgScale }} />
+      <div style={{ borderRadius: 8, overflow: 'hidden' }}>
+        <img src={processSrc(team.slug, file)} alt={caption} loading="lazy" decoding="async"
+          style={{ width: '100%', display: 'block', aspectRatio: '4/5', objectFit: 'cover' }} />
       </div>
-      <p style={{
-        flex: 1, fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(16px,2vw,20px)',
-        lineHeight: 1.5, color: 'rgba(244,239,224,0.75)', textAlign: flip ? 'right' : 'left',
+      <figcaption style={{
+        fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 11.5,
+        lineHeight: 1.35, color: 'rgba(244,239,224,0.6)', marginTop: 6,
       }}>
         {caption}
-      </p>
-    </motion.div>
+      </figcaption>
+    </motion.figure>
   )
 }
