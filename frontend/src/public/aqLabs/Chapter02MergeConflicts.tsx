@@ -122,6 +122,18 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
           </ScrollBuild>
         </div>
 
+        <ScrollBuild y={30}>
+          <figure style={{ margin: '0 0 48px', maxWidth: 360 }}>
+            <div style={{ borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)' }}>
+              <img src={processSrc(team.slug, '03-daily-limit-screenshot.jpg')} alt="Even the AI they were building with hit its own daily limit"
+                loading="lazy" decoding="async" style={{ width: '100%', display: 'block' }} />
+            </div>
+            <figcaption style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 12.5, lineHeight: 1.4, color: 'rgba(255,255,255,0.5)', marginTop: 8 }}>
+              11:04 PM — the tool they were building it with hit its own limit before the site did.
+            </figcaption>
+          </figure>
+        </ScrollBuild>
+
         <ScrollBuild>
           <MeaningLine team={team} dark />
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
