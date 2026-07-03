@@ -61,7 +61,7 @@ export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
         {team.links.website && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.5 }} style={{ marginTop: 18 }}>
             <a href={team.links.website} target="_blank" rel="noopener noreferrer" className="btn"
-              style={{ background: '#fff', color: '#0F2E1D', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              style={{ background: '#fff', borderColor: '#fff', color: '#0F2E1D', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               Enter the Woods, live ↗
             </a>
           </motion.div>

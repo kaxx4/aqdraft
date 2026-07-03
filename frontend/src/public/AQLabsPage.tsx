@@ -110,7 +110,7 @@ function Hero() {
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.45 }}
           style={{ display: 'flex', gap: 10, justifyContent: 'center', marginTop: 34, flexWrap: 'wrap' }}
         >
-          <a href="#aq-labs-index" className="btn btn-primary" style={{ background: 'var(--mint)', color: '#0A0A0A' }}>
+          <a href="#aq-labs-index" className="btn btn-primary" style={{ background: 'var(--mint)', borderColor: 'var(--mint)', color: '#0A0A0A' }}>
             Walk the gallery ↓
           </a>
         </motion.div>

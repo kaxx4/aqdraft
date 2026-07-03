@@ -104,7 +104,7 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
           </div>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <a href={team.links.website} target="_blank" rel="noopener noreferrer" className="btn"
-              style={{ background: team.mood, color: '#141210', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              style={{ background: team.mood, borderColor: team.mood, color: '#141210', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               Open Hunar, live ↗
             </a>
           </div>

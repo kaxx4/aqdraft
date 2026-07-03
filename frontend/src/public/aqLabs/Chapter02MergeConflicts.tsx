@@ -62,7 +62,7 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
             {team.links.website && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} style={{ marginTop: 22 }}>
                 <a href={team.links.website} target="_blank" rel="noopener noreferrer" className="btn"
-                  style={{ background: team.mood, color: '#0A0A0A', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                  style={{ background: team.mood, borderColor: team.mood, color: '#0A0A0A', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                   Open CareerCompass, live ↗
                 </a>
               </motion.div>
