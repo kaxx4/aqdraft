@@ -20,7 +20,10 @@ const LADDER = [
 // watch happen, not just read.
 export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
   return (
-    <section id={team.slug} style={{ background: '#141210', position: 'relative', overflow: 'hidden' }}>
+    <section id={team.slug} style={{
+      background: 'repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0 2px, transparent 2px 22px), #141210',
+      position: 'relative', overflow: 'hidden',
+    }}>
       {/* ── the seal ── */}
       <div style={{ minHeight: '86vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '90px 24px 40px', position: 'relative' }}>
         <div aria-hidden style={{

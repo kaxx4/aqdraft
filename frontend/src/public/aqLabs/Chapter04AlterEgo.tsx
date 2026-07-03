@@ -16,7 +16,10 @@ const TRACKS = [
 // arrive as three separate pages, each turning a beat after the last.
 export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
   return (
-    <section id={team.slug} style={{ background: '#0F2E1D', position: 'relative', overflow: 'hidden' }}>
+    <section id={team.slug} style={{
+      background: 'radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px) 0 0/16px 16px, #0F2E1D',
+      position: 'relative', overflow: 'hidden',
+    }}>
       {/* ── cover ── */}
       <div style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '90px 24px 60px', position: 'relative' }}>
         <div aria-hidden style={{
@@ -62,7 +65,11 @@ export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
         initial={{ rotateX: -35, opacity: 0 }}
         animate={{ rotateX: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.2, 0, 0, 1] }}
-        style={{ transformOrigin: 'top center', background: '#EAF4EA', borderRadius: '28px 28px 0 0', padding: '64px 24px 90px' }}
+        style={{
+          transformOrigin: 'top center',
+          background: 'radial-gradient(rgba(15,46,29,0.05) 1px, transparent 1px) 0 0/16px 16px, #EAF4EA',
+          borderRadius: '28px 28px 0 0', padding: '64px 24px 90px',
+        }}
       >
         <div style={{ maxWidth: 940, margin: '0 auto' }}>
           <ScrollBuild>

@@ -30,7 +30,9 @@ export default function Chapter01Karyaarth({ team }: { team: AQLabsTeam }) {
   const titleY = useTransform(scrollYProgress, [0, 1], ['0%', '-30%'])
 
   return (
-    <section id={team.slug} style={{ background: '#0A0A0A' }}>
+    <section id={team.slug} style={{
+      background: 'repeating-radial-gradient(circle at 0 0, rgba(255,255,255,0.028) 0 1px, transparent 1px 3px), #0A0A0A',
+    }}>
       {/* ── cold open ── */}
       <div ref={heroRef} style={{ position: 'relative', minHeight: '94vh', overflow: 'hidden', display: 'flex', alignItems: 'flex-end' }}>
         <motion.div style={{ position: 'absolute', inset: 0, scale: heroScale, opacity: heroOpacity }}>

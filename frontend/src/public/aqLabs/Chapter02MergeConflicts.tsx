@@ -20,7 +20,10 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
   const scanY = useTransform(scrollYProgress, [0.15, 0.55], ['-10%', '110%'])
 
   return (
-    <section id={team.slug} ref={ref} style={{ background: '#0A0A0A', position: 'relative', overflow: 'hidden' }}>
+    <section id={team.slug} ref={ref} style={{
+      background: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 3px), #0A0A0A',
+      position: 'relative', overflow: 'hidden',
+    }}>
       {/* ── cold open — breaking news ── */}
       <div style={{ minHeight: '86vh', display: 'flex', flexDirection: 'column', paddingTop: 'calc(var(--nav-h, 70px) + 20px)' }}>
         <div style={{ background: team.mood, padding: '7px 0', overflow: 'hidden', whiteSpace: 'nowrap' }}>

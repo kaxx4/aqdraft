@@ -21,7 +21,9 @@ export default function Chapter07IdeaNotFound({ team }: { team: AQLabsTeam }) {
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.15])
 
   return (
-    <section id={team.slug} style={{ background: '#0B0C0E' }}>
+    <section id={team.slug} style={{
+      background: 'repeating-linear-gradient(90deg, rgba(244,239,224,0.045) 0 1px, transparent 1px 56px), repeating-linear-gradient(0deg, rgba(244,239,224,0.045) 0 1px, transparent 1px 56px), #0B0C0E',
+    }}>
       {/* ── cold open ── */}
       <div ref={heroRef} style={{ position: 'relative', minHeight: '90vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <motion.div style={{ position: 'absolute', inset: 0, scale: heroScale }}>

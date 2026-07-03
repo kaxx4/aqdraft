@@ -16,7 +16,9 @@ export default function Chapter05IdeaArchitects({ team }: { team: AQLabsTeam }) 
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.15])
 
   return (
-    <section id={team.slug} style={{ background: '#F1F3EA' }}>
+    <section id={team.slug} style={{
+      background: 'repeating-radial-gradient(circle at 50% 50%, transparent 0 18px, rgba(30,60,20,0.045) 18px 19px, transparent 19px 42px), #F1F3EA',
+    }}>
       {/* ── cold open ── */}
       <div ref={heroRef} style={{ position: 'relative', minHeight: '88vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <motion.div style={{ position: 'absolute', inset: 0, scale: heroScale }}>
