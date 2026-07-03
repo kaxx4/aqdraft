@@ -300,10 +300,19 @@ export function CountTo({ value, suffix = '', prefix = '', decimals = 0 }: {
   value: number; suffix?: string; prefix?: string; decimals?: number
 }) {
   const ref = useRef<HTMLSpanElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const inView = useInView(ref, { once: true, margin: '0px 0px 500px 0px' })
   const [display, setDisplay] = useState(0)
+  const [forced, setForced] = useState(false)
+  // Safety net: a fast/jumpy scroll can in rare cases skip past the
+  // intersection zone between two frames without ever reporting
+  // inView=true. If that happens, start the count-up anyway after a
+  // short delay rather than leaving the number frozen at zero forever.
   useEffect(() => {
-    if (!inView) return
+    const t = setTimeout(() => setForced(true), 1200)
+    return () => clearTimeout(t)
+  }, [])
+  useEffect(() => {
+    if (!inView && !forced) return
     const duration = 1100
     const start = performance.now()
     let raf = 0
@@ -315,7 +324,7 @@ export function CountTo({ value, suffix = '', prefix = '', decimals = 0 }: {
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [inView, value])
+  }, [inView, forced, value])
   return (
     <span ref={ref} style={{ fontVariantNumeric: 'tabular-nums' }}>
       {prefix}{display.toFixed(decimals)}{suffix}
