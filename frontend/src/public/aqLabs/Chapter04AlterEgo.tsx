@@ -1,13 +1,13 @@
 import { motion } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, ScrollBuild, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, PhotoPop, ScrollBuild, processSrc } from './Shared'
 
 const sprout = { type: 'spring' as const, stiffness: 220, damping: 14 }
 
-const TRACKS = [
-  { name: 'Words', desc: 'vocabulary, in disguise as a game', color: '#E8A33D' },
-  { name: 'Logic', desc: 'little puzzles, big brain', color: '#3D8EE8' },
-  { name: 'The World', desc: 'GK that actually sticks', color: '#1E8449' },
+const WALKTHROUGH = [
+  { file: '02-enter-the-woods-onboarding.png', step: 'Step in', caption: 'Pick a name, a guide, an age — the woods set the difficulty, not a settings menu.' },
+  { file: '03-world-explorer-quiz.png', step: 'Explore', caption: 'World Explorer — real geography, dressed as an expedition.' },
+  { file: '04-math-quest-quiz.png', step: 'Quest', caption: 'Math Quest — times tables you actually want to finish.' },
 ]
 
 // Chapter 04 — Alter Ego. A storybook cover: the logo opens the chapter
@@ -82,19 +82,19 @@ export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
           </ScrollBuild>
 
           <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-4)', marginBottom: 14 }}>
-            three tracks, one forest
+            walk into the woods — the real thing, screen by screen
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 40, perspective: 1200 }} className="aql-tracks-grid">
-            {TRACKS.map((t) => (
-              <ScrollBuild key={t.name} scale={0.9}>
-                <div style={{
-                  background: '#fff', borderRadius: 16, padding: '22px 18px', height: '100%',
-                  boxShadow: '0 8px 22px rgba(0,0,0,0.08)', borderTop: `4px solid ${t.color}`,
-                }}>
-                  <div className="h-display" style={{ fontSize: 22, color: t.color, marginBottom: 6 }}>{t.name}</div>
-                  <div style={{ fontSize: 13, color: 'var(--txt-2)', lineHeight: 1.5 }}>{t.desc}</div>
-                </div>
-              </ScrollBuild>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginBottom: 40 }} className="aql-tracks-grid">
+            {WALKTHROUGH.map((w, i) => (
+              <PhotoPop key={w.file} fromLeft={i % 2 === 0} distance={50}>
+                <BrowserFrame step={w.step} index={i}>
+                  <img src={processSrc(team.slug, w.file)} alt={w.caption} loading="lazy" decoding="async"
+                    style={{ width: '100%', display: 'block' }} />
+                </BrowserFrame>
+                <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 12.5, lineHeight: 1.4, color: 'var(--txt-3)', marginTop: 10 }}>
+                  {w.caption}
+                </p>
+              </PhotoPop>
             ))}
           </div>
 
@@ -119,5 +119,21 @@ export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
         }
       `}</style>
     </section>
+  )
+}
+
+function BrowserFrame({ children, step, index }: { children: React.ReactNode; step: string; index: number }) {
+  return (
+    <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(15,46,29,0.14)', boxShadow: '0 14px 34px rgba(0,0,0,0.10)', background: '#fff' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', background: '#EAF4EA', borderBottom: '1px solid rgba(15,46,29,0.1)' }}>
+        <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#E8A33D' }} />
+        <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#3D8EE8' }} />
+        <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#1E8449' }} />
+        <span style={{ fontFamily: 'var(--mono)', fontSize: 10, fontWeight: 700, color: '#1E8449', marginLeft: 6 }}>
+          {String(index + 1).padStart(2, '0')} · {step}
+        </span>
+      </div>
+      {children}
+    </div>
   )
 }

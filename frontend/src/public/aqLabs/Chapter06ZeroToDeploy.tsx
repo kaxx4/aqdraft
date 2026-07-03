@@ -77,6 +77,34 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
           </p>
         </ScrollBuild>
 
+        <ScrollBuild scale={0.9} y={40}>
+          <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(244,239,224,0.4)', marginBottom: 14 }}>
+            this isn't a mockup — it's live
+          </div>
+          <div style={{
+            borderRadius: 12, overflow: 'hidden', border: `1px solid ${team.mood}44`,
+            boxShadow: `0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px ${team.mood}22`, marginBottom: 56,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 14px', background: '#1c1a16', borderBottom: `1px solid ${team.mood}33` }}>
+              <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#E8615A' }} />
+              <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#E8C15A' }} />
+              <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#5AC177' }} />
+              <span style={{
+                marginLeft: 10, fontFamily: 'var(--mono)', fontSize: 10.5, color: 'rgba(244,239,224,0.45)',
+                background: 'rgba(255,255,255,0.05)', borderRadius: 999, padding: '2px 10px',
+              }}>
+                hunar — skill, made legible
+              </span>
+            </div>
+            <img
+              src={processSrc(team.slug, '02-hunar-live-homepage.png')}
+              alt="Hunar's real, live homepage"
+              loading="lazy" decoding="async"
+              style={{ width: '100%', display: 'block' }}
+            />
+          </div>
+        </ScrollBuild>
+
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 44, alignItems: 'start' }} className="aql-hunar-grid">
           <div>
             <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(244,239,224,0.4)', marginBottom: 16 }}>
