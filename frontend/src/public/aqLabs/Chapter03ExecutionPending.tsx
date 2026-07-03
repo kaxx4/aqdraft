@@ -195,7 +195,7 @@ export default function Chapter03ExecutionPending({ team }: { team: AQLabsTeam }
         {team.links.website && (
           <div style={{ textAlign: 'center', marginTop: 32 }}>
             <a href={team.links.website} target="_blank" rel="noopener noreferrer" className="btn"
-              style={{ background: team.mood, color: '#000', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              style={{ background: team.mood, borderColor: team.mood, color: '#000', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               Play QUIRK, live ↗
             </a>
           </div>
