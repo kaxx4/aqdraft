@@ -92,14 +92,14 @@ export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
           <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-4)', marginBottom: 14 }}>
             walk into the woods — the real thing, screen by screen
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginBottom: 40 }} className="aql-tracks-grid">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 36, marginBottom: 40 }}>
             {WALKTHROUGH.map((w, i) => (
               <PhotoPop key={w.file} fromLeft={i % 2 === 0} distance={50}>
                 <BrowserFrame step={w.step} index={i}>
                   <img src={processSrc(team.slug, w.file)} alt={w.caption} loading="lazy" decoding="async"
                     style={{ width: '100%', display: 'block' }} />
                 </BrowserFrame>
-                <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 12.5, lineHeight: 1.4, color: 'var(--txt-3)', marginTop: 10 }}>
+                <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 13.5, lineHeight: 1.4, color: 'var(--txt-3)', marginTop: 10 }}>
                   {w.caption}
                 </p>
               </PhotoPop>
@@ -121,11 +121,6 @@ export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
         </div>
       </motion.div>
 
-      <style>{`
-        @media (max-width: 640px) {
-          .aql-tracks-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </section>
   )
 }

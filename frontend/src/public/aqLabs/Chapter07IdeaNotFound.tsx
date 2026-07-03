@@ -90,13 +90,10 @@ export default function Chapter07IdeaNotFound({ team }: { team: AQLabsTeam }) {
 
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '20px 24px 110px' }}>
         <ScrollBuild>
-          <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(19px,2.3vw,24px)', lineHeight: 1.5, color: '#F4EFE0', marginBottom: 20 }}>
+          <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(18px,2.1vw,22px)', lineHeight: 1.4, color: '#F4EFE0', marginBottom: 16 }}>
             {team.spark}
           </p>
-          <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(244,239,224,0.65)', marginBottom: 20 }}>
-            {team.tension}
-          </p>
-          <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(244,239,224,0.65)', marginBottom: 32 }}>
+          <p style={{ fontSize: 14, lineHeight: 1.65, color: 'rgba(244,239,224,0.6)', marginBottom: 28 }}>
             {team.craft}
           </p>
           <MeaningLine team={team} dark />

@@ -111,6 +111,12 @@ export default function Chapter06ZeroToDeploy({ team }: { team: AQLabsTeam }) {
         </ScrollBuild>
 
         <ScrollBuild>
+          <div style={{ fontFamily: 'var(--mono)', fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: team.mood, marginBottom: 10 }}>
+            why hunar exists
+          </div>
+          <p style={{ fontSize: 15, lineHeight: 1.7, color: 'rgba(244,239,224,0.68)', maxWidth: 680, marginBottom: 28 }}>
+            {team.spark}
+          </p>
           <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(19px,2.4vw,26px)', lineHeight: 1.4, color: '#F4EFE0', maxWidth: 680, marginBottom: 44 }}>
             {team.craft}
           </p>
