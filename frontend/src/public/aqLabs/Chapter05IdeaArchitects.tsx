@@ -1,82 +1,85 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
 import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, processSrc } from './Shared'
 
 const ORBIT_ICONS = ['📚', '🧮', '🥼', '🎨', '🏸', '🎒']
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay }}>
-      {children}
-    </motion.div>
-  )
-}
-
-// Chapter 05 — Idea Architects. The commons: a ring of the actual items
-// that move through the network keeps slowly circulating behind the
-// headline — the idea made literal — while their own posters unroll
-// below like prints being laid out, then settle into a perpetual sway.
+// Chapter 05 — Idea Architects. Cold open: their own poster fills the
+// screen, dimmed and blurred just enough to read the title over it, a
+// ring of the actual items that circulate through the network orbiting
+// behind the headline. Then the poster surfaces properly, unrolled like
+// a print being laid on a table, before it settles into a perpetual sway.
 export default function Chapter05IdeaArchitects({ team }: { team: AQLabsTeam }) {
-  return (
-    <section id={team.slug} style={{ background: '#F1F3EA', padding: '110px 24px', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ maxWidth: 1080, margin: '0 auto', position: 'relative' }}>
-        <ChapterEyebrow team={team} />
-        <MediumBadge team={team} />
+  const heroRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.15])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
 
-        <div style={{ position: 'relative', marginBottom: 8 }}>
-          <div aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
-            <motion.div animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: 'linear' }} style={{ position: 'absolute', top: -30, right: 20, width: 220, height: 220 }}>
-              {ORBIT_ICONS.map((icon, i) => {
-                const angle = (i / ORBIT_ICONS.length) * Math.PI * 2
-                const x = 110 + 100 * Math.cos(angle)
-                const y = 110 + 100 * Math.sin(angle)
-                return (
-                  <motion.span
-                    key={icon}
-                    animate={{ rotate: -360 }}
-                    transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-                    style={{ position: 'absolute', left: x, top: y, fontSize: 22, opacity: 0.55 }}
-                  >
-                    {icon}
-                  </motion.span>
-                )
-              })}
-            </motion.div>
-          </div>
+  return (
+    <section id={team.slug} style={{ background: '#F1F3EA' }}>
+      {/* ── cold open ── */}
+      <div ref={heroRef} style={{ position: 'relative', minHeight: '88vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <motion.div style={{ position: 'absolute', inset: 0, scale: heroScale, opacity: heroOpacity }}>
+          <img
+            src={processSrc(team.slug, '02-cirqle-categories-infographic.jpg')}
+            alt="Their own explainer poster"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(2px) brightness(0.5)' }}
+          />
+        </motion.div>
+
+        <div aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+          <motion.div animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+            style={{ position: 'absolute', top: '50%', left: '50%', width: 340, height: 340, marginLeft: -170, marginTop: -170 }}>
+            {ORBIT_ICONS.map((icon, i) => {
+              const angle = (i / ORBIT_ICONS.length) * Math.PI * 2
+              const x = 170 + 160 * Math.cos(angle)
+              const y = 170 + 160 * Math.sin(angle)
+              return (
+                <motion.span key={icon} animate={{ rotate: -360 }} transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+                  style={{ position: 'absolute', left: x, top: y, fontSize: 30, opacity: 0.85 }}>
+                  {icon}
+                </motion.span>
+              )
+            })}
+          </motion.div>
+        </div>
+
+        <motion.div style={{ position: 'relative', textAlign: 'center', padding: '0 24px', opacity: heroOpacity }}>
+          <ChapterEyebrow team={team} dark />
+          <div style={{ display: 'flex', justifyContent: 'center' }}><MediumBadge team={team} dark /></div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="h-display"
-            style={{ fontSize: 'clamp(36px,5.4vw,60px)', color: team.mood, position: 'relative' }}
+            style={{ fontSize: 'clamp(40px,7.5vw,90px)', color: '#fff' }}
           >
             {team.projectName}
           </motion.h2>
-        </div>
-        <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(17px,2.1vw,23px)', color: 'var(--ink)', margin: '8px 0 40px' }}>
-          {team.tagline}
-        </p>
+          <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(17px,2.1vw,24px)', color: '#C8E0B0', marginTop: 6 }}>
+            {team.tagline}
+          </p>
+        </motion.div>
+      </div>
 
+      <div style={{ maxWidth: 1080, margin: '0 auto', padding: '70px 24px 110px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 1fr', gap: 48, alignItems: 'start' }} className="aql-cirqle-grid">
           <div>
-            <Reveal>
-              <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(19px,2.3vw,24px)', lineHeight: 1.5, color: 'var(--ink)', marginBottom: 20 }}>
-                {team.spark}
-              </p>
-              <p style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--txt-2)', marginBottom: 20 }}>
-                {team.tension}
-              </p>
-              <p style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--txt-2)', marginBottom: 32 }}>
-                {team.craft}
-              </p>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <MeaningLine team={team} />
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
-                <LinkRow links={team.links} mood={team.mood} />
-                <CopyLinkButton slug={team.slug} mood={team.mood} />
-              </div>
-            </Reveal>
+            <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(19px,2.3vw,24px)', lineHeight: 1.5, color: 'var(--ink)', marginBottom: 20 }}>
+              {team.spark}
+            </p>
+            <p style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--txt-2)', marginBottom: 20 }}>
+              {team.tension}
+            </p>
+            <p style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--txt-2)', marginBottom: 32 }}>
+              {team.craft}
+            </p>
+            <MeaningLine team={team} />
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
+              <LinkRow links={team.links} mood={team.mood} />
+              <CopyLinkButton slug={team.slug} mood={team.mood} />
+            </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
             <UnrollPlate
