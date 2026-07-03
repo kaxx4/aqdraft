@@ -14,18 +14,18 @@ export default function Chapter05IdeaArchitects({ team }: { team: AQLabsTeam }) 
   const heroRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.15])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
 
   return (
     <section id={team.slug} style={{ background: '#F1F3EA' }}>
       {/* ── cold open ── */}
       <div ref={heroRef} style={{ position: 'relative', minHeight: '88vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <motion.div style={{ position: 'absolute', inset: 0, scale: heroScale, opacity: heroOpacity }}>
+        <motion.div style={{ position: 'absolute', inset: 0, scale: heroScale }}>
           <img
             src={processSrc(team.slug, '02-cirqle-categories-infographic.jpg')}
             alt="Their own explainer poster"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(2px) brightness(0.5)' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(2px) brightness(0.35)' }}
           />
+          <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 45%, rgba(22,20,10,0.35), rgba(15,15,8,0.75))' }} />
         </motion.div>
 
         <div aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
@@ -45,7 +45,7 @@ export default function Chapter05IdeaArchitects({ team }: { team: AQLabsTeam }) 
           </motion.div>
         </div>
 
-        <motion.div style={{ position: 'relative', textAlign: 'center', padding: '0 24px', opacity: heroOpacity }}>
+        <div style={{ position: 'relative', textAlign: 'center', padding: '0 24px' }}>
           <ChapterEyebrow team={team} dark />
           <div style={{ display: 'flex', justifyContent: 'center' }}><MediumBadge team={team} dark /></div>
           <motion.h2
@@ -53,14 +53,14 @@ export default function Chapter05IdeaArchitects({ team }: { team: AQLabsTeam }) 
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="h-display"
-            style={{ fontSize: 'clamp(40px,7.5vw,90px)', color: '#fff' }}
+            style={{ fontSize: 'clamp(40px,7.5vw,90px)', color: '#fff', textShadow: '0 4px 30px rgba(0,0,0,0.7)' }}
           >
             {team.projectName}
           </motion.h2>
-          <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(17px,2.1vw,24px)', color: '#C8E0B0', marginTop: 6 }}>
+          <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(17px,2.1vw,24px)', color: '#C8E0B0', marginTop: 6, textShadow: '0 2px 16px rgba(0,0,0,0.6)' }}>
             {team.tagline}
           </p>
-        </motion.div>
+        </div>
       </div>
 
       <div style={{ maxWidth: 1080, margin: '0 auto', padding: '70px 24px 110px' }}>

@@ -42,7 +42,6 @@ export default function Chapter03ExecutionPending({ team }: { team: AQLabsTeam }
   const heroRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
   const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '26%'])
-  const heroTextOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
 
   return (
     <section id={team.slug} style={{ background: '#000' }}>
@@ -55,10 +54,10 @@ export default function Chapter03ExecutionPending({ team }: { team: AQLabsTeam }
             alt="ESP32, OLED and pressure-pad module hand-wired on a breadboard, 1:02 AM"
             style={{ width: '100%', height: '128%', objectFit: 'cover', objectPosition: '35% 45%', filter: 'brightness(0.5) contrast(1.05)' }}
           />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #000 5%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0.6) 100%)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #000 15%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.7) 100%)' }} />
         </motion.div>
 
-        <motion.div style={{ position: 'relative', maxWidth: 1000, margin: '0 auto', padding: '160px 24px 48px', width: '100%', opacity: heroTextOpacity }}>
+        <div style={{ position: 'relative', maxWidth: 1000, margin: '0 auto', padding: '160px 24px 48px', width: '100%' }}>
           <ChapterEyebrow team={team} dark />
           <MediumBadge team={team} dark />
           <motion.div
@@ -66,7 +65,7 @@ export default function Chapter03ExecutionPending({ team }: { team: AQLabsTeam }
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
             className="h-display"
-            style={{ fontSize: 'clamp(48px,9vw,110px)', color: team.mood, lineHeight: 1, marginBottom: 4 }}
+            style={{ fontSize: 'clamp(48px,9vw,110px)', color: team.mood, lineHeight: 1, marginBottom: 4, textShadow: '0 4px 30px rgba(0,0,0,0.7)' }}
           >
             3:02 AM
           </motion.div>
@@ -75,14 +74,14 @@ export default function Chapter03ExecutionPending({ team }: { team: AQLabsTeam }
             animate={{ opacity: 1, letterSpacing: '0em' }}
             transition={{ duration: 0.7, delay: 0.2 }}
             className="h-display"
-            style={{ fontSize: 'clamp(30px,5vw,54px)', color: '#fff' }}
+            style={{ fontSize: 'clamp(30px,5vw,54px)', color: '#fff', textShadow: '0 4px 30px rgba(0,0,0,0.7)' }}
           >
             "we built this at 3am."
           </motion.h2>
           <p style={{ fontFamily: 'var(--mono)', fontSize: 12.5, color: 'rgba(255,255,255,0.5)', marginTop: 10 }}>
             a kitchen counter · four teenagers · one breadboard
           </p>
-        </motion.div>
+        </div>
       </div>
 
       {/* ── movement 2 — the epidemic, in numbers ── */}

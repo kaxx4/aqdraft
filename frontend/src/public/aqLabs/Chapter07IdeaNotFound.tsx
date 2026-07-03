@@ -19,34 +19,43 @@ export default function Chapter07IdeaNotFound({ team }: { team: AQLabsTeam }) {
   const heroRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.15])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
-  const pitchOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0])
-  const realOpacity = useTransform(scrollYProgress, [0.15, 0.4], [0, 1])
 
   return (
     <section id={team.slug} style={{ background: '#0B0C0E' }}>
       {/* ── cold open ── */}
       <div ref={heroRef} style={{ position: 'relative', minHeight: '90vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <motion.div style={{ position: 'absolute', inset: 0, scale: heroScale, opacity: heroOpacity }}>
+        <motion.div style={{ position: 'absolute', inset: 0, scale: heroScale }}>
           <img
             src={processSrc(team.slug, '03-wrist-mockup-render.jpeg')}
             alt="Worn, not charged"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.4)' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.35)' }}
           />
+          <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 45%, rgba(11,12,14,0.35), rgba(11,12,14,0.75))' }} />
         </motion.div>
 
-        <motion.div style={{ position: 'relative', textAlign: 'center', padding: '0 24px', opacity: heroOpacity }}>
+        <div style={{ position: 'relative', textAlign: 'center', padding: '0 24px' }}>
           <ChapterEyebrow team={team} dark />
           <div style={{ display: 'flex', justifyContent: 'center' }}><MediumBadge team={team} dark /></div>
-          <div style={{ position: 'relative', height: '1.3em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <motion.h2 style={{ opacity: pitchOpacity, position: 'absolute', fontFamily: 'var(--mono)', fontSize: 'clamp(20px,3vw,30px)', color: 'rgba(244,239,224,0.5)', letterSpacing: '0.1em' }}>
-              pitched as "{team.projectName}"
-            </motion.h2>
-            <motion.h2 style={{ opacity: realOpacity, position: 'absolute', fontFamily: 'var(--serif)', fontWeight: 400, fontSize: 'clamp(42px,7.5vw,90px)', color: '#F4EFE0' }}>
-              Modus Band
-            </motion.h2>
-          </div>
-        </motion.div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            style={{ fontFamily: 'var(--mono)', fontSize: 'clamp(13px,1.6vw,16px)', color: 'rgba(244,239,224,0.6)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 10 }}
+          >
+            pitched as "{team.projectName}" · built as —
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              fontFamily: 'var(--serif)', fontWeight: 400, fontSize: 'clamp(42px,7.5vw,90px)', color: '#F4EFE0',
+              textShadow: '0 4px 30px rgba(0,0,0,0.6)',
+            }}
+          >
+            Modus Band
+          </motion.h2>
+        </div>
       </div>
 
       {/* ── the assembly line ── */}
