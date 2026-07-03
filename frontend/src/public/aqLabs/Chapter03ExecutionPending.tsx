@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useMotionTemplate, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
 import { ChapterEyebrow, CopyLinkButton, CountTo, LinkRow, MediumBadge, MeaningLine, ScrollBuild, processSrc } from './Shared'
 
@@ -34,6 +34,14 @@ export default function Chapter03ExecutionPending({ team }: { team: AQLabsTeam }
   const heroRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
   const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '26%'])
+  // the quote glitches into focus as you scroll into the hero — a
+  // chromatic-aberration wipe that settles the instant it's fully read,
+  // instead of a one-shot mount fade.
+  const settle = useTransform(scrollYProgress, [0, 0.32], [0, 1])
+  const glitchOffset = useTransform(settle, v => (1 - v) * 7)
+  const headingClip = useTransform(settle, v => `inset(0 ${(1 - v) * 100}% 0 0)`)
+  const headingTracking = useTransform(settle, v => `${(1 - v) * 0.35}em`)
+  const headingShadow = useMotionTemplate`0 4px 30px rgba(0,0,0,0.7), ${glitchOffset}px 0 0 rgba(255,40,90,0.55), -${glitchOffset}px 0 0 rgba(60,220,255,0.5)`
 
   return (
     <section id={team.slug} style={{
@@ -64,11 +72,11 @@ export default function Chapter03ExecutionPending({ team }: { team: AQLabsTeam }
             3:02 AM
           </motion.div>
           <motion.h2
-            initial={{ opacity: 0, letterSpacing: '0.3em' }}
-            animate={{ opacity: 1, letterSpacing: '0em' }}
-            transition={{ duration: 0.7, delay: 0.2 }}
             className="h-display"
-            style={{ fontSize: 'clamp(30px,5vw,54px)', color: '#fff', textShadow: '0 4px 30px rgba(0,0,0,0.7)' }}
+            style={{
+              fontSize: 'clamp(30px,5vw,54px)', color: '#fff',
+              clipPath: headingClip, textShadow: headingShadow, letterSpacing: headingTracking,
+            }}
           >
             "we built this at 3am."
           </motion.h2>
