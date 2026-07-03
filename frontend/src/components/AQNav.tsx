@@ -226,15 +226,17 @@ export default function AQNav({ onCompose }: AQNavProps) {
             </button>
           </div>
 
-          {/* CENTER — floating pill */}
+          {/* CENTER — an archive rail of overlapping file tabs, not a flat pill */}
           <div className="aq-nav-pill">
-            {navLinks.map(l => (
+            {navLinks.map((l, i) => (
               <button
                 key={l.href}
                 className={'aq-nav-link' + (isActive(l.href) ? ' active' : '')}
                 aria-current={isActive(l.href) ? 'page' : undefined}
                 onClick={() => navigate(l.href)}
                 data-nav
+                data-idx={String(i + 1).padStart(2, '0')}
+                style={{ zIndex: i + 1 }}
               >
                 <span className="aq-nav-link-icon">{l.icon}</span>
                 <span className="aq-nav-link-label">{l.label}</span>

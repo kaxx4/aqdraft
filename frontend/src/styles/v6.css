@@ -333,61 +333,65 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
    Each link is its own glass capsule, floating
    independently. No shared container background.     */
 
+/* ━━━ NAV — ARCHIVE RAIL ━━━
+   Inspired by a filing-cabinet of tabbed folders: each link is a paper
+   tab that overlaps the one before it, sits at a slight hand-stacked
+   angle, and pulls forward — straightening and lifting — on hover or
+   when active, the way you'd pull a folder out of a stack. */
+
 .aq-nav-pill {
   justify-self: center;
-  display: inline-flex; align-items: center; gap: 5px;
+  display: inline-flex; align-items: flex-end;
+  padding-left: 10px;
 }
 
-/* Each link = its own floating pill */
 .aq-nav-link {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 8px 15px;
-  font-weight: 600; font-size: 13.5px; line-height: 1;
-  font-family: var(--sans); color: var(--ink);
+  padding: 9px 16px 8px;
+  font-weight: 700; font-size: 10.5px; line-height: 1;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  font-family: var(--mono); color: var(--ink-3);
   border: none; cursor: pointer;
-  border-radius: 999px;
-  /* individual glass */
-  background: rgba(255,255,255,0.62);
-  backdrop-filter: blur(14px) saturate(1.6);
-  -webkit-backdrop-filter: blur(14px) saturate(1.6);
-  box-shadow:
-    0 1px 0 rgba(255,255,255,0.9) inset,
-    0 1px 3px rgba(0,0,0,0.06),
-    0 4px 14px -2px rgba(0,0,0,0.06);
+  border-radius: 9px 9px 3px 3px;
+  margin-left: -10px;
+  background: rgba(244,239,224,0.88);
+  border: 1px solid rgba(14,14,13,0.1);
+  border-bottom: none;
+  box-shadow: -3px 0 6px -3px rgba(0,0,0,0.08);
   transition-property: background, color, transform, box-shadow;
-  transition-duration: 0.16s;
+  transition-duration: 0.18s;
   transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
   position: relative;
 }
-.aq-nav-link-icon {
-  display: inline-flex; opacity: 0.65;
-  transition: opacity 0.16s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+.aq-nav-link:nth-child(odd) { transform: rotate(-1.4deg) translateY(1px); }
+.aq-nav-link:nth-child(even) { transform: rotate(1.2deg); }
+.aq-nav-link::before {
+  content: attr(data-idx);
+  position: absolute; top: 3px; left: 7px;
+  font-family: var(--mono); font-size: 8px; font-weight: 700;
+  color: var(--ink-4); letter-spacing: 0;
 }
-.aq-nav-link-icon svg { width: 14px; height: 14px; }
+.aq-nav-link-icon { display: none; }
+.aq-nav-link-label { margin-top: 6px; }
 
 .aq-nav-link:hover {
-  background: rgba(255,255,255,0.9);
-  transform: translateY(-2px);
-  box-shadow:
-    0 1px 0 rgba(255,255,255,0.9) inset,
-    0 2px 8px rgba(0,0,0,0.07),
-    0 8px 22px -4px rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.96);
+  color: var(--ink);
+  transform: rotate(0deg) translateY(-5px);
+  z-index: 30 !important;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.05), 0 10px 22px -6px rgba(0,0,0,0.16);
 }
-.aq-nav-link:hover .aq-nav-link-icon {
-  opacity: 1;
-  transform: rotate(-8deg) scale(1.15);
-}
-.aq-nav-link:active { transform: translateY(0) scale(0.97); }
+.aq-nav-link:active { transform: rotate(0deg) translateY(-2px) scale(0.98); }
 
-/* Active pill — filled, solid */
+/* Active tab — pulled fully forward, filled solid */
 .aq-nav-link.active {
   background: var(--ink);
   color: var(--bg);
-  box-shadow:
-    0 2px 8px rgba(0,0,0,0.14),
-    0 6px 20px -4px rgba(0,0,0,0.12);
+  transform: rotate(0deg) translateY(-6px);
+  z-index: 20;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.1), 0 10px 24px -6px rgba(0,0,0,0.22);
 }
-.aq-nav-link.active .aq-nav-link-icon { opacity: 1; color: var(--mint); }
+.aq-nav-link.active::before { color: var(--mint); }
 
 /* Director pill — mint when active */
 .aq-nav-link-director.active {
@@ -595,12 +599,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 [data-theme="dark"] .aq-logo:hover { background: rgba(255,255,255,0.12); }
 
 [data-theme="dark"] .aq-nav-link {
-  background: rgba(20,20,24,0.65);
-  color: rgba(255,255,255,0.9);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 1px 3px rgba(0,0,0,0.22), 0 4px 14px -2px rgba(0,0,0,0.18);
+  background: rgba(28,26,22,0.9);
+  border-color: rgba(255,255,255,0.08);
+  color: rgba(240,237,228,0.6);
 }
-[data-theme="dark"] .aq-nav-link:hover { background: rgba(30,30,36,0.88); }
-[data-theme="dark"] .aq-nav-link.active { background: var(--mint); color: #0A0A0A; box-shadow: 0 2px 10px rgba(0,0,0,0.25); }
+[data-theme="dark"] .aq-nav-link::before { color: rgba(240,237,228,0.35); }
+[data-theme="dark"] .aq-nav-link:hover { background: rgba(40,38,32,0.96); color: rgba(240,237,228,0.95); }
+[data-theme="dark"] .aq-nav-link.active { background: var(--mint); color: #0A0A0A; }
 [data-theme="dark"] .aq-nav-link-director.active { background: var(--mint); color: #0A0A0A; }
 
 [data-theme="dark"] .aq-nav-icon-btn {
