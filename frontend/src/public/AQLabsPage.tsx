@@ -89,7 +89,7 @@ function Hero() {
 
 function Manifesto() {
   return (
-    <section style={{ background: 'var(--bg)', padding: '86px 24px 60px' }}>
+    <section style={{ background: 'var(--bg)', padding: '86px 24px 20px' }}>
       <div style={{ maxWidth: 720, margin: '0 auto', textAlign: 'center' }}>
         <p style={{
           fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(22px,3.4vw,32px)',
@@ -106,22 +106,84 @@ function Manifesto() {
           published page, and a link members can put on their own CV.
         </p>
       </div>
+    </section>
+  )
+}
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', maxWidth: 900, margin: '36px auto 0' }}>
-        {AQ_LABS_TEAMS.map(t => (
-          <a
-            key={t.slug}
-            href={`#${t.slug}`}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 7, textDecoration: 'none',
-              padding: '8px 14px', borderRadius: 999, border: '1.5px solid var(--line-2)',
-              fontFamily: 'var(--mono)', fontSize: 11.5, color: 'var(--ink-2)', fontWeight: 700,
-            }}
-          >
-            <span style={{ color: t.mood }}>{t.chapter}</span> {t.projectName}
-          </a>
-        ))}
+// The gallery index — a directory, not a scroll prompt. Pick a room; each
+// one tells its own story and doesn't ask you to sit through the others
+// first. This is the primary way anyone moves through the page.
+function GalleryIndex() {
+  return (
+    <section id="aq-labs-index" style={{ background: 'var(--bg)', padding: '50px 24px 110px' }}>
+      <div style={{ maxWidth: 860, margin: '0 auto' }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 8, flexWrap: 'wrap', gap: 8 }}>
+          <div style={{ fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-4)' }}>
+            the gallery — seven rooms
+          </div>
+          <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--ink-4)' }}>
+            pick any room, in any order
+          </div>
+        </div>
+        <div style={{ borderTop: '1.5px solid var(--ink)' }}>
+          {AQ_LABS_TEAMS.map(t => (
+            <a
+              key={t.slug}
+              href={`#${t.slug}`}
+              className="aql-index-row"
+              style={{
+                display: 'flex', alignItems: 'center', gap: 20, padding: '20px 4px',
+                textDecoration: 'none', color: 'inherit', borderBottom: '1.5px solid var(--line)',
+                position: 'relative', overflow: 'hidden',
+              }}
+            >
+              <span
+                aria-hidden
+                className="aql-index-wash"
+                style={{ position: 'absolute', inset: 0, background: t.mood, opacity: 0, transition: 'opacity 0.25s' }}
+              />
+              <span
+                className="h-display"
+                style={{ position: 'relative', fontSize: 'clamp(20px,3vw,28px)', color: t.mood, width: 44, flexShrink: 0 }}
+              >
+                {t.chapter}
+              </span>
+              <span style={{ position: 'relative', flex: 1, minWidth: 0 }}>
+                <span className="h-display" style={{ fontSize: 'clamp(18px,2.6vw,24px)', color: 'var(--ink)', display: 'block' }}>
+                  {t.projectName}
+                </span>
+                <span style={{
+                  fontFamily: 'var(--mono)', fontSize: 11.5, color: 'var(--ink-4)', textTransform: 'uppercase',
+                  letterSpacing: '0.04em', display: 'block', marginTop: 2,
+                }}>
+                  {t.teamName} · {t.category}
+                </span>
+              </span>
+              <span
+                className="aql-index-hook"
+                style={{
+                  position: 'relative', fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 14,
+                  color: 'var(--txt-3)', maxWidth: 260, textAlign: 'right', display: 'none',
+                }}
+              >
+                {t.tagline}
+              </span>
+              <span className="aql-index-arrow" style={{ position: 'relative', fontSize: 18, color: t.mood, flexShrink: 0 }}>
+                →
+              </span>
+            </a>
+          ))}
+        </div>
       </div>
+
+      <style>{`
+        .aql-index-row:hover .aql-index-wash { opacity: 0.06; }
+        .aql-index-row .aql-index-arrow { transform: translateX(-4px); opacity: 0; transition: transform 0.2s, opacity 0.2s; }
+        .aql-index-row:hover .aql-index-arrow { transform: translateX(0); opacity: 1; }
+        @media (min-width: 780px) {
+          .aql-index-hook { display: block !important; }
+        }
+      `}</style>
     </section>
   )
 }
@@ -168,6 +230,7 @@ export default function AQLabsPage() {
     <div>
       <Hero />
       <Manifesto />
+      <GalleryIndex />
       {AQ_LABS_TEAMS.map((team, i) => {
         const ChapterComponent = CHAPTERS[i]
         return <ChapterComponent key={team.slug} team={team} />

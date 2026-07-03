@@ -109,6 +109,14 @@ export function ChapterEyebrow({ team, dark }: { team: AQLabsTeam; dark?: boolea
       letterSpacing: '0.08em', textTransform: 'uppercase',
       color: dark ? 'rgba(255,255,255,0.55)' : 'var(--ink-3)',
     }}>
+      <a
+        href="#aq-labs-index"
+        style={{ color: 'inherit', textDecoration: 'none', opacity: 0.75, display: 'inline-flex', alignItems: 'center', gap: 5 }}
+        title="Back to the gallery index"
+      >
+        ← index
+      </a>
+      <span style={{ opacity: 0.4 }}>·</span>
       <span style={{ color: team.mood }}>chapter {team.chapter}</span>
       <span style={{ opacity: 0.4 }}>·</span>
       <span>{team.teamName}</span>
