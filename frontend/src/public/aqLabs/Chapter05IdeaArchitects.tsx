@@ -1,38 +1,82 @@
 import { motion } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, Narrative, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, processSrc } from './Shared'
 
-// Chapter 05 — Idea Architects. The commons: their own poster doesn't
-// fade in, it unrolls — scaling up from a flat strip anchored at the top,
-// like a print being unrolled onto a table — and settles into a gentle,
-// perpetual sway once it's up, like it's still catching a breeze.
+const ORBIT_ICONS = ['📚', '🧮', '🥼', '🎨', '🏸', '🎒']
+
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  return (
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay }}>
+      {children}
+    </motion.div>
+  )
+}
+
+// Chapter 05 — Idea Architects. The commons: a ring of the actual items
+// that move through the network keeps slowly circulating behind the
+// headline — the idea made literal — while their own posters unroll
+// below like prints being laid out, then settle into a perpetual sway.
 export default function Chapter05IdeaArchitects({ team }: { team: AQLabsTeam }) {
   return (
-    <section id={team.slug} style={{ background: '#F1F3EA', padding: '110px 24px' }}>
-      <div style={{ maxWidth: 1080, margin: '0 auto' }}>
+    <section id={team.slug} style={{ background: '#F1F3EA', padding: '110px 24px', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ maxWidth: 1080, margin: '0 auto', position: 'relative' }}>
         <ChapterEyebrow team={team} />
         <MediumBadge team={team} />
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="h-display"
-          style={{ fontSize: 'clamp(36px,5.4vw,60px)', color: team.mood }}
-        >
-          {team.projectName}
-        </motion.h2>
+
+        <div style={{ position: 'relative', marginBottom: 8 }}>
+          <div aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+            <motion.div animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: 'linear' }} style={{ position: 'absolute', top: -30, right: 20, width: 220, height: 220 }}>
+              {ORBIT_ICONS.map((icon, i) => {
+                const angle = (i / ORBIT_ICONS.length) * Math.PI * 2
+                const x = 110 + 100 * Math.cos(angle)
+                const y = 110 + 100 * Math.sin(angle)
+                return (
+                  <motion.span
+                    key={icon}
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+                    style={{ position: 'absolute', left: x, top: y, fontSize: 22, opacity: 0.55 }}
+                  >
+                    {icon}
+                  </motion.span>
+                )
+              })}
+            </motion.div>
+          </div>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="h-display"
+            style={{ fontSize: 'clamp(36px,5.4vw,60px)', color: team.mood, position: 'relative' }}
+          >
+            {team.projectName}
+          </motion.h2>
+        </div>
         <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(17px,2.1vw,23px)', color: 'var(--ink)', margin: '8px 0 40px' }}>
           {team.tagline}
         </p>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 1fr', gap: 48, alignItems: 'start' }} className="aql-cirqle-grid">
           <div>
-            <Narrative team={team} />
-            <MeaningLine team={team} />
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
-              <LinkRow links={team.links} mood={team.mood} />
-              <CopyLinkButton slug={team.slug} mood={team.mood} />
-            </div>
+            <Reveal>
+              <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(19px,2.3vw,24px)', lineHeight: 1.5, color: 'var(--ink)', marginBottom: 20 }}>
+                {team.spark}
+              </p>
+              <p style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--txt-2)', marginBottom: 20 }}>
+                {team.tension}
+              </p>
+              <p style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--txt-2)', marginBottom: 32 }}>
+                {team.craft}
+              </p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <MeaningLine team={team} />
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
+                <LinkRow links={team.links} mood={team.mood} />
+                <CopyLinkButton slug={team.slug} mood={team.mood} />
+              </div>
+            </Reveal>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
             <UnrollPlate
