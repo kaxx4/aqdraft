@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, ScrollBuild, processSrc } from './Shared'
 
 const ORBIT_ICONS = ['📚', '🧮', '🥼', '🎨', '🏸', '🎒']
 
@@ -65,7 +65,7 @@ export default function Chapter05IdeaArchitects({ team }: { team: AQLabsTeam }) 
 
       <div style={{ maxWidth: 1080, margin: '0 auto', padding: '70px 24px 110px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 1fr', gap: 48, alignItems: 'start' }} className="aql-cirqle-grid">
-          <div>
+          <ScrollBuild>
             <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(19px,2.3vw,24px)', lineHeight: 1.5, color: 'var(--ink)', marginBottom: 20 }}>
               {team.spark}
             </p>
@@ -80,7 +80,7 @@ export default function Chapter05IdeaArchitects({ team }: { team: AQLabsTeam }) 
               <LinkRow links={team.links} mood={team.mood} />
               <CopyLinkButton slug={team.slug} mood={team.mood} />
             </div>
-          </div>
+          </ScrollBuild>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
             <UnrollPlate
               src={processSrc(team.slug, '01-what-is-cirqle-infographic.jpg')}
@@ -106,13 +106,12 @@ export default function Chapter05IdeaArchitects({ team }: { team: AQLabsTeam }) 
 }
 
 function UnrollPlate({ src, caption, delay }: { src: string; caption: string; delay: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.95', 'start 0.5'] })
+  const scaleY = useTransform(scrollYProgress, [0, 1], [0.08, 1])
+  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1])
   return (
-    <motion.figure
-      initial={{ opacity: 0, scaleY: 0.08 }}
-      animate={{ opacity: 1, scaleY: 1 }}
-      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
-      style={{ margin: 0, transformOrigin: 'top center' }}
-    >
+    <motion.figure ref={ref} style={{ margin: 0, transformOrigin: 'top center', scaleY, opacity }}>
       <motion.div
         animate={{ rotate: [-0.6, 0.6, -0.6] }}
         transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: delay + 0.7 }}

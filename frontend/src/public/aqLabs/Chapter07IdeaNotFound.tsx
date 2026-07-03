@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, ScrollBuild, processSrc } from './Shared'
 
 const ASSEMBLY = [
   { file: '01-modus-band-concept-render.jpeg', caption: 'The concept — musical notation, engraved before anything was built.' },
@@ -65,46 +65,44 @@ export default function Chapter07IdeaNotFound({ team }: { team: AQLabsTeam }) {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }} className="aql-assembly-grid">
           {ASSEMBLY.map((a, i) => (
-            <motion.figure
-              key={a.file}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.12, ease: [0.2, 0, 0, 1] }}
-              style={{ margin: 0 }}
-            >
-              <div style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)' }}>
-                <div style={{
-                  position: 'absolute', top: 8, left: 8, zIndex: 2, fontFamily: 'var(--mono)', fontSize: 10.5,
-                  color: '#0B0C0E', background: team.mood, borderRadius: 999, padding: '2px 8px', fontWeight: 700,
-                }}>
-                  {String(i + 1).padStart(2, '0')}
+            <ScrollBuild key={a.file} y={34}>
+              <figure style={{ margin: 0 }}>
+                <div style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.14)' }}>
+                  <div style={{
+                    position: 'absolute', top: 8, left: 8, zIndex: 2, fontFamily: 'var(--mono)', fontSize: 10.5,
+                    color: '#0B0C0E', background: team.mood, borderRadius: 999, padding: '2px 8px', fontWeight: 700,
+                  }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <img src={processSrc(team.slug, a.file)} alt={a.caption} loading="lazy" decoding="async"
+                    style={{ width: '100%', display: 'block', aspectRatio: '4/5', objectFit: 'cover' }} />
                 </div>
-                <img src={processSrc(team.slug, a.file)} alt={a.caption} loading="lazy" decoding="async"
-                  style={{ width: '100%', display: 'block', aspectRatio: '4/5', objectFit: 'cover' }} />
-              </div>
-              <figcaption style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 11.5, lineHeight: 1.4, color: 'rgba(244,239,224,0.5)', marginTop: 8 }}>
-                {a.caption}
-              </figcaption>
-            </motion.figure>
+                <figcaption style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 11.5, lineHeight: 1.4, color: 'rgba(244,239,224,0.5)', marginTop: 8 }}>
+                  {a.caption}
+                </figcaption>
+              </figure>
+            </ScrollBuild>
           ))}
         </div>
       </div>
 
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '20px 24px 110px' }}>
-        <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(19px,2.3vw,24px)', lineHeight: 1.5, color: '#F4EFE0', marginBottom: 20 }}>
-          {team.spark}
-        </p>
-        <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(244,239,224,0.65)', marginBottom: 20 }}>
-          {team.tension}
-        </p>
-        <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(244,239,224,0.65)', marginBottom: 32 }}>
-          {team.craft}
-        </p>
-        <MeaningLine team={team} dark />
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
-          <LinkRow links={team.links} dark mood={team.mood} />
-          <CopyLinkButton slug={team.slug} dark mood={team.mood} />
-        </div>
+        <ScrollBuild>
+          <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(19px,2.3vw,24px)', lineHeight: 1.5, color: '#F4EFE0', marginBottom: 20 }}>
+            {team.spark}
+          </p>
+          <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(244,239,224,0.65)', marginBottom: 20 }}>
+            {team.tension}
+          </p>
+          <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(244,239,224,0.65)', marginBottom: 32 }}>
+            {team.craft}
+          </p>
+          <MeaningLine team={team} dark />
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
+            <LinkRow links={team.links} dark mood={team.mood} />
+            <CopyLinkButton slug={team.slug} dark mood={team.mood} />
+          </div>
+        </ScrollBuild>
       </div>
 
       <style>{`
