@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, MediumBadge, MeaningLine, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, MediumBadge, MeaningLine, ScrollBuild, processSrc } from './Shared'
 
 const LADDER = [
   { tier: 'Institute', weight: 'highest', width: '100%' },
@@ -137,14 +137,16 @@ function Rule() {
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div style={{ marginBottom: 20 }}>
-      <div style={{ fontFamily: 'var(--mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8a7a5c', marginBottom: 6 }}>
-        {label}
+    <ScrollBuild y={20} scale={1} start={0.98} end={0.75}>
+      <div style={{ marginBottom: 20 }}>
+        <div style={{ fontFamily: 'var(--mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8a7a5c', marginBottom: 6 }}>
+          {label}
+        </div>
+        <p style={{ fontFamily: "'Eina01', sans-serif", fontSize: 14.5, lineHeight: 1.65, color: '#2c2820', margin: 0 }}>
+          {children}
+        </p>
       </div>
-      <p style={{ fontFamily: "'Eina01', sans-serif", fontSize: 14.5, lineHeight: 1.65, color: '#2c2820', margin: 0 }}>
-        {children}
-      </p>
-    </div>
+    </ScrollBuild>
   )
 }
 
