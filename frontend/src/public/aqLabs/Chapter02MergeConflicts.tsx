@@ -25,8 +25,13 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
       position: 'relative', overflow: 'hidden',
     }}>
       {/* ── cold open — breaking news ── */}
-      <div style={{ minHeight: '86vh', display: 'flex', flexDirection: 'column', paddingTop: 'calc(var(--nav-h, 70px) + 20px)' }}>
-        <div style={{ background: team.mood, padding: '7px 0', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+      <div style={{ position: 'relative', minHeight: '86vh', display: 'flex', flexDirection: 'column', paddingTop: 'calc(var(--nav-h, 70px) + 20px)' }}>
+        <div aria-hidden style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+          <img src={processSrc(team.slug, '02-live-site-landing.jpg')} alt=""
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', filter: 'blur(3px) brightness(0.3)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 40%, rgba(10,10,10,0.4), rgba(10,10,10,0.85))' }} />
+        </div>
+        <div style={{ position: 'relative', background: team.mood, padding: '7px 0', overflow: 'hidden', whiteSpace: 'nowrap' }}>
           <motion.div
             animate={{ x: ['0%', '-50%'] }}
             transition={{ duration: 22, repeat: Infinity, ease: 'linear' }}
@@ -38,7 +43,7 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
           </motion.div>
         </div>
 
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}>
+        <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}>
           <div style={{ maxWidth: 900, textAlign: 'center' }}>
             <ChapterEyebrow team={team} dark />
             <div style={{ display: 'flex', justifyContent: 'center' }}><MediumBadge team={team} dark /></div>
