@@ -35,10 +35,10 @@ export default function Chapter05IdeaArchitects({ team }: { team: AQLabsTeam }) 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="h-display"
             style={{
-              fontSize: 'clamp(52px,11vw,132px)', fontWeight: 900, color: '#fff', lineHeight: 0.96,
-              textShadow: '0 4px 30px rgba(0,0,0,0.7)', letterSpacing: '-0.02em',
+              fontFamily: "'DM Sans', sans-serif", fontStyle: 'italic', textTransform: 'uppercase',
+              fontSize: 'clamp(44px,9.5vw,112px)', fontWeight: 900, color: '#fff', lineHeight: 0.96,
+              textShadow: '0 4px 30px rgba(0,0,0,0.7)', letterSpacing: '0.01em',
             }}
           >
             {team.projectName}

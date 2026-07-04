@@ -66,8 +66,11 @@ export default function Chapter03ExecutionPending({ team }: { team: AQLabsTeam }
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="h-display"
-            style={{ fontSize: 'clamp(48px,9vw,110px)', color: team.mood, lineHeight: 1, marginBottom: 4, textShadow: '0 4px 30px rgba(0,0,0,0.7)' }}
+            style={{
+              fontFamily: 'var(--mono)', fontWeight: 700, textTransform: 'uppercase',
+              fontSize: 'clamp(44px,8.5vw,102px)', color: team.mood, lineHeight: 1, marginBottom: 4,
+              letterSpacing: '-0.01em', textShadow: '0 4px 30px rgba(0,0,0,0.7)',
+            }}
           >
             3:02 AM
           </motion.div>
