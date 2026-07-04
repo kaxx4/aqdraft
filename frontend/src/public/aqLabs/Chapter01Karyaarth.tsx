@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import type { AQLabsTeam } from './data'
-import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, processSrc } from './Shared'
+import { ChapterEyebrow, CopyLinkButton, LinkRow, MediumBadge, MeaningLine, ScrollBuild, processSrc } from './Shared'
 
 const GALLERY = [
   '03-vendor-handoff.jpg',
@@ -107,14 +107,16 @@ export default function Chapter01Karyaarth({ team }: { team: AQLabsTeam }) {
 
 function CopyBlock({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div style={{ marginBottom: 24, maxWidth: 460 }}>
-      <div style={{ fontFamily: 'var(--mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 8 }}>
-        {label}
+    <ScrollBuild y={26} scale={1}>
+      <div style={{ marginBottom: 24, maxWidth: 460 }}>
+        <div style={{ fontFamily: 'var(--mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 8 }}>
+          {label}
+        </div>
+        <p style={{ fontFamily: "'Eina01', sans-serif", fontSize: 15, lineHeight: 1.65, color: 'rgba(244,239,224,0.75)', margin: 0 }}>
+          {children}
+        </p>
       </div>
-      <p style={{ fontFamily: "'Eina01', sans-serif", fontSize: 15, lineHeight: 1.65, color: 'rgba(244,239,224,0.75)', margin: 0 }}>
-        {children}
-      </p>
-    </div>
+    </ScrollBuild>
   )
 }
 

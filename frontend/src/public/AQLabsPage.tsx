@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { useMeta } from '../hooks/useMeta'
 import { pageMetadata } from '../lib/metaConfig'
 import { AQ_LABS_TEAMS, type AQLabsTeam } from './aqLabs/data'
@@ -325,18 +325,28 @@ function GalleryIndex() {
 // different rooms instead of one continuous scroll.
 function ChapterSeam({ team }: { team: AQLabsTeam }) {
   const flip = Number(team.chapter) % 2 === 0
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.9', 'start 0.4'] })
+  const scaleY = useTransform(scrollYProgress, [0, 1], [0.15, 1])
+  const skew = useTransform(scrollYProgress, [0, 1], [flip ? -6 : 6, 0])
+  const textOpacity = useTransform(scrollYProgress, [0.4, 1], [0, 1])
   return (
-    <div aria-hidden style={{
-      background: team.mood, height: 72, display: 'flex', alignItems: 'center',
-      justifyContent: flip ? 'flex-start' : 'flex-end', padding: '0 28px',
-      clipPath: flip ? 'polygon(0 0,100% 0,100% 100%,0 60%)' : 'polygon(0 0,100% 0,100% 60%,0 100%)',
-    }}>
-      <span style={{
-        fontFamily: 'var(--mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.15em',
-        textTransform: 'uppercase', color: 'rgba(0,0,0,0.55)',
+    <div ref={ref} aria-hidden style={{ height: 72, overflow: 'hidden', position: 'relative' }}>
+      <motion.div style={{
+        position: 'absolute', inset: 0, background: team.mood, transformOrigin: flip ? 'left center' : 'right center',
+        scaleY, skewX: skew,
+      }} />
+      <motion.div style={{
+        position: 'relative', height: '100%', display: 'flex', alignItems: 'center',
+        justifyContent: flip ? 'flex-start' : 'flex-end', padding: '0 28px', opacity: textOpacity,
       }}>
-        end of chapter {team.chapter}
-      </span>
+        <span style={{
+          fontFamily: 'var(--mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.15em',
+          textTransform: 'uppercase', color: 'rgba(0,0,0,0.55)',
+        }}>
+          end of chapter {team.chapter}
+        </span>
+      </motion.div>
     </div>
   )
 }
