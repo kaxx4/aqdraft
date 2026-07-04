@@ -44,8 +44,10 @@ export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...sprout, delay: 0.2 }}
-          className="h-display"
-          style={{ fontSize: 'clamp(38px,6.5vw,72px)', color: '#fff', textAlign: 'center' }}
+          style={{
+            fontFamily: 'var(--serif)', fontStyle: 'italic', fontWeight: 400,
+            fontSize: 'clamp(42px,7.5vw,84px)', color: '#fff', textAlign: 'center',
+          }}
         >
           {team.projectName}
         </motion.h2>
@@ -84,7 +86,7 @@ export default function Chapter04AlterEgo({ team }: { team: AQLabsTeam }) {
             <p style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'clamp(19px,2.3vw,24px)', lineHeight: 1.5, color: 'var(--ink)', marginBottom: 20 }}>
               {team.spark}
             </p>
-            <p style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--txt-2)', marginBottom: 44, maxWidth: 620 }}>
+            <p style={{ fontFamily: "'Eina01', sans-serif", fontSize: 15, lineHeight: 1.75, color: 'var(--txt-2)', marginBottom: 44, maxWidth: 620 }}>
               {team.tension}
             </p>
           </ScrollBuild>

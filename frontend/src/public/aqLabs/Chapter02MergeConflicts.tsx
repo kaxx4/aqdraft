@@ -51,8 +51,10 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6 }}
-              className="h-display"
-              style={{ fontSize: 'clamp(40px,7.5vw,96px)', color: '#fff', lineHeight: 0.98 }}
+              style={{
+                fontFamily: 'var(--display)', fontWeight: 900, textTransform: 'uppercase',
+                fontSize: 'clamp(42px,8vw,104px)', color: '#fff', lineHeight: 0.92, letterSpacing: '-0.03em',
+              }}
             >
               {team.projectName}<span style={{ color: team.mood }}>.</span>
             </motion.h2>
@@ -98,10 +100,10 @@ export default function Chapter02MergeConflicts({ team }: { team: AQLabsTeam }) 
         </div>
 
         <ScrollBuild>
-          <p style={{ fontSize: 15.5, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)', maxWidth: 640, marginBottom: 20 }}>
+          <p style={{ fontFamily: "'Eina01', sans-serif", fontSize: 15.5, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)', maxWidth: 640, marginBottom: 20 }}>
             {team.spark}
           </p>
-          <p style={{ fontSize: 15.5, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)', maxWidth: 640, marginBottom: 44 }}>
+          <p style={{ fontFamily: "'Eina01', sans-serif", fontSize: 15.5, lineHeight: 1.8, color: 'rgba(255,255,255,0.72)', maxWidth: 640, marginBottom: 44 }}>
             {team.tension}
           </p>
         </ScrollBuild>
