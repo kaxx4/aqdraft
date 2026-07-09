@@ -18,8 +18,16 @@ import { hasLeaderAccess } from '../lib/roles'
 import { jobOpenings, CAT_COLORS as JOB_CAT_COLORS } from '../lib/jobOpenings'
 import { getCached, setCached } from '../lib/swrCache'
 import { sized } from '../lib/imageUrl'
-import { AQ_LABS_TEAMS } from './aqLabs/data'
-import { slideSrc } from './aqLabs/Shared'
+const AQ_LABS_TEAMS = [
+  { slug: 'karyaarth', projectName: 'karyaarth', category: 'documentary', mood: '#FF4D2E', img: 'p1-c.jpg' },
+  { slug: 'merge-conflicts', projectName: 'careercompass', category: 'career data', mood: '#3DA9FC', img: 'site1.jpg' },
+  { slug: 'execution-pending', projectName: 'quirk', category: 'hardware', mood: '#FF4D8C', img: 'site1.jpg' },
+  { slug: 'alter-ego', projectName: 'wisdom woods', category: 'ed-game', mood: '#1B8A5A', img: 'app1-m.jpg' },
+  { slug: 'idea-architects', projectName: 'cirqle rentals', category: 'rentals', mood: '#FFC700', img: 'hero-m.jpg' },
+  { slug: 'zero-to-deploy', projectName: 'hunar', category: 'placement', mood: '#7E5BFF', img: 'site.jpg' },
+  { slug: 'idea-not-found', projectName: 'photon', category: 'wearable', mood: '#3DA9FC', img: 'p1-m.jpg' },
+]
+const slideSrc = (slug: string, _n: number) => `/aq-labs-gallery/assets/${slug}/${AQ_LABS_TEAMS.find(t => t.slug === slug)?.img}`
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
