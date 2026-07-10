@@ -470,26 +470,15 @@ export default function AQLabsGalleryPage() {
               </div>
             </div>
             <div className="reveal" style={{ ['--i' as string]: 2 }}>
-              <div className="promptbar">
-                <div className="pmeta">prompt · free · 01</div>
-                <div className="ptext">when everything's due at once, I <span className="bk">___________</span>.</div>
-              </div>
-              <div className="answers" style={{ marginTop: 16 }}>
-                <div className="acard" style={{ ['--rot' as string]: '-5deg' }}><span className="al">answer</span><span className="at">lock in and do the obvious thing</span></div>
-                <div className="acard" style={{ ['--rot' as string]: '3deg' }}><span className="al">answer</span><span className="at">take a strategic nap</span></div>
-                <div className="acard blank" style={{ ['--rot' as string]: '8deg' }}><span className="al">blank</span><span className="at">say the real one yourself</span></div>
-              </div>
+              <div className="sectlabel" style={{ marginBottom: 14 }}>and it keeps score — quietly</div>
+              <div className="browser"><div className="bb"><i /><i /><i /></div><img src={A('unfiltered-minds', 'app-progress.png')} alt="the human manual — your progress: levels, day streaks, and decks conquered" /></div>
             </div>
           </div>
-          <div className="sectlabel reveal" style={{ ['--i' as string]: 0, margin: '30px 0 14px' }}>choose a suit · or just draw from the top</div>
-          <div className="suits reveal" style={{ ['--i' as string]: 1 }}>
-            <div className="suit ondark" style={{ ['--sc' as string]: 'var(--pink)' }}><span className="sglyph">⧖</span><span className="snum">01</span><span className="sname">Procrastination</span><span className="ssub">the mechanics of later</span><span className="sfoot"><span>3 prompts</span><span>draw →</span></span></div>
-            <div className="suit onlight" style={{ ['--sc' as string]: 'var(--lemon)' }}><span className="sglyph">◈</span><span className="snum">02</span><span className="sname">Money</span><span className="ssub">why it felt like a personality</span><span className="sfoot"><span>3 prompts</span><span>draw →</span></span></div>
-            <div className="suit onlight" style={{ ['--sc' as string]: 'var(--psky)' }}><span className="sglyph">◲</span><span className="snum">03</span><span className="sname">Stress &amp; Freeze</span><span className="ssub">the body acting without asking</span><span className="sfoot"><span>3 prompts</span><span>draw →</span></span></div>
-            <div className="suit ondark" style={{ ['--sc' as string]: 'var(--grape)' }}><span className="sglyph">☾</span><span className="snum">04</span><span className="sname">Impulse &amp; Regret</span><span className="ssub">the 2am decision pipeline</span><span className="sfoot"><span>3 prompts</span><span>draw →</span></span></div>
-            <div className="suit onlight" style={{ ['--sc' as string]: 'var(--ptom)' }}><span className="sglyph">☰</span><span className="snum">05</span><span className="sname">The Stories You Tell</span><span className="ssub">the lies with good PR</span><span className="sfoot"><span>3 prompts</span><span>draw →</span></span></div>
-            <div className="suit deck"><span className="sglyph">▦</span><span className="sname">Top of Deck</span><span className="ssub" style={{ opacity: 0.7 }}>random suit, dealer's choice</span></div>
+          <div className="livetag reveal" style={{ ['--i' as string]: 0, margin: '52px 0 0' }}><span className="blip" />this isn't a mockup · it's live</div>
+          <div className="reveal" style={{ ['--i' as string]: 1, marginTop: 16 }}>
+            <div className="browser"><div className="bb"><i /><i /><i /></div><img src={A('unfiltered-minds', 'app-secret.png')} alt="the human manual — the private journal: ask the thing you'd never say out loud" /></div>
           </div>
+          <p className="cap reveal" style={{ ['--i' as string]: 2, marginTop: 16 }}>type the thing you'd never say out loud — it saves only on your device. no logins, no tracking, only you.</p>
           <Foot handle="@unfilteredminds" chapter="08" />
         </div>
       </section>
