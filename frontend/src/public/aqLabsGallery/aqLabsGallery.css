@@ -197,16 +197,19 @@
 .aqlg .in .reveal{opacity:1; transform:none;}
 
 /* ===== SPOTLIT NAMEPLATE ===== */
-.aqlg .nameplate{position:relative; overflow:hidden; text-align:center; background:var(--ink); border:2px solid var(--ink); border-radius:22px; box-shadow:14px 14px 0 0 var(--c); padding:clamp(44px,8vw,92px) 28px; margin-bottom:48px;}
-.aqlg .dk .nameplate{background:transparent; border:none; box-shadow:none; border-radius:0; padding:6px 0 22px; margin-bottom:34px; text-align:left;}
-.aqlg .npglow{position:absolute; left:50%; top:50%; width:66%; height:210%; transform:translate(-50%,-50%); background:var(--c); border-radius:50%; filter:blur(100px); opacity:0; pointer-events:none;}
-.aqlg .npkicker{position:relative; font-family:var(--gmono); font-weight:700; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#A8A29A; margin-bottom:18px; display:inline-flex; align-items:center; gap:10px;}
+/* One header style for every chapter — the Quirk treatment: transparent,
+   left-aligned, no box. Each chapter keeps its own accent via var(--c)
+   (the kicker square, the glow, the pull-quote highlight). Title/kicker
+   colours flip to ink on the light chapters so they stay legible. */
+.aqlg .nameplate{position:relative; overflow:hidden; text-align:left; background:transparent; border:none; box-shadow:none; border-radius:0; padding:6px 0 22px; margin-bottom:34px;}
+.aqlg .npglow{position:absolute; left:18%; top:50%; width:60%; height:200%; transform:translate(-50%,-50%); background:var(--c); border-radius:50%; filter:blur(100px); opacity:0; pointer-events:none;}
+.aqlg .npkicker{position:relative; font-family:var(--gmono); font-weight:700; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink3); margin-bottom:18px; display:inline-flex; align-items:center; gap:10px;}
+.aqlg .dk .npkicker{color:#A8A29A;}
 .aqlg .npkicker::before{content:''; width:11px; height:11px; background:var(--c); display:inline-block;}
-.aqlg .npword{position:relative; font-family:var(--gdisplay); font-weight:900; text-transform:uppercase; letter-spacing:-.045em; line-height:.82; margin:0; color:var(--cream); font-size:clamp(46px,10vw,138px); opacity:.32; filter:brightness(.6); transition:opacity .1s linear, filter .1s linear;}
-/* Boxed nameplates (light chapters) clip their word — overflow:hidden hides
-   the glow — so long single-word titles like CAREERCOMPASS can't spill past
-   the box edge the way the left-aligned dark-chapter nameplates do. Scale the
-   word down there so it fits inside the box; dark chapters keep full size. */
+.aqlg .npword{position:relative; font-family:var(--gdisplay); font-weight:900; text-transform:uppercase; letter-spacing:-.045em; line-height:.82; margin:0; color:var(--ink); font-size:clamp(46px,10vw,138px); opacity:.32; filter:brightness(.6); transition:opacity .1s linear, filter .1s linear;}
+.aqlg .dk .npword{color:var(--cream);}
+/* Long titles (CAREERCOMPASS, CIRQLE RENTALS, WISDOM WOODS) would run past
+   the column at full display size — scale them down so they fit on one line. */
 .aqlg .chapter:not(.dk) .npword{font-size:clamp(33px,7.4vw,104px); max-width:100%;}
 
 /* ===== INTRO SPOTLIGHT ===== */
