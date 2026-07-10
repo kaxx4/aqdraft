@@ -81,7 +81,6 @@ function CopyLinkPill({ slug }: { slug: string }) {
 export default function AQLabsGalleryPage() {
   useMeta(pageMetadata.aqLabs)
   const rootRef = useRef<HTMLDivElement>(null)
-  const [activeTab, setActiveTab] = useState('karyaarth')
   const [showFab, setShowFab] = useState(false)
   const npRefs = useRef<HTMLDivElement[]>([])
   const glowRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -94,7 +93,7 @@ export default function AQLabsGalleryPage() {
     const prevBehavior = document.documentElement.style.scrollBehavior
     const prevPadding = document.documentElement.style.scrollPaddingTop
     document.documentElement.style.scrollBehavior = 'smooth'
-    document.documentElement.style.scrollPaddingTop = 'calc(var(--nav-h) + 52px)'
+    document.documentElement.style.scrollPaddingTop = 'calc(var(--nav-h) + 16px)'
 
     // idle motion: folder sway + answer-card float
     if (!reduce) {
@@ -113,12 +112,6 @@ export default function AQLabsGalleryPage() {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealIo.unobserve(e.target) } })
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' })
     root.querySelectorAll('.chapter').forEach(s => { if (reduce) s.classList.add('in'); else revealIo.observe(s) })
-
-    // scroll-spy for tabs
-    const spyIo = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) setActiveTab(e.target.id) })
-    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 })
-    root.querySelectorAll('section[data-team]').forEach(s => spyIo.observe(s))
 
     // count-up stats
     const parseStat = (s: string) => {
@@ -183,7 +176,7 @@ export default function AQLabsGalleryPage() {
     return () => {
       document.documentElement.style.scrollBehavior = prevBehavior
       document.documentElement.style.scrollPaddingTop = prevPadding
-      revealIo.disconnect(); spyIo.disconnect(); countIo?.disconnect()
+      revealIo.disconnect(); countIo?.disconnect()
       if (raf) cancelAnimationFrame(raf)
       window.removeEventListener('scroll', onScroll)
     }
@@ -194,23 +187,12 @@ export default function AQLabsGalleryPage() {
 
   return (
     <div className="aqlg" ref={rootRef} id="aqlg-root">
-      {/* ===== TEAM TABS — page-scoped nav, sits under the real site nav ===== */}
-      <div className="tabbar" role="navigation" aria-label="AQ Labs chapters">
-        {TEAMS.map((t, i) => (
-          <a key={t.id} className={'tab' + (activeTab === t.id ? ' on' : '')} href={`#${t.id}`}
-            style={{ ['--c' as string]: `var(${t.c})`, ['--tc' as string]: TC[t.c] }}>
-            <span className="tnum">{String(i + 1).padStart(2, '0')}</span>
-            <span className="tname">{t.label}</span>
-          </a>
-        ))}
-      </div>
-
       {/* ===== FAB ===== */}
       <button className={'fab' + (showFab ? ' show' : '')} aria-label="back to top"
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>↑</button>
 
       {/* ===== 00 INTRO ===== */}
-      <section id="top" className="chapter intro dk" style={{ ['--c' as string]: 'var(--mint)', minHeight: '100vh', display: 'flex', alignItems: 'center', overflow: 'hidden', paddingTop: 'calc(var(--nav-h) + 52px + 30px)' }}>
+      <section id="top" className="chapter intro dk" style={{ ['--c' as string]: 'var(--mint)', minHeight: '100vh', display: 'flex', alignItems: 'center', overflow: 'hidden', paddingTop: 'calc(var(--nav-h) + 30px)' }}>
         <div className="introglow" style={{ background: 'var(--mint)', opacity: 0.16 }} />
         <div className="floatcard" style={{ ['--r' as string]: '-8deg', top: '9%', left: '2%', width: 180, height: 150 }}><img src={A('karyaarth', 'p1-c.jpg')} alt="" /></div>
         <div className="floatcard" style={{ ['--r' as string]: '-10deg', ['--d' as string]: '.7s', top: '40%', left: '5%', width: 172, height: 150 }}><img src={A('merge-conflicts', 'site1.jpg')} alt="" /></div>
