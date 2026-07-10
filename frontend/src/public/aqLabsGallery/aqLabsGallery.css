@@ -203,6 +203,11 @@
 .aqlg .npkicker{position:relative; font-family:var(--gmono); font-weight:700; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#A8A29A; margin-bottom:18px; display:inline-flex; align-items:center; gap:10px;}
 .aqlg .npkicker::before{content:''; width:11px; height:11px; background:var(--c); display:inline-block;}
 .aqlg .npword{position:relative; font-family:var(--gdisplay); font-weight:900; text-transform:uppercase; letter-spacing:-.045em; line-height:.82; margin:0; color:var(--cream); font-size:clamp(46px,10vw,138px); opacity:.16; filter:brightness(.45); transition:opacity .1s linear, filter .1s linear;}
+/* Boxed nameplates (light chapters) clip their word — overflow:hidden hides
+   the glow — so long single-word titles like CAREERCOMPASS can't spill past
+   the box edge the way the left-aligned dark-chapter nameplates do. Scale the
+   word down there so it fits inside the box; dark chapters keep full size. */
+.aqlg .chapter:not(.dk) .npword{font-size:clamp(33px,7.4vw,104px); max-width:100%;}
 
 /* ===== INTRO SPOTLIGHT ===== */
 .aqlg .intro{background:var(--ink); color:var(--cream);}
