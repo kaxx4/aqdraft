@@ -156,7 +156,7 @@ export default function AQLabsGalleryPage() {
         const g = np.querySelector<HTMLElement>('.npglow'); if (g) g.style.opacity = '0.32'
       })
     } else {
-      const P = { dim: 0.16, bri: 0.45, glow: 0.34 }
+      const P = { dim: 0.32, bri: 0.6, glow: 0.34 }
       const spotLoop = () => {
         const vh = window.innerHeight, cy = vh / 2
         nps.forEach(np => {
@@ -389,7 +389,7 @@ export default function AQLabsGalleryPage() {
               </div>
             </div>
             <div className="reveal" style={{ ['--i' as string]: 2 }}>
-              <div className="frame shadow" style={{ aspectRatio: '4/5' }}><img src={A('idea-architects', 'hero-m.jpg')} alt="cirqle rentals" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
+              <div className="frame shadow" style={{ aspectRatio: '1/1' }}><img src={A('idea-architects', 'hero-m.jpg')} alt="cirqle rentals" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} /></div>
             </div>
           </div>
           <Foot handle="@ngo.aquaterra" chapter="05" />
